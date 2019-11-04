@@ -9,10 +9,8 @@ int main() {
 	speed.y = 9.8;
 	square ground;
 
-	while (position.x != ground.x) {
-		ForwardPropagation(&position, &speed, &ground);
-		printf("Position x: %f\nPosition y: %f\n\n", position.x, position.y);
-	}
+	ForwardPropagation(&position, &speed, &ground);
+	printf("Position x: %f\nPosition y: %f\n\n", position.x, position.y);
 
 	system("pause");
 	return 0;

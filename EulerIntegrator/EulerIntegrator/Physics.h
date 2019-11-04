@@ -3,8 +3,6 @@
 
 #include "Globals.h"
 
-void ForwardPropagation(vector* position, vector* speed, square* ground);
-
 struct vector{
 	float x = 0;
 	float y = 0;
@@ -16,5 +14,8 @@ struct square {
 	float w = 50;
 	float h = 50;
 };
+
+void ForwardPropagation(vector* position, vector* speed, square* ground);
+
 
 #endif
