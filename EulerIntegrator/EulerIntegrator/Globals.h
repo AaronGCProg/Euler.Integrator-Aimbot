@@ -4,5 +4,6 @@
 #include"p2Point.h"
 #include "p2Qeue.h"
 #include "p2SString.h"
+#include"p2Defs.h"
 
 using namespace std;
