@@ -3,6 +3,6 @@
 
 #include "Globals.h"
 
-void ForwardPropagation(float* xposition, float* xspeed, float* xground);
+void ForwardPropagation(float* xposition, float* xspeed, float* xground, float* wground);
 
 #endif
