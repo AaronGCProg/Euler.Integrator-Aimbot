@@ -1,15 +1,15 @@
 #include "Physics.h"
-#include "p2Point.h"
 
 
 void Integrate2(Object &object, dPoint force,double deltaT) {
-	double acc;
-	acc = force * (1 / object.mass);
-	object.speed += acc * deltaT; //60 fps, one iteration
-	object.x += object.speed * deltaT;
+	dPoint acc;
+	acc.x = force.x * (1 / object.mass);
+	acc.y = force.y * (1 / object.mass);
+	object.speed.x += acc.x * deltaT; //60 fps, one iteration
+	object.speed.y += acc.y * deltaT; //60 fps, one iteration
+	object.pos.x += object.speed.x * deltaT;
+	object.pos.y += object.speed.y * deltaT;
 
-	cout<<(object.x);
-	cout << "\n"; cout << "\n";
 }
 
 

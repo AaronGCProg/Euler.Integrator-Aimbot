@@ -6,12 +6,10 @@ int main() {
 
 
 	Object ball;
-	ball.x = 0.0;
-	ball.speed = 3.0;
-	ball.mass = 1.0;
 
-
-	Integrate2(ball, 0.0);
+	dPoint force = { 0,0 };
+	double deltaT = 1;//one simulation second
+	Integrate2(ball,force);
 
 	
 	system("pause");
