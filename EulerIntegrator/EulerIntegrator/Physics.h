@@ -2,20 +2,30 @@
 #include "Globals.h"
 #include "p2Point.h"
 
-struct Object {
+class Object {
+private:
+	p2SString name;
+	dPoint pos;
+	dPoint speed;
+	double mass;
+public:
+	Object();
+	Object(dPoint aPos, dPoint aSpeed, double aMass, p2SString aName);
+	~Object();
 
-	dPoint pos = { 0,0 };
-	dPoint speed={0,0};
-	double mass = 0;
+	void SetName(p2SString aName);
+	p2SString GetName();
+	void SetPos(dPoint aPos);
+	dPoint GetPos();
+	void SetSpeed(dPoint aSpeed);
+	dPoint GetSpeed();
+	void SetMass(double aMass);
+	double GetMass();
 
-	Object(dPoint aPos = { 0,0 }, dPoint aSpeed = {0,0},double aMass=0)
-	{
-		pos = aPos;
-		speed = aSpeed;
-		mass = aMass;
-	}
 
 };
+
+
 
 //float Integrate(Object &object, int time);
 
