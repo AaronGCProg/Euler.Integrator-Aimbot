@@ -21,6 +21,9 @@
     <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="p2Log.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Physics.h">
@@ -28,6 +31,24 @@
     </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2List.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Log.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Point.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Qeue.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2SString.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Defs.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
