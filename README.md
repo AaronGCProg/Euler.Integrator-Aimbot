@@ -3,9 +3,10 @@ A repository for our Euler Integrator; this is a student project made for the CI
 
 
 ## Team Members:
+
 José Tello:
- -https://github.com/jose-tello
- -
+ - https://github.com/jose-tello
+ 
 Adrià Serrano López:
  - https://github.com/adriaserrano97
 
@@ -32,7 +33,7 @@ Xavier Trillo Lucero:
  - https://github.com/AlexMelenchon
 
 ## Github Project link:
-https://github.com/AaronGCProg/Sonic-Pinball
+https://github.com/AaronGCProg/Euler.Integrator
 
 ## Team roles:
 José Tello:
