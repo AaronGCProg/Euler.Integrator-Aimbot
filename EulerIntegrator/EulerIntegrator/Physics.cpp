@@ -3,7 +3,7 @@
 void ForwardPropagation(vector* position, vector* speed, square* ground) {
 	vector position_aux;
 	position_aux.x = (position->x + speed->x);
-	position_aux.x = (position->y + speed->y);
+	position_aux.y = (position->y + speed->y);
 	
 	if (position_aux.x < ground->x || position_aux.x > ground->x + ground->w || position_aux.y < ground->y || position_aux.y > ground->y + ground->h) {
 		position->x = position_aux.x;		// THIS FUNCTION WILL MOVE THE OBJECT IF NO COLLISION EXISTS
