@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Physics.h"
 
-void main() {
+int main() {
 
 	vector position;
 	vector speed;
@@ -15,4 +15,5 @@ void main() {
 	}
 
 	system("pause");
+	return 0;
 }
