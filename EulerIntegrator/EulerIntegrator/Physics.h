@@ -10,7 +10,7 @@ struct vector{
 
 struct square {
 	float x = 50;
-	float y = 50;
+	float y = 0;
 	float w = 50;
 	float h = 50;
 };
