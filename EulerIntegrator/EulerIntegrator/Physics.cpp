@@ -1,15 +1,15 @@
 #include "Physics.h"
 
-void ForwardPropagation(float* xposition, float* xspeed, float* xground, float* wground) {
+void ForwardPropagation(vector* position, vector* speed, square* ground) {
 	float x_aux;
-	x_aux = (*xposition + *xspeed);
-	if (x_aux < *xground || x_aux > * xground + *wground) { *xposition = x_aux; }
-	else if (x_aux > * xground && x_aux < *xground + *wground) {
-		*xposition = *xground;
-		*xspeed *= -1;
+	x_aux = (position->x + speed->x);
+	if (x_aux < ground->x || x_aux > ground->x + ground->w) { position->x = x_aux; }
+	else if (x_aux > ground->x && x_aux < ground->x + ground->w) {
+		position->x = ground->x;
+		speed->x *= -1;
 	}
-	else if (x_aux > * xground && x_aux > * xground + *wground) {
-		*xposition = *xground + *wground;
-		*xspeed *= -1;
+	else if (x_aux > ground->x && x_aux > ground->x + ground->w) {
+		position->x = ground->x + ground->w;
+		speed->x *= -1;
 	}
 }

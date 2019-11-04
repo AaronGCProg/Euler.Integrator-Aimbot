@@ -3,14 +3,15 @@
 
 void main() {
 
-	float xposition = 0;
-	float xspeed = 9.8;
-	float xground = 50;
-	float wground = 50;
+	vector position;
+	vector speed;
+	speed.x = 9.8;
+	speed.y = 9.8;
+	square ground;
 
-	while (xposition != xground) {
-		ForwardPropagation(&xposition, &xspeed, &xground, &wground);
-		printf("%f\n", xposition);
+	while (position.x != ground.x) {
+		ForwardPropagation(&position, &speed, &ground);
+		printf("Position x: %f\nPosition y: %f\n\n", position.x, position.y);
 	}
 
 	system("pause");
