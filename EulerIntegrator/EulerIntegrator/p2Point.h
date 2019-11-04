@@ -130,5 +130,6 @@ public:
 
 typedef p2Point<int> iPoint;
 typedef p2Point<float> fPoint;
+typedef p2Point<double> dPoint;
 
 #endif // __P2POINT_H__

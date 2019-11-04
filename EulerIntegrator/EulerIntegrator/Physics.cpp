@@ -1,27 +1,12 @@
 #include "Physics.h"
-
-/*
-float Integrate(Object &object, int time) {
-
-	float pos;
-	float speed;
-
-	speed = object.acceleration * time + object.speed;
-
-	pos = speed * time + object.x;
-
-	return pos;
-}
-*/
-//we work in game units by frame
+#include "p2Point.h"
 
 
-
-void Integrate2(Object &object, double force) {
+void Integrate2(Object &object, dPoint force,double deltaT) {
 	double acc;
 	acc = force * (1 / object.mass);
-	object.speed += acc; //60 fps, one iteration
-	object.x += object.speed;
+	object.speed += acc * deltaT; //60 fps, one iteration
+	object.x += object.speed * deltaT;
 
 	cout<<(object.x);
 	cout << "\n"; cout << "\n";
