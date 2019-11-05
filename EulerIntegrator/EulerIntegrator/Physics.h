@@ -3,7 +3,7 @@
 #include "p2Point.h"
 #include "p2List.h"
 
-
+//each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
 
 	p2SString name;
@@ -43,6 +43,22 @@ struct World
 	p2SString name;
 
 	p2List<Object*>* objects_list;
+
+	World()
+	{
+		name = "";
+		gravity = { 0,9.81 };
+		objects_list = new p2List<Object*>;
+	}
+
+	World(dPoint aGravity,p2SString aName)
+	{
+		gravity = aGravity;
+		name = aName;
+		objects_list = new p2List<Object*>;
+
+	}
+	~World(){}
 };
 
 class ModuleIntegrator
@@ -54,8 +70,7 @@ public:
 
 private:
 	void Integrate(Object &object, dPoint gravity);
-
-
+	World world;
 };
 
 
