@@ -3,7 +3,7 @@
 #include "p2Point.h"
 
 class Object {
-private:
+public:
 	p2SString name;
 	dPoint pos;
 	dPoint speed;
@@ -31,4 +31,5 @@ public:
 
 void Integrate2(Object &object, dPoint force,double deltaT=(1/60));
 
+void IntegrateAll(double deltaT = (1 / 60));
 

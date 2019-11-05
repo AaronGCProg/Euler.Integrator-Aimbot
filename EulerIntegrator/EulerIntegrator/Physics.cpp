@@ -55,15 +55,23 @@ double Object::GetMass()
 void Integrate2(Object& object, dPoint force, double deltaT)
 {
 	dPoint acc;
-	acc.x = force.x * (1 / object.);
-	acc.y = force.y * (1 / object.mass);
-	object.speed.x += acc.x * deltaT; //60 fps, one iteration
-	object.speed.y += acc.y * deltaT; //60 fps, one iteration
-	object.pos.x += object.speed.x * deltaT;
-	object.pos.y += object.speed.y * deltaT;
 
+	acc.x = force.x * (1 / object.GetMass());
+	acc.y = force.y * (1 / object.GetMass());
+
+	object.speed.x += acc.x * deltaT;
+	object.speed.y += acc.y * deltaT; //60 fps, one iteration
+
+	object.pos.x += object.GetSpeed().x*deltaT;
+	object.pos.y += object.GetSpeed().y*deltaT;
 }
 
+void IntegrateAll(double deltaT)
+{
+	//this function will take the total force exerced to an object, integrate it and set the object forces back to 0
+
+
+}
 
 
 /*void ForwardPropagation(float* xposition, float* xspeed, float* xground) {

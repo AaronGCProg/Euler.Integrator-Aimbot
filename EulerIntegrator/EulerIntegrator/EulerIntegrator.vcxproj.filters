@@ -50,5 +50,8 @@
     <ClInclude Include="p2SString.h">
       <Filter>Defines</Filter>
     </ClInclude>
+    <ClInclude Include="p2Defs.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
