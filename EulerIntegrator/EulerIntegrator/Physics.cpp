@@ -1,77 +1,30 @@
 #include "Physics.h"
 
-Object::Object()
-{
 
-	pos = { 0,0 };
-	speed = { 0,0 };
-	mass = 1;
-	name = "";
-
-}
-Object::Object(dPoint aPos, dPoint aSpeed, double aMass, p2SString aName)
+ModuleIntegrator::ModuleIntegrator()
 {
-	pos = aPos;
-	speed = aSpeed;
-	mass = aMass;
-	name = aName;
-}
-Object::~Object() {};
-
-void Object::SetName(p2SString aName)
-{
-	name = aName;
-}
-p2SString Object::GetName()
-{
-	return name;
-}
-void Object::SetPos(dPoint aPos)
-{
-	pos = aPos;
-}
-dPoint Object::GetPos()
-{
-	return pos;
-}
-void Object::SetSpeed(dPoint aSpeed)
-{
-	speed = aSpeed;
-}
-dPoint Object::GetSpeed()
-{
-	return speed;
-}
-void Object::SetMass(double aMass)
-{
-	mass = aMass;
-}
-double Object::GetMass()
-{
-	return mass;
 }
 
 
-void Integrate2(Object& object, dPoint force, double deltaT)
+ModuleIntegrator::~ModuleIntegrator()
+{
+}
+
+
+void ModuleIntegrator::Integrate(Object& object, dPoint gravity)
 {
 	dPoint acc;
 
-	acc.x = force.x * (1 / object.GetMass());
-	acc.y = force.y * (1 / object.GetMass());
+	acc.x = object.force.x * (1 / object.mass);
+	acc.y = object.force.y * (1 / object.mass);
 
-	object.speed.x += acc.x * deltaT;
-	object.speed.y += acc.y * deltaT; //60 fps, one iteration
+	object.speed.x += acc.x;
+	object.speed.y += acc.y; //60 fps, one iteration
 
-	object.pos.x += object.GetSpeed().x*deltaT;
-	object.pos.y += object.GetSpeed().y*deltaT;
+	object.pos.x += object.speed.x;
+	object.pos.y += object.speed.y;
 }
 
-void IntegrateAll(double deltaT)
-{
-	//this function will take the total force exerced to an object, integrate it and set the object forces back to 0
-
-
-}
 
 
 /*void ForwardPropagation(float* xposition, float* xspeed, float* xground) {
