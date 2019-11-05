@@ -2,6 +2,27 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "p2List.h"
+#include "Module.h"
+#include "p2SString.h"
+// Module --------------------------------------
+class ModulePhysics : public Module
+{
+public:
+	ModulePhysics(Application* app, bool start_enabled = true);
+	~ModulePhysics();
+
+	bool Start();
+	update_status Update();
+	bool CleanUp();
+
+private:
+
+	
+};
+
+
+
+
 
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
@@ -61,8 +82,8 @@ struct World
 	~World(){}
 };
 
-class ModuleIntegrator
-{
+class ModuleIntegrator //Module Integrator? Why is this a module and not a function call in Module Physics? -Adrià
+{						
 public:
 	ModuleIntegrator();
 	~ModuleIntegrator();

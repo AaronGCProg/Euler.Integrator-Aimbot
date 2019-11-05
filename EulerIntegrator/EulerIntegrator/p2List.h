@@ -2,6 +2,7 @@
 #define __p2List_H__
 
 #include "p2Defs.h"
+#include "Globals.h"
 
 /**
 * Contains items from double linked list
@@ -56,6 +57,19 @@ public:
 	~p2List()
 	{
 		clear();
+	}
+
+	/**
+	* Get first /last
+	*/
+	p2List_item<tdata>* getFirst() const
+	{
+		return start;
+	}
+
+	p2List_item<tdata>* getLast() const
+	{
+		return end;
 	}
 
 	/**

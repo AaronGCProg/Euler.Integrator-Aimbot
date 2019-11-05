@@ -27,6 +27,9 @@
     <ClCompile Include="p2Log.cpp">
       <Filter>Defines</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Physics.h">
@@ -52,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="p2Defs.h">
       <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
