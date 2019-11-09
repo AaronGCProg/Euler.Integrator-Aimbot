@@ -27,27 +27,31 @@ update_status ModuleCollisions::Update()
 
 	bool checkAllColls = true;
 
-	while(checkAllColls)
-	for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
+	while (checkAllColls)
 	{
-		c1 = objIterator->data;
-
-		// avoid checking collisions already checked
-		for (p2List_item<Object*>* objIterator2 = objIterator->next; objIterator2 != NULL; objIterator2 = objIterator2->next)
+		checkAllColls = false;
+		for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
 		{
-			c2 = objIterator->data;
+			c1 = objIterator->data;
 
-			if (c1->CheckCollisionRect(*c2) == true)
+			// avoid checking collisions already checked
+			for (p2List_item<Object*>* objIterator2 = objIterator->next; objIterator2 != NULL; objIterator2 = objIterator2->next)
 			{
-				//Check two times the collision
-				if (c1->category = c2->mask)
+				c2 = objIterator->data;
+
+				if (c1->CheckCollisionRect(*c2) == true)
+				{
+					checkAllColls = true;
+					//Check two times the collision
+					if (c1->category = c2->mask)
 						//	ForwardPropagation(c1, c2);
 						true;
 					if (c2->category = c2->mask)
 						//	ForwardPropagation(c2, c1);
 						true;
-			}
+				}
 
+			}
 		}
 	}
 	return UPDATE_CONTINUE;
