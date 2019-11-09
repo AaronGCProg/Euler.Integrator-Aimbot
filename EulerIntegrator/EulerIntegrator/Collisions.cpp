@@ -1,4 +1,6 @@
 #include "Collisions.h"
+#include"Application.h"
+#include"Physics.h"
 
 ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -11,23 +13,55 @@ ModuleCollisions::~ModuleCollisions()
 	LOG("Destructor of Module Physics has been called");
 }
 
-update_status ModuleCollisions::Update() {
-
-	return UPDATE_CONTINUE;
-
-}
-
-bool ModuleCollisions::Start() {
+bool ModuleCollisions::Start()
+{
 	LOG("Module Collisions succesful Start()");
 
 	return true;
 }
 
-bool ModuleCollisions::CleanUp() {
+update_status ModuleCollisions::Update() 
+{
+	Object* c1;
+	Object* c2;
+
+	for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
+	{
+		c1 = objIterator->data;
+
+		// avoid checking collisions already checked
+		for (p2List_item<Object*>* objIterator2 = objIterator->next; objIterator2 != NULL; objIterator2 = objIterator2->next)
+		{
+			c2 = objIterator->data;
+
+			//if (c1->CheckCollisionRect(*c2) == true)
+			//{
+			//	if (matrix[c1->type][c2->type] && c1->callback)
+			//		c1->callback->OnCollision(c1, c2);
+
+			//	if (matrix[c2->type][c1->type] && c2->callback)
+			//		c2->callback->OnCollision(c2, c1);
+			//}
+
+		}
+	}
+
+	return UPDATE_CONTINUE;
+}
+
+bool ModuleCollisions::CleanUp() 
+{
 
 	LOG("Collisions CleanUp has been called");
 	return true;
 
+}
+
+// -----------------------------------------------------
+
+bool Object::CheckCollisionRect(const Object& obj) const
+{
+	return !((this->pos.x /*+ this->rect.w*/ < obj.pos.x || obj.pos.x /*+ r.w*/ < this->pos.x) || (this->pos.y /*+ this->rect.h*/ < obj.pos.y || obj.pos.y /*+ r.h*/ < this->pos.y));
 }
 
 void ModuleCollisions::ForwardPropagation(dPoint* position, dPoint* speed, dPoint* ground) {

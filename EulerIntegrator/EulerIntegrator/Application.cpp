@@ -1,7 +1,7 @@
-
 #include "Module.h"
 #include "Application.h"
 #include "Physics.h"
+#include "Collisions.h"
 #include "p2List.h"
 //include header of all existing modules
 
@@ -10,7 +10,7 @@ Application::Application()
 	
 	
 	physics = new ModulePhysics(this);
-	
+	collisions = new ModuleCollisions(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order

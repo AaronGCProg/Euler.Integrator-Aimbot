@@ -22,6 +22,8 @@ update_status ModulePhysics::Update() {
 bool ModulePhysics::Start() {
 	LOG("Module Physics succesful Start()");
 	//Create world
+	world = new World();
+
 	return true;
 }
 

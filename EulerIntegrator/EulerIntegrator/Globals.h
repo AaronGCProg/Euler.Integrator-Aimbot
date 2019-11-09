@@ -5,6 +5,8 @@
 
 using namespace std;
 
+
+
 #define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
 
 typedef unsigned int uint;
@@ -14,6 +16,13 @@ enum update_status
 	UPDATE_CONTINUE = 1,
 	UPDATE_STOP,
 	UPDATE_ERROR
+};
+
+enum collision_state : uint
+{
+
+
+
 };
 
 // Configuration -----------
