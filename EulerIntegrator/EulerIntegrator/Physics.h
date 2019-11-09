@@ -13,9 +13,9 @@ struct Object {
 	dPoint force;
 	double mass;
 
-	//Collision Stuff
-	uint category; //In which "collisions state" is the object located
-	uint mask; //Which "collisions states" can he interact with
+	//Collision Control
+	collision_type category; //In which "collisions state" is the object located
+	collision_type mask; //Which "collisions states" can he interact with
 
 	Object() {
 
@@ -25,6 +25,8 @@ struct Object {
 		mass = 1;
 		name = "";
 
+		category = COLL_ALL;
+		mask = COLL_ALL;
 	}
 
 	Object(dPoint aPos, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName) {
@@ -34,6 +36,21 @@ struct Object {
 		force = aforce;
 		mass = aMass;
 		name = aName;
+
+		category = COLL_ALL;
+		mask = COLL_ALL;
+	}
+
+	Object(dPoint aPos, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName, collision_type cat, collision_type Mask) {
+
+		pos = aPos;
+		speed = aSpeed;
+		force = aforce;
+		mass = aMass;
+		name = aName;
+
+		category = cat;
+		mask = Mask;
 	}
 
 	bool CheckCollisionRect(const Object& obj) const;

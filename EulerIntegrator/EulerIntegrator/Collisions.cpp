@@ -25,6 +25,9 @@ update_status ModuleCollisions::Update()
 	Object* c1;
 	Object* c2;
 
+	bool checkAllColls = true;
+
+	while(checkAllColls)
 	for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
 	{
 		c1 = objIterator->data;
@@ -34,18 +37,19 @@ update_status ModuleCollisions::Update()
 		{
 			c2 = objIterator->data;
 
-			//if (c1->CheckCollisionRect(*c2) == true)
-			//{
-			//	if (matrix[c1->type][c2->type] && c1->callback)
-			//		c1->callback->OnCollision(c1, c2);
-
-			//	if (matrix[c2->type][c1->type] && c2->callback)
-			//		c2->callback->OnCollision(c2, c1);
-			//}
+			if (c1->CheckCollisionRect(*c2) == true)
+			{
+				//Check two times the collision
+				if (c1->category = c2->mask)
+						//	ForwardPropagation(c1, c2);
+						true;
+					if (c2->category = c2->mask)
+						//	ForwardPropagation(c2, c1);
+						true;
+			}
 
 		}
 	}
-
 	return UPDATE_CONTINUE;
 }
 

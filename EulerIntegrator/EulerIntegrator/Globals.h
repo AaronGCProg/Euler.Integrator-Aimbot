@@ -27,7 +27,7 @@ enum update_status
 	UPDATE_ERROR
 };
 
-enum collision_state : uint16
+enum collision_type : uint16
 {
 	COLL_NONE = 0x0000,
 	COLL_FOREGROUND = 0x0001,
