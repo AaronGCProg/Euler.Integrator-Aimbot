@@ -8,6 +8,7 @@
 
 class Module;
 class ModulePhysics;
+class ModuleCollisions;
 
 
 class Application
@@ -15,7 +16,7 @@ class Application
 public:
 	
 	ModulePhysics* physics;
-	
+	ModuleCollisions* collisions;
 
 
 private:

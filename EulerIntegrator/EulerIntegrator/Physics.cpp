@@ -63,13 +63,3 @@ void ModuleIntegrator::Integrate(Object& object, dPoint gravity)
 	object.pos.x += object.speed.x;
 	object.pos.y += object.speed.y;
 }
-
-
-
-/*void ForwardPropagation(float* xposition, float* xspeed, float* xground) {
-	float x_aux;
-	x_aux = (*xposition + *xspeed);
-	if (x_aux < *xground) { *xposition = x_aux; }
-	else { *xposition = *xground; }
-}*/
-

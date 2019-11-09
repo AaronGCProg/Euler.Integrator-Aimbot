@@ -19,7 +19,7 @@ Application::Application()
 	// Main Modules
 	
 	AddModule(physics);
-
+	AddModule(collisions);
 	
 
 
