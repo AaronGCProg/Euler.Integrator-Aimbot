@@ -4,6 +4,8 @@
 #include "Module.h"
 #include "p2SString.h"
 
+#define COEFFICIENT_OF_RESTITUTION 0.5
+
 struct square {
 	square(int X, int Y, int W, int H)
 	{
@@ -32,7 +34,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void ForwardPropagation(dPoint* position, dPoint* speed, dPoint* ground);
+	void ForwardPropagation(Object* object1, Object* object2);
 
 private:
 

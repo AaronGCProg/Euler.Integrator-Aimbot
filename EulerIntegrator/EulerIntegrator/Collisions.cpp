@@ -1,4 +1,5 @@
 #include "Collisions.h"
+#include "Physics.h"
 
 ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -30,34 +31,17 @@ bool ModuleCollisions::CleanUp() {
 
 }
 
-void ModuleCollisions::ForwardPropagation(dPoint* position, dPoint* speed, dPoint* ground) {
-/*	dPoint position_aux;
-	position_aux.x = (position->x + speed->x);
-	position_aux.y = (position->y + speed->y);
+void ModuleCollisions::ForwardPropagation(Object* object1, Object* object2) {
+	
+	// This calculation is done with points. Because there is no volume, this is very ineffective
 
-	if (position_aux.x < ground->x || position_aux.x > ground->x + ground->w || position_aux.y < ground->y || position_aux.y > ground->y + ground->h) {
-		position->x = position_aux.x;		// THIS FUNCTION WILL MOVE THE OBJECT IF NO COLLISION EXISTS
-		position->y = position_aux.y;
-	}
+	// IT WOULD BE RECOMENDABLE TO PUT THE COEFFICIENT OF RESTITUTION AS A VARIABLE UNIQUE TO THE "MATERIAL" OF EACH BODY
 
-	else if (position_aux.x > ground->x && position->x < ground->x) {
-		position->x = ground->x;	// CORRECTS A COLLISION IN THE LEFT SIDE OF THE GROUND
-		speed->x *= -1;
-	}
+	object1->speed.x = ((object1->mass - object2->mass * COEFFICIENT_OF_RESTITUTION) * object1->speed.x + object2->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object2->speed.x) / (object1->mass + object2->mass);
+	object1->speed.y = ((object1->mass - object2->mass * COEFFICIENT_OF_RESTITUTION) * object1->speed.y + object2->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object2->speed.y) / (object1->mass + object2->mass);
+	object2->speed.x = ((object2->mass - object1->mass * COEFFICIENT_OF_RESTITUTION) * object2->speed.x + object1->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object1->speed.x) / (object1->mass + object2->mass);
+	object2->speed.y = ((object2->mass - object1->mass * COEFFICIENT_OF_RESTITUTION) * object2->speed.y + object1->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object1->speed.y) / (object1->mass + object2->mass);
 
-	else if (position_aux.x < ground->x + ground->w && position->x > ground->x + ground->w) {
-		position->x = ground->x + ground->w;	// CORRECTS A COLLISION IN THE RIGHT SIDE OF THE GROUND
-		speed->x *= -1;
-	}
-
-	else if (position_aux.y > ground->y && position->y < ground->y) {
-		position->y = ground->y;	// CORRECTS A COLLISION IN THE UPPER SIDE OF THE GROUND
-		speed->y *= -1;
-	}
-
-	else if (position_aux.y < ground->y + ground->h && position->y > ground->y + ground->h) {
-		position->y = ground->y + ground->h;	// CORRECTS A COLLISION IN THE LOWER SIDE OF THE GROUND
-		speed->y *= -1;
-	}
-	*/
+	object1->pos += object1->speed;
+	object2->pos += object2->speed;
 }
