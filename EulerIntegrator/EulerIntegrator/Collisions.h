@@ -4,6 +4,8 @@
 #include "Module.h"
 #include "p2SString.h"
 
+struct Object;
+
 #define COEFFICIENT_OF_RESTITUTION 0.5
 
 struct square {
