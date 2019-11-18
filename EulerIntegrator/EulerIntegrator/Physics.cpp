@@ -15,6 +15,12 @@ ModulePhysics::~ModulePhysics()
 update_status ModulePhysics::Update() {
 
 	//Here goes a call of Integrate() to all objects of the world
+	p2List_item<Object*>*item = world->objects_list->start;
+	while (item!=NULL)
+	{
+		Integrate(*item->data, world->gravity);
+		item = item->next;
+	}
 	return UPDATE_CONTINUE;
 
 }
@@ -38,21 +44,7 @@ bool ModulePhysics::CleanUp() {
 }
 
 
-
-
-//If (please do) Module Integrator gets absorbed by Module Physics, change accordingly all of the below
-
-ModuleIntegrator::ModuleIntegrator()
-{
-}
-
-
-ModuleIntegrator::~ModuleIntegrator()
-{
-}
-
-
-void ModuleIntegrator::Integrate(Object& object, dPoint gravity)
+void ModulePhysics::Integrate(Object& object, dPoint gravity)
 {
 	dPoint acc;
 
