@@ -50,22 +50,22 @@ bool Object::CheckCollisionRect(Object& obj)
 {
 	bool x = false;
 	bool y = false;
-	if ((this->pos.x < obj.pos.x && this->pos.x + this->width >= obj.pos.x) && ((this->pos.y > obj.pos.y && this->pos.y <= obj.pos.y + obj.height) || (this->pos.y < obj.pos.y && this->pos.y + this->height >= obj.pos.y))) {
+	if ((this->pos.x < obj.pos.x && this->pos.x + this->w >= obj.pos.x) && ((this->pos.y > obj.pos.y && this->pos.y <= obj.pos.y + obj.h) || (this->pos.y < obj.pos.y && this->pos.y + this->h >= obj.pos.y))) {
 		x = true;
 		this->current_collision = RIGHT_COLLISION;
 		obj.current_collision = LEFT_COLLISION;
 	}
-	else if ((obj.pos.x < this->pos.x && obj.pos.x + obj.width >= this->pos.x) && ((obj.pos.y > this->pos.y && obj.pos.y <= this->pos.y + this->height) || (obj.pos.y < this->pos.y && obj.pos.y + obj.height >= obj.pos.y))) {
+	else if ((obj.pos.x < this->pos.x && obj.pos.x + obj.w >= this->pos.x) && ((obj.pos.y > this->pos.y && obj.pos.y <= this->pos.y + this->h) || (obj.pos.y < this->pos.y && obj.pos.y + obj.h >= obj.pos.y))) {
 		x = true;
 		this->current_collision = LEFT_COLLISION;
 		obj.current_collision = RIGHT_COLLISION;
 	}
-	if ((this->pos.y < obj.pos.y && this->pos.y + this->height >= obj.pos.y) && ((this->pos.x >= obj.pos.x && this->pos.x < obj.pos.x + obj.width) || (this->pos.x + this->width >= obj.pos.x && this->pos.x + this->width < obj.pos.x + obj.width))) {
+	if ((this->pos.y < obj.pos.y && this->pos.y + this->h >= obj.pos.y) && ((this->pos.x >= obj.pos.x && this->pos.x < obj.pos.x + obj.w) || (this->pos.x + this->w >= obj.pos.x && this->pos.x + this->w < obj.pos.x + obj.w))) {
 		y = true;
 		this->current_collision = BOTTOM_COLLISION;
 		obj.current_collision = TOP_COLLISION;
 	}
-	else if ((obj.pos.y < this->pos.y && obj.pos.y + obj.height >= this->pos.y) && ((obj.pos.x >= this->pos.x && obj.pos.x < this->pos.x + this->width) || (obj.pos.x + obj.width >= this->pos.x && obj.pos.x + obj.width < this->pos.x + this->width))) {
+	else if ((obj.pos.y < this->pos.y && obj.pos.y + obj.h >= this->pos.y) && ((obj.pos.x >= this->pos.x && obj.pos.x < this->pos.x + this->w) || (obj.pos.x + obj.w >= this->pos.x && obj.pos.x + obj.w < this->pos.x + this->w))) {
 		y = true;
 		this->current_collision = TOP_COLLISION;
 		obj.current_collision = BOTTOM_COLLISION;
