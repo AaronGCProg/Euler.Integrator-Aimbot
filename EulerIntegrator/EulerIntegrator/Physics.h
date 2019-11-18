@@ -84,7 +84,8 @@ struct World
 
 	p2SString name;
 
-	p2List<Object*>* objects_list;
+	//p2List<Object*>* objects_list;
+
 
 	World()
 	{
