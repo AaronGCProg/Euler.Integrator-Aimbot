@@ -6,23 +6,13 @@
 
 struct Object;
 
-#define COEFFICIENT_OF_RESTITUTION 0.5
-
-struct square {
-	square(int X, int Y, int W, int H)
-	{
-		x = X;
-		y = Y;
-		w = W;
-		h = H;
-	};
-
-	square() {};
-
-	float x = 0.0f;
-	float y = 0.0f;
-	float w = 0.0f;
-	float h = 0.0f;
+enum collision {
+	NONE_COLLISION,
+	TOP_COLLISION,
+	BOTTOM_COLLISION,
+	LEFT_COLLISION,
+	RIGHT_COLLISION,
+	LAST_COLLISION
 };
 
 // Module --------------------------------------
@@ -33,9 +23,9 @@ public:
 	~ModuleCollisions();
 
 	bool Start();
-	update_status Update();
 	bool CleanUp();
 
+	void OnCollision(Object& object);
 	void ForwardPropagation(Object* object1, Object* object2);
 
 private:

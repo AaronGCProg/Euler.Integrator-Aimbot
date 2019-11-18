@@ -1,6 +1,7 @@
 #include "Collisions.h"
 #include"Application.h"
 #include"Physics.h"
+#include "Globals.h"
 
 ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -20,10 +21,9 @@ bool ModuleCollisions::Start()
 	return true;
 }
 
-update_status ModuleCollisions::Update() 
-{
+void ModuleCollisions::OnCollision(Object& object) {
+	
 	Object* c1;
-	Object* c2;
 
 	bool checkAllColls = true;
 
@@ -67,22 +67,46 @@ bool ModuleCollisions::CleanUp()
 
 // -----------------------------------------------------
 
-bool Object::CheckCollisionRect(const Object& obj) const
+bool Object::CheckCollisionRect(Object& obj)
 {
-	return !((this->pos.x /*+ this->rect.w*/ < obj.pos.x || obj.pos.x /*+ r.w*/ < this->pos.x) || (this->pos.y /*+ this->rect.h*/ < obj.pos.y || obj.pos.y /*+ r.h*/ < this->pos.y));
+	bool x = false;
+	bool y = false;
+	if ((this->pos.x < obj.pos.x && this->pos.x + this->w >= obj.pos.x) && ((this->pos.y > obj.pos.y && this->pos.y <= obj.pos.y + obj.h) || (this->pos.y < obj.pos.y && this->pos.y + this->h >= obj.pos.y))) {
+		x = true;
+		this->current_collision = RIGHT_COLLISION;
+		obj.current_collision = LEFT_COLLISION;
+	}
+	else if ((obj.pos.x < this->pos.x && obj.pos.x + obj.w >= this->pos.x) && ((obj.pos.y > this->pos.y && obj.pos.y <= this->pos.y + this->h) || (obj.pos.y < this->pos.y && obj.pos.y + obj.h >= obj.pos.y))) {
+		x = true;
+		this->current_collision = LEFT_COLLISION;
+		obj.current_collision = RIGHT_COLLISION;
+	}
+	if ((this->pos.y < obj.pos.y && this->pos.y + this->h >= obj.pos.y) && ((this->pos.x >= obj.pos.x && this->pos.x < obj.pos.x + obj.w) || (this->pos.x + this->w >= obj.pos.x && this->pos.x + this->w < obj.pos.x + obj.w))) {
+		y = true;
+		this->current_collision = BOTTOM_COLLISION;
+		obj.current_collision = TOP_COLLISION;
+	}
+	else if ((obj.pos.y < this->pos.y && obj.pos.y + obj.h >= this->pos.y) && ((obj.pos.x >= this->pos.x && obj.pos.x < this->pos.x + this->w) || (obj.pos.x + obj.w >= this->pos.x && obj.pos.x + obj.w < this->pos.x + this->w))) {
+		y = true;
+		this->current_collision = TOP_COLLISION;
+		obj.current_collision = BOTTOM_COLLISION;
+	}
+	if (x || y) {
+		return true;
+	}
+	else { return false; }
 }
 
 void ModuleCollisions::ForwardPropagation(Object* object1, Object* object2) {
-	
-	// This calculation is done with points. Because there is no volume, this is very ineffective
 
-	// IT WOULD BE RECOMENDABLE TO PUT THE COEFFICIENT OF RESTITUTION AS A VARIABLE UNIQUE TO THE "MATERIAL" OF EACH BODY
-
-	object1->speed.x = ((object1->mass - object2->mass * COEFFICIENT_OF_RESTITUTION) * object1->speed.x + object2->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object2->speed.x) / (object1->mass + object2->mass);
-	object1->speed.y = ((object1->mass - object2->mass * COEFFICIENT_OF_RESTITUTION) * object1->speed.y + object2->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object2->speed.y) / (object1->mass + object2->mass);
-	object2->speed.x = ((object2->mass - object1->mass * COEFFICIENT_OF_RESTITUTION) * object2->speed.x + object1->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object1->speed.x) / (object1->mass + object2->mass);
-	object2->speed.y = ((object2->mass - object1->mass * COEFFICIENT_OF_RESTITUTION) * object2->speed.y + object1->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object1->speed.y) / (object1->mass + object2->mass);
-
-	object1->pos += object1->speed;
-	object2->pos += object2->speed;
+	if (object1->type == COLL_DYNAMIC) {
+		object1->speed.x = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.x + object2->mass * (1 + object1->friction_coefficient) * object2->speed.x) / (object1->mass + object2->mass);
+		object1->speed.y = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.y + object2->mass * (1 + object1->friction_coefficient) * object2->speed.y) / (object1->mass + object2->mass);
+		object1->pos += object1->speed;
+	}
+	if (object2->type == COLL_DYNAMIC) {
+		object2->speed.x = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.x + object1->mass * (1 + object2->friction_coefficient) * object1->speed.x) / (object1->mass + object2->mass);
+		object2->speed.y = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.y + object1->mass * (1 + object2->friction_coefficient) * object1->speed.y) / (object1->mass + object2->mass);
+		object2->pos += object2->speed;
+	}
 }
