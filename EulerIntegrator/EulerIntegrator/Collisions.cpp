@@ -1,6 +1,7 @@
 #include "Collisions.h"
 #include"Application.h"
 #include"Physics.h"
+#include "Globals.h"
 
 ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -20,41 +21,19 @@ bool ModuleCollisions::Start()
 	return true;
 }
 
-update_status ModuleCollisions::Update() 
-{
+void ModuleCollisions::OnCollision(Object& object) {
+	
 	Object* c1;
-	Object* c2;
 
 	bool checkAllColls = true;
-
-	while (checkAllColls)
+	
+	for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
 	{
-		checkAllColls = false;
-		for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
-		{
-			c1 = objIterator->data;
-
-			// avoid checking collisions already checked
-			for (p2List_item<Object*>* objIterator2 = objIterator->next; objIterator2 != NULL; objIterator2 = objIterator2->next)
-			{
-				c2 = objIterator->data;
-
-				if (c1->CheckCollisionRect(*c2) == true)
-				{
-					checkAllColls = true;
-					//Check two times the collision
-					if (c1->category = c2->mask)
-						//	ForwardPropagation(c1, c2);
-						true;
-					if (c2->category = c2->mask)
-						//	ForwardPropagation(c2, c1);
-						true;
-				}
-
-			}
+		c1 = objIterator->data;
+		if (&object != c1 && c1->CheckCollisionRect(object)) {
+			ForwardPropagation(&object, c1);
 		}
 	}
-	return UPDATE_CONTINUE;
 }
 
 bool ModuleCollisions::CleanUp() 
@@ -67,22 +46,46 @@ bool ModuleCollisions::CleanUp()
 
 // -----------------------------------------------------
 
-bool Object::CheckCollisionRect(const Object& obj) const
+bool Object::CheckCollisionRect(Object& obj)
 {
-	return !((this->pos.x /*+ this->rect.w*/ < obj.pos.x || obj.pos.x /*+ r.w*/ < this->pos.x) || (this->pos.y /*+ this->rect.h*/ < obj.pos.y || obj.pos.y /*+ r.h*/ < this->pos.y));
+	bool x = false;
+	bool y = false;
+	if ((this->pos.x < obj.pos.x && this->pos.x + this->width >= obj.pos.x) && ((this->pos.y > obj.pos.y && this->pos.y <= obj.pos.y + obj.height) || (this->pos.y < obj.pos.y && this->pos.y + this->height >= obj.pos.y))) {
+		x = true;
+		this->current_collision = RIGHT_COLLISION;
+		obj.current_collision = LEFT_COLLISION;
+	}
+	else if ((obj.pos.x < this->pos.x && obj.pos.x + obj.width >= this->pos.x) && ((obj.pos.y > this->pos.y && obj.pos.y <= this->pos.y + this->height) || (obj.pos.y < this->pos.y && obj.pos.y + obj.height >= obj.pos.y))) {
+		x = true;
+		this->current_collision = LEFT_COLLISION;
+		obj.current_collision = RIGHT_COLLISION;
+	}
+	if ((this->pos.y < obj.pos.y && this->pos.y + this->height >= obj.pos.y) && ((this->pos.x >= obj.pos.x && this->pos.x < obj.pos.x + obj.width) || (this->pos.x + this->width >= obj.pos.x && this->pos.x + this->width < obj.pos.x + obj.width))) {
+		y = true;
+		this->current_collision = BOTTOM_COLLISION;
+		obj.current_collision = TOP_COLLISION;
+	}
+	else if ((obj.pos.y < this->pos.y && obj.pos.y + obj.height >= this->pos.y) && ((obj.pos.x >= this->pos.x && obj.pos.x < this->pos.x + this->width) || (obj.pos.x + obj.width >= this->pos.x && obj.pos.x + obj.width < this->pos.x + this->width))) {
+		y = true;
+		this->current_collision = TOP_COLLISION;
+		obj.current_collision = BOTTOM_COLLISION;
+	}
+	if (x || y) {
+		return true;
+	}
+	else { return false; }
 }
 
 void ModuleCollisions::ForwardPropagation(Object* object1, Object* object2) {
-	
-	// This calculation is done with points. Because there is no volume, this is very ineffective
 
-	// IT WOULD BE RECOMENDABLE TO PUT THE COEFFICIENT OF RESTITUTION AS A VARIABLE UNIQUE TO THE "MATERIAL" OF EACH BODY
-
-	object1->speed.x = ((object1->mass - object2->mass * COEFFICIENT_OF_RESTITUTION) * object1->speed.x + object2->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object2->speed.x) / (object1->mass + object2->mass);
-	object1->speed.y = ((object1->mass - object2->mass * COEFFICIENT_OF_RESTITUTION) * object1->speed.y + object2->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object2->speed.y) / (object1->mass + object2->mass);
-	object2->speed.x = ((object2->mass - object1->mass * COEFFICIENT_OF_RESTITUTION) * object2->speed.x + object1->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object1->speed.x) / (object1->mass + object2->mass);
-	object2->speed.y = ((object2->mass - object1->mass * COEFFICIENT_OF_RESTITUTION) * object2->speed.y + object1->mass * (1 + COEFFICIENT_OF_RESTITUTION) * object1->speed.y) / (object1->mass + object2->mass);
-
-	object1->pos += object1->speed;
-	object2->pos += object2->speed;
+	if (object1->type == COLL_DYNAMIC) {
+		object1->speed.x = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.x + object2->mass * (1 + object1->friction_coefficient) * object2->speed.x) / (object1->mass + object2->mass);
+		object1->speed.y = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.y + object2->mass * (1 + object1->friction_coefficient) * object2->speed.y) / (object1->mass + object2->mass);
+		object1->pos += object1->speed;
+	}
+	if (object2->type == COLL_DYNAMIC) {
+		object2->speed.x = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.x + object1->mass * (1 + object2->friction_coefficient) * object1->speed.x) / (object1->mass + object2->mass);
+		object2->speed.y = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.y + object1->mass * (1 + object2->friction_coefficient) * object1->speed.y) / (object1->mass + object2->mass);
+		object2->pos += object2->speed;
+	}
 }
