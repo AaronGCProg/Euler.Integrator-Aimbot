@@ -6,15 +6,6 @@
 
 struct Object;
 
-enum collision {
-	NONE_COLLISION,
-	TOP_COLLISION,
-	BOTTOM_COLLISION,
-	LEFT_COLLISION,
-	RIGHT_COLLISION,
-	LAST_COLLISION
-};
-
 // Module --------------------------------------
 class ModuleCollisions : public Module
 {

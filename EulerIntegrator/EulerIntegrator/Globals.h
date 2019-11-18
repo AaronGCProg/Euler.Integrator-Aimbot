@@ -39,6 +39,15 @@ enum movement_type : uint16
 	COLL_LAST = 0x0003,
 };
 
+enum collision {
+	NONE_COLLISION,
+	TOP_COLLISION,
+	BOTTOM_COLLISION,
+	LEFT_COLLISION,
+	RIGHT_COLLISION,
+	LAST_COLLISION
+};
+
 // Configuration -----------
 #define SCREEN_WIDTH 720
 #define SCREEN_HEIGHT 480
