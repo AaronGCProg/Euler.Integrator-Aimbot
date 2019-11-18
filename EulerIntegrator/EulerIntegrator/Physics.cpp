@@ -17,11 +17,9 @@ ModulePhysics::~ModulePhysics()
 update_status ModulePhysics::Update() {
 
 	//Here goes a call of Integrate() to all objects of the world
-	p2List_item<Object*>*item = world->objects_list->start;
-	while (item!=NULL)
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
-		Integrate(*item->data, world->gravity);
-		item = item->next;
+		Integrate(*world->objects_array[i], world->gravity);
 	}
 	return UPDATE_CONTINUE;
 
@@ -29,11 +27,9 @@ update_status ModulePhysics::Update() {
 
 update_status ModulePhysics::PostUpdate()
 {
-	p2List_item<Object*>* item = world->objects_list->start;
-	while (item != NULL)
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
-		App->renderer->DrawQuad(item->data->rect, 255, 0 ,0, 255, false, false);
-		item = item->next;
+		App->renderer->DrawQuad(world->objects_array[i]->rect, 255, 0, 0, 255, false, false);
 	}
 
 	return UPDATE_CONTINUE;
@@ -72,4 +68,49 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity)
 
 	object.pos.x += object.speed.x;
 	object.pos.y += object.speed.y;
+}
+void ModulePhysics::AddObject(Object& obj)
+{
+	int i = world->index % MAX_OBJECTS; //search position in array. If full, start from the beggining
+
+	if (world->objects_array[i] != nullptr)
+	{
+		delete world->objects_array[i]; //if there is something, delete it
+		world->objects_array[i] = nullptr; //clear the pointer
+	}
+	world->objects_array[i] = &obj; //ad the object
+
+	world->index++;
+}
+
+bool ModulePhysics::DeleteObject(Object& obj)
+{
+	bool ret = false;
+	for (int i = 0; i < MAX_OBJECTS; i++)
+	{
+		if (obj==*world->objects_array[i])
+		{
+			delete world->objects_array[i]; //if there is something, delete it
+			world->objects_array[i] = nullptr; //clear the pointer
+			ret = true;
+		}
+		
+	}
+	return ret;
+}
+
+int ModulePhysics::FindObject(Object& obj) {
+
+	int ret = -1;
+	
+	for (int i = 0; i < MAX_OBJECTS; i++)
+	{
+		if (obj == *world->objects_array[i])
+		{
+			ret = i;
+		}
+
+	}
+
+	return ret;
 }

@@ -30,23 +30,23 @@ update_status ModuleCollisions::Update()
 	while (checkAllColls)
 	{
 		checkAllColls = false;
-		for (p2List_item<Object*>* objIterator = App->physics->world->objects_list->start; objIterator != NULL; objIterator = objIterator->next)
+		for (int i = 0; i < MAX_OBJECTS && App->physics->world->objects_array[i] != NULL; i++)
 		{
-			c1 = objIterator->data;
+			
 
 			// avoid checking collisions already checked
-			for (p2List_item<Object*>* objIterator2 = objIterator->next; objIterator2 != NULL; objIterator2 = objIterator2->next)
+			for (int j = 0; j < MAX_OBJECTS && App->physics->world->objects_array[j] != NULL; j++)
 			{
-				c2 = objIterator->data;
+				
 
-				if (c1->CheckCollisionRect(*c2) == true)
+				if (App->physics->world->objects_array[i]->CheckCollisionRect(*App->physics->world->objects_array[j]) == true)
 				{
 					checkAllColls = true;
 					//Check two times the collision
-					if (c1->category = c2->mask)
+					if (App->physics->world->objects_array[i]->category = App->physics->world->objects_array[j]->mask)
 						//	ForwardPropagation(c1, c2);
 						true;
-					if (c2->category = c2->mask)
+					if (App->physics->world->objects_array[j]->category = App->physics->world->objects_array[i]->mask)
 						//	ForwardPropagation(c2, c1);
 						true;
 				}

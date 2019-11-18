@@ -50,3 +50,4 @@ enum collision_type : uint16
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "EULER_INTEGRATOR"
+#define MAX_OBJECTS 50

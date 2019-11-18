@@ -4,7 +4,6 @@
 #include "Module.h"
 #include "p2SString.h"
 
-
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
@@ -70,6 +69,37 @@ struct Object {
 
 	bool CheckCollisionRect(const Object& obj) const;
 
+	bool operator==(Object& dt) const {
+
+		bool ret = true;
+
+		if (this->h != dt.h)
+		{
+			ret = false;
+		}
+		
+		if (this->mass != dt.mass)
+		{
+			ret = false;
+		}
+		if (this->name != dt.name)
+		{
+			ret = false;
+		}
+		if (this->pos != dt.pos)
+		{
+			ret = false;
+		}
+		if (this->speed != dt.speed)
+		{
+			ret = false;
+		}
+		if (this->w != dt.w)
+		{
+			ret = false;
+		}
+		return ret;
+	}
 
 	~Object() {};
 
@@ -82,20 +112,27 @@ struct World
 	p2SString name;
 
 	//p2List<Object*>* objects_list;
+	Object** objects_array;
+	int index = 0;
 
 
 	World()
 	{
+		objects_array = new Object*[MAX_OBJECTS];
+		memset(objects_array, NULL, MAX_OBJECTS);
 		name = "";
 		gravity = { 0,9.81f };
-		objects_list = new p2List<Object*>;
 	}
 
 	World(dPoint aGravity, p2SString aName)
 	{
+		objects_array = new Object*[MAX_OBJECTS];
+
+		memset(objects_array, NULL, MAX_OBJECTS);
+
 		gravity = aGravity;
 		name = aName;
-		objects_list = new p2List<Object*>;
+		
 
 	}
 	~World() {}
@@ -112,6 +149,10 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void Integrate(Object &object, dPoint gravity);
+	void AddObject(Object& obj);
+	bool DeleteObject(Object& obj);
+	int FindObject(Object& obj); //returns pos in array if found, -1 if not
+
 
 	//Temp var to test collisions
 	World* world;
