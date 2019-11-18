@@ -68,7 +68,10 @@ struct Object {
 		mask = Mask;
 	}
 
-	bool CheckCollisionRect(const Object& obj) const;
+	bool CheckCollisionRect(const Object& obj) const {
+
+		return !((this->pos.x /*+ this->rect.w*/ < obj.pos.x || obj.pos.x /*+ r.w*/ < this->pos.x) || (this->pos.y /*+ this->rect.h*/ < obj.pos.y || obj.pos.y /*+ r.h*/ < this->pos.y));
+	}
 
 
 	~Object() {};
