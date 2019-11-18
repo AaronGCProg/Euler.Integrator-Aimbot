@@ -1,4 +1,6 @@
 #include "Physics.h"
+#include "Render.h"
+#include "Application.h"
 #include "Collisions.h"
 
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -24,6 +26,20 @@ update_status ModulePhysics::Update() {
 	return UPDATE_CONTINUE;
 
 }
+
+update_status ModulePhysics::PostUpdate()
+{
+	p2List_item<Object*>* item = world->objects_list->start;
+	while (item != NULL)
+	{
+		App->renderer->DrawQuad(item->data->rect, 255, 0 ,0, 255, false, false);
+		item = item->next;
+	}
+
+	return UPDATE_CONTINUE;
+
+}
+
 
 bool ModulePhysics::Start() {
 	LOG("Module Physics succesful Start()");

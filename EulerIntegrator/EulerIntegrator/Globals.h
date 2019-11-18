@@ -2,6 +2,9 @@
 #include <iostream>
 #include "p2Log.h"
 
+#include "SDL/include/SDL.h"
+#pragma comment( lib, "SDL/libx86/SDL2.lib" )
+#pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
 using namespace std;
 typedef signed char	int8;
@@ -36,8 +39,8 @@ enum movement_type : uint16
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 900
-#define SCREEN_HEIGHT 900
+#define SCREEN_WIDTH 720
+#define SCREEN_HEIGHT 480
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE false

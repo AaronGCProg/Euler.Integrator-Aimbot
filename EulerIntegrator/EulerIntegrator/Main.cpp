@@ -1,6 +1,6 @@
-#include "Globals.h"
+#include <stdlib.h>
 #include "Application.h"
-//include all SDL's too!
+#include "Globals.h"
 
 /*
 int main() {

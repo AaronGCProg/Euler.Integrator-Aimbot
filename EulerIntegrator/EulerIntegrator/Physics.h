@@ -12,10 +12,11 @@ struct Object {
 	dPoint pos;
 	dPoint speed;
 	dPoint force;
-	double width;
-	double height;
+	double w, h;
 	double mass;
+	SDL_Rect rect;
 	double friction_coefficient;
+
 
 	//Collision Control
 	movement_type type; //In which "collisions state" is the object located
@@ -29,23 +30,29 @@ struct Object {
 		mass = 1;
 		name = "";
 		friction_coefficient = 0.5;
+		w = 0;
+		h = 0;
+		rect = {0,0,0,0};
 
 		type = COLL_DYNAMIC;
 	}
 
-	Object(dPoint aPos, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName) {
+	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName) {
 
 		pos = aPos;
 		speed = aSpeed;
 		force = aforce;
 		mass = aMass;
 		name = aName;
+		w = width;
+		h = height;
+		rect = { (int)aPos.x,(int)aPos.y,(int)width,(int)height };
 		friction_coefficient = afriction_coefficient;
 
 		type = COLL_DYNAMIC;
 	}
 
-	Object(dPoint aPos, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName, collision_type cat, collision_type Mask) {
+	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName, collision_type cat, collision_type Mask) {
 
 		pos = aPos;
 		speed = aSpeed;
@@ -54,6 +61,12 @@ struct Object {
 		friction_coefficient = afriction_coefficient;
 		name = aName;
 
+		w = width;
+		h = height;
+		rect = { (int)aPos.x,(int)aPos.y,(int)width,(int)height };
+
+		category = cat;
+		mask = Mask;
 		type = cat;
 	}
 
@@ -70,7 +83,8 @@ struct World
 
 	p2SString name;
 
-	p2List<Object*>* objects_list;
+	//p2List<Object*>* objects_list;
+
 
 	World()
 	{
@@ -97,6 +111,7 @@ public:
 
 	bool Start();
 	update_status Update();
+	update_status PostUpdate();
 	bool CleanUp();
 	void Integrate(Object &object, dPoint gravity);
 

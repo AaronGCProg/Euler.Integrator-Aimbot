@@ -3,12 +3,17 @@
 #include "Physics.h"
 #include "Collisions.h"
 #include "p2List.h"
+#include "Render.h"
+#include "Window.h"
+#include"Input.h"
 //include header of all existing modules
 
 Application::Application()
 {
 	
-	
+	renderer = new ModuleRender(this);
+	window = new ModuleWindow(this);
+	input = new ModuleInput(this);
 	physics = new ModulePhysics(this);
 	collisions = new ModuleCollisions(this);
 
@@ -16,14 +21,15 @@ Application::Application()
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 
-	// Main Modules
-	
+	// Main Modules (reverse order for cleanUp)
 	AddModule(physics);
 	AddModule(collisions);
-	
+	AddModule(input);
+	AddModule(window);
 
+	//Renderer
+	AddModule(renderer);
 
-	
 }
 
 Application::~Application()
