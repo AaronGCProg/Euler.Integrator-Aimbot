@@ -2,6 +2,9 @@
 #include <iostream>
 #include "p2Log.h"
 
+#include "SDL/include/SDL.h"
+#pragma comment( lib, "SDL/libx86/SDL2.lib" )
+#pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
 using namespace std;
 typedef signed char	int8;

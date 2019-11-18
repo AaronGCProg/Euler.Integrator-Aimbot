@@ -4,6 +4,7 @@
 #include "Render.h"
 #include <math.h>
 #include "Input.h"
+#include "Physics.h"
 
 ModuleRender::ModuleRender(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -72,6 +73,7 @@ update_status ModuleRender::Update()
 // PostUpdate present buffer to screen
 update_status ModuleRender::PostUpdate()
 {
+
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }

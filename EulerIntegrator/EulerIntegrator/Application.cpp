@@ -30,8 +30,6 @@ Application::Application()
 	//Renderer
 	AddModule(renderer);
 
-
-	
 }
 
 Application::~Application()
