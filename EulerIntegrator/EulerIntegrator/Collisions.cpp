@@ -76,13 +76,43 @@ bool Object::CheckCollisionRect(Object& obj)
 void ModuleCollisions::ForwardPropagation(Object* object1, Object* object2) {
 
 	if (object1->type == COLL_DYNAMIC) {
-		object1->speed.x = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.x + object2->mass * (1 + object1->friction_coefficient) * object2->speed.x) / (object1->mass + object2->mass);
-		object1->speed.y = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.y + object2->mass * (1 + object1->friction_coefficient) * object2->speed.y) / (object1->mass + object2->mass);
-		object1->pos += object1->speed;
+		switch (object1->current_collision) {
+		case TOP_COLLISION:
+			object1->speed.y = -((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.y + object2->mass * (1 + object1->friction_coefficient) * object2->speed.y) / (object1->mass + object2->mass);
+			object1->pos.y += object1->speed.y;
+			break;
+		case BOTTOM_COLLISION:
+			object1->speed.y = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.y + object2->mass * (1 + object1->friction_coefficient) * object2->speed.y) / (object1->mass + object2->mass);
+			object1->pos.y += object1->speed.y;
+			break;
+		case LEFT_COLLISION:
+			object1->speed.x = ((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.x + object2->mass * (1 + object1->friction_coefficient) * object2->speed.x) / (object1->mass + object2->mass);
+			object1->pos.x += object1->speed.x;
+			break;
+		case RIGHT_COLLISION:
+			object1->speed.x = -((object1->mass - object2->mass * object2->friction_coefficient) * object1->speed.x + object2->mass * (1 + object1->friction_coefficient) * object2->speed.x) / (object1->mass + object2->mass);
+			object1->pos.x += object1->speed.x;
+			break;
+		}
 	}
 	if (object2->type == COLL_DYNAMIC) {
-		object2->speed.x = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.x + object1->mass * (1 + object2->friction_coefficient) * object1->speed.x) / (object1->mass + object2->mass);
-		object2->speed.y = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.y + object1->mass * (1 + object2->friction_coefficient) * object1->speed.y) / (object1->mass + object2->mass);
-		object2->pos += object2->speed;
+		switch (object1->current_collision) {
+		case TOP_COLLISION:
+			object2->speed.y = -((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.y + object1->mass * (1 + object2->friction_coefficient) * object1->speed.y) / (object1->mass + object2->mass);
+			object2->pos.y += object2->speed.y;
+			break;
+		case BOTTOM_COLLISION:
+			object2->speed.y = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.y + object1->mass * (1 + object2->friction_coefficient) * object1->speed.y) / (object1->mass + object2->mass);
+			object2->pos.y += object2->speed.y;
+			break;
+		case LEFT_COLLISION:
+			object2->speed.x = ((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.x + object1->mass * (1 + object2->friction_coefficient) * object1->speed.x) / (object1->mass + object2->mass);
+			object2->pos.x += object2->speed.x;
+			break;
+		case RIGHT_COLLISION:
+			object2->speed.x = -((object2->mass - object1->mass * object1->friction_coefficient) * object2->speed.x + object1->mass * (1 + object2->friction_coefficient) * object1->speed.x) / (object1->mass + object2->mass);
+			object2->pos.x += object2->speed.x;
+			break;
+		}
 	}
 }
