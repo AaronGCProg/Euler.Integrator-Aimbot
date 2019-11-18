@@ -3,8 +3,7 @@
 #include "p2List.h"
 #include "Module.h"
 #include "p2SString.h"
-
-
+#include "Application.h"
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
@@ -16,11 +15,12 @@ struct Object {
 	double w, h;
 	double mass;
 	SDL_Rect rect;
+	double friction_coefficient;
 
 
 	//Collision Control
-	collision_type category; //In which "collisions state" is the object located
-	collision_type mask; //Which "collisions states" can he interact with
+	movement_type type; //In which "collisions state" is the object located
+	collision current_collision;
 
 	Object() {
 
@@ -29,12 +29,12 @@ struct Object {
 		force = { 0, 0 };
 		mass = 1;
 		name = "";
+		friction_coefficient = 0.5;
 		w = 0;
 		h = 0;
 		rect = {0,0,0,0};
 
-		category = COLL_ALL;
-		mask = COLL_ALL;
+		type = COLL_DYNAMIC;
 	}
 
 	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName) {
@@ -47,9 +47,9 @@ struct Object {
 		w = width;
 		h = height;
 		rect = { (int)aPos.x,(int)aPos.y,(int)width,(int)height };
+		friction_coefficient = afriction_coefficient;
 
-		category = COLL_ALL;
-		mask = COLL_ALL;
+		type = COLL_DYNAMIC;
 	}
 
 	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName, collision_type cat, collision_type Mask) {
@@ -58,6 +58,7 @@ struct Object {
 		speed = aSpeed;
 		force = aforce;
 		mass = aMass;
+		friction_coefficient = afriction_coefficient;
 		name = aName;
 
 		w = width;
@@ -66,9 +67,10 @@ struct Object {
 
 		category = cat;
 		mask = Mask;
+		type = cat;
 	}
 
-	bool CheckCollisionRect(const Object& obj) const;
+	bool CheckCollisionRect(Object& obj);
 
 
 	~Object() {};
@@ -81,7 +83,8 @@ struct World
 
 	p2SString name;
 
-	p2List<Object*>* objects_list;
+	//p2List<Object*>* objects_list;
+
 
 	World()
 	{

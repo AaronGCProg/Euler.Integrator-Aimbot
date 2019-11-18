@@ -1,7 +1,7 @@
 #include "Physics.h"
 #include "Render.h"
 #include "Application.h"
-
+#include "Collisions.h"
 
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -64,12 +64,16 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity)
 {
 	dPoint acc;
 
-	acc.x = object.force.x * (1 / object.mass);
-	acc.y = object.force.y * (1 / object.mass);
+	if (object.mass != 0) {
+		acc.x = object.force.x * (1 / object.mass);
+		acc.y = object.force.y * (1 / object.mass);
+	}
 
 	object.speed.x += acc.x;
 	object.speed.y += acc.y; //60 fps, one iteration
 
 	object.pos.x += object.speed.x;
 	object.pos.y += object.speed.y;
+
+	App->collisions->OnCollision(object);
 }
