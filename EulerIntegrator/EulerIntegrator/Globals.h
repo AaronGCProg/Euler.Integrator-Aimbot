@@ -58,4 +58,5 @@ enum collision {
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "EULER_INTEGRATOR"
+#define ORGANIZATION "UPC - PHYSICS 2"
 #define MAX_OBJECTS 50
