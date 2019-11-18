@@ -11,6 +11,8 @@ struct Object {
 	dPoint pos;
 	dPoint speed;
 	dPoint force;
+	double width;
+	double height;
 	double mass;
 
 	//Collision Control
@@ -94,6 +96,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void Integrate(Object &object, dPoint gravity);
 
 	//Temp var to test collisions
 	World* world;
@@ -103,22 +106,6 @@ private:
 	
 };
 
-
-
-
-
-
-class ModuleIntegrator //Module Integrator? Why is this a module and not a function call in Module Physics? -Adrià
-{						
-public:
-	ModuleIntegrator();
-	~ModuleIntegrator();
-
-
-private:
-	void Integrate(Object &object, dPoint gravity);
-	World world;
-};
 
 
 
