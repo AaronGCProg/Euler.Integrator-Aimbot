@@ -37,7 +37,7 @@ struct Object {
 		type = COLL_DYNAMIC;
 	}
 
-	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName) {
+	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName) {
 
 		pos = aPos;
 		speed = aSpeed;
@@ -52,7 +52,7 @@ struct Object {
 		type = COLL_DYNAMIC;
 	}
 
-	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, p2SString aName, collision_type cat, collision_type Mask) {
+	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName, movement_type cat) {
 
 		pos = aPos;
 		speed = aSpeed;
@@ -65,8 +65,6 @@ struct Object {
 		h = height;
 		rect = { (int)aPos.x,(int)aPos.y,(int)width,(int)height };
 
-		category = cat;
-		mask = Mask;
 		type = cat;
 	}
 
