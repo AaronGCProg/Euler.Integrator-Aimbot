@@ -126,8 +126,10 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="p2Log.cpp" />
+    <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,8 +144,10 @@
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="p2Qeue.h" />
     <ClInclude Include="p2SString.h" />
+    <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Render.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

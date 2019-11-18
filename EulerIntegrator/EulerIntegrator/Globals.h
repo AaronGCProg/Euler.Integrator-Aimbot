@@ -13,6 +13,7 @@ typedef signed int int32;
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned int uint32;
+typedef unsigned long int uint64;
 typedef float float32;
 typedef double float64;
 
@@ -50,3 +51,4 @@ enum collision_type : uint16
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "EULER_INTEGRATOR"
+#define ORGANIZATION "UPC-PHYSICS 2"
