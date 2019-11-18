@@ -17,6 +17,10 @@ Application::Application()
 	physics = new ModulePhysics(this);
 	collisions = new ModuleCollisions(this);
 
+	gameTimer = new j1Timer();
+	gamePerfTimer = new j1PerfTimer();
+	lastSecFrames = new j1Timer();
+
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -47,6 +51,8 @@ bool Application::Init()
 {
 	bool ret = true;
 
+	capTime = 30u;
+
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
 
@@ -76,6 +82,7 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	p2List_item<Module*>* item = list_modules.getFirst();
 
+	PrepareUpdate();
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
@@ -101,8 +108,61 @@ update_status Application::Update()
 		item = item->next;
 	}
 
+	FinishUpdate();
+
 	return ret;
 }
+
+void Application::PrepareUpdate()
+{
+	frame_count++;
+	last_second_frame_count++;
+
+	//Controls pause of the game
+		dt = lastFrameTimer.ReadSec();
+
+	lastFrameTimer.Start();
+
+}
+
+void Application::FinishUpdate()
+{
+
+	// Amount of time since game start (use a low resolution timer)
+	float seconds_since_startup = gameTimer->ReadSec();
+
+	// Average FPS for the whole game life
+	avg_fps = float(frame_count) / seconds_since_startup;
+
+	// Amount of ms took the last update
+	last_frame_ms = lastFrameTimer.Read();
+
+	// Amount of frames during the last second
+	if (lastSecFrames->Read() >= 1000)
+	{
+		frames_on_last_update = last_second_frame_count;
+		last_second_frame_count = 0;
+		lastSecFrames->Start();
+	}
+
+		if (last_frame_ms < 1000 / capTime)
+		{
+			uint32 delay = MAX(0, (int)capTime - (int)last_frame_ms);
+			//LOG("Should wait: %i", delay);
+			//j1PerfTimer delayTimer;
+			SDL_Delay(delay);
+		}
+
+		p2SString title("%s-%s || FPS: %i Av.FPS: %.2f || Target FPS: %i || Last Frame Ms: %u ",
+			TITLE, ORGANIZATION,
+			frames_on_last_update, avg_fps,
+			 capTime,
+			last_frame_ms);
+
+		window->SetTitle(title.GetString());
+
+}
+
 
 bool Application::CleanUp()
 {

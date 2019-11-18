@@ -5,6 +5,8 @@
 #include "Globals.h"
 #include "p2Log.h"
 #include "p2List.h"
+#include "Timer.h"
+#include "PerfTimer.h"
 
 class Module;
 class ModulePhysics;
@@ -24,6 +26,23 @@ public:
 	ModuleRender* renderer;
 	ModuleWindow* window;
 
+	j1Timer* gameTimer = nullptr;
+	j1PerfTimer* gamePerfTimer = nullptr;
+	j1Timer* lastSecFrames = nullptr;
+	j1Timer lastFrameTimer;
+
+
+	uint64 frame_count = 0u;
+	uint last_second_frame_count = 0u;
+
+	uint32 last_frame_ms = 0u;
+	uint32 frames_on_last_update = 0u;
+
+	float avg_fps = 0.0f;
+	float dt = 0.0f;
+
+	uint capTime = 0u;
+
 
 private:
 
@@ -37,6 +56,9 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+	void FinishUpdate();
+	void PrepareUpdate();
+
 
 private:
 
