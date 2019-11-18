@@ -25,36 +25,12 @@ void ModuleCollisions::OnCollision(Object& object) {
 	
 	Object* c1;
 
-	bool checkAllColls = true;
-
-	while (checkAllColls)
-	{
-		checkAllColls = false;
-		for (int i = 0; i < MAX_OBJECTS && App->physics->world->objects_array[i] != NULL; i++)
-		{
-			
-
-			// avoid checking collisions already checked
-			for (int j = 0; j < MAX_OBJECTS && App->physics->world->objects_array[j] != NULL; j++)
-			{
-				
-
-				if (App->physics->world->objects_array[i]->CheckCollisionRect(*App->physics->world->objects_array[j]) == true)
-				{
-					checkAllColls = true;
-					//Check two times the collision
-					if (App->physics->world->objects_array[i]->category = App->physics->world->objects_array[j]->mask)
-						//	ForwardPropagation(c1, c2);
-						true;
-					if (App->physics->world->objects_array[j]->category = App->physics->world->objects_array[i]->mask)
-						//	ForwardPropagation(c2, c1);
-						true;
-				}
-
-			}
+	for (int i = 0; i < MAX_OBJECTS && App->physics->world->objects_array[i] != NULL; i++) {
+		c1 = App->physics->world->objects_array[i];
+		if (&object != c1 && c1->CheckCollisionRect(object)) {
+			ForwardPropagation(c1, &object);
 		}
 	}
-	return UPDATE_CONTINUE;
 }
 
 bool ModuleCollisions::CleanUp() 
