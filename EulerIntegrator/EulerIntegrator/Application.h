@@ -9,6 +9,9 @@
 class Module;
 class ModulePhysics;
 class ModuleCollisions;
+class ModuleRender;
+class ModuleWindow;
+class ModuleInput;
 
 
 class Application
@@ -17,6 +20,9 @@ public:
 	
 	ModulePhysics* physics;
 	ModuleCollisions* collisions;
+	ModuleInput* input;
+	ModuleRender* renderer;
+	ModuleWindow* window;
 
 
 private:

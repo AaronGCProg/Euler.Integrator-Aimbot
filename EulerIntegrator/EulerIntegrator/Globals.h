@@ -38,8 +38,8 @@ enum collision_type : uint16
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 900
-#define SCREEN_HEIGHT 900
+#define SCREEN_WIDTH 720
+#define SCREEN_HEIGHT 480
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE false
