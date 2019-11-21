@@ -50,11 +50,7 @@ bool ModuleCollisions::CleanUp()
 
 bool Object::CheckCollisionRect(Object& obj)
 {
-
-
 	return !((this->pos.x + this->w < obj.pos.x || obj.pos.x + obj.w < this->pos.x) || (this->pos.y + this->h + PIXEL_TO_METERS(1) < obj.pos.y || obj.pos.y + obj.h + PIXEL_TO_METERS(1) < this->pos.y));
-
-
 }
 
 void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2) 
@@ -82,6 +78,8 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 
 
 	//If a collision from various aixs is detected, it determines what is the closets one to exit from
+	int directionCheck = NONE_COLLISION;
+
 	dPoint c1pos = { c1->pos.x,c1->pos.y };
 	dPoint c2pos = { c2->pos.x,c2->pos.y };
 
@@ -93,11 +91,9 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 		switch (i) {
 		case TOP_COLLISION:
 			//C1 changes
-			c1->pos.y = c2->pos.y + c2->h + PIXEL_TO_METERS(2);
-			c1->speed.y *= 1;
+			c1->AddForce({ 0,2000 });
 			//C2 changes
-			c2->pos.y = c1->pos.y - c2->h;
-			c2->speed.y *= -1;
+			c2->AddForce({ 0,-2000 });
 
 
 			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
@@ -107,11 +103,9 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			break;
 		case BOTTOM_COLLISION:
 			//C1 changes
-			c2->pos.y = c1->pos.y + c1->h + PIXEL_TO_METERS(2);
-			c2->speed.y *= 1;
+			c2->AddForce({ 0,2000 });
 			//C2 changes
-			c1->pos.y = c2->pos.y - c1->h;
-			c1->speed.y *= -1;
+			c1->AddForce({ 0,-2000 });
 
 
 			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
@@ -122,13 +116,12 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			break;
 		case LEFT_COLLISION:
 			//C1 changes
-			c1->pos.x = c2->pos.x + c2->w;
-			//c1->speed.x *= 1;
+			c1->AddForce({ 2000,0 });
 			//C2 changes
-			c2->pos.x = c1->pos.x - c2->w;
-			//c2->speed.x *= -1;
+			c2->AddForce({ -2000,0 });
 
-			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w/2 >= c2->pos.x)
+
+			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w / 2 >= c2->pos.x)
 				collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
 			else
 				collDiference[RIGHT_COLLISION] = NULL;
@@ -136,13 +129,11 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			break;
 		case RIGHT_COLLISION:
 			//C1 changes
-			c2->pos.x = c1->pos.x + c1->w;
-			//c2->speed.x *= 1;
+			c2->AddForce({ 2000,0 });
 			//C2 changes
-			c1->pos.x = c2->pos.x - c1->w;
-			//c1->speed.x *= -1;
+			c1->AddForce({ -2000,0 });
 
-			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w/2 >= c1->pos.x))
+			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w / 2 >= c1->pos.x))
 				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
 			else
 				collDiference[LEFT_COLLISION] = NULL;
@@ -154,8 +145,11 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 	}
 
 
-
-
-
-
 }
+
+
+
+
+
+
+
