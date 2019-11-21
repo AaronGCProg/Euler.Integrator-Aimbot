@@ -12,6 +12,8 @@
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
+#define AERODINAMIC_COEFICIENT 1.5
+
 
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
@@ -76,6 +78,16 @@ struct Object {
 	}
 
 	bool CheckCollisionRect(Object& obj);
+
+	double CalculateAerodinamicCoeficientY() {
+
+		return 0.5f * 1.225f * (double)speed.y * (double)speed.y * w * AERODINAMIC_COEFICIENT;
+	}
+
+	double CalculateAerodinamicCoeficientX() {
+
+		return 0.5f * 1.225f * (double)speed.x * (double)speed.x * h * AERODINAMIC_COEFICIENT;
+	}
 
 	bool operator==(Object& dt) const {
 
@@ -149,7 +161,6 @@ struct World
 
 		gravity.x += gravX;
 		gravity.y += gravY;
-
 	}
 };
 
