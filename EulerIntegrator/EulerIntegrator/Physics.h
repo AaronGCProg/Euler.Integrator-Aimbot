@@ -8,6 +8,8 @@
 
 
 
+#define AERODINAMIC_COEFICIENT 1.5
+
 
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
@@ -72,6 +74,16 @@ struct Object {
 
 	bool CheckCollisionRect(Object& obj);
 
+	double CalculateAerodinamicCoeficientY() {
+
+		return 0.5f * 1.225f * (double)speed.y * (double)speed.y * w * AERODINAMIC_COEFICIENT;
+	}
+
+	double CalculateAerodinamicCoeficientX() {
+
+		return 0.5f * 1.225f * (double)speed.x * (double)speed.x * h * AERODINAMIC_COEFICIENT;
+	}
+
 	bool operator==(Object& dt) const {
 
 		bool ret = true;
@@ -122,7 +134,7 @@ struct World
 	World()
 	{
 		objects_array = new Object*[MAX_OBJECTS];
-		memset(objects_array, NULL, MAX_OBJECTS);
+		memset(objects_array, NULL, MAX_OBJECTS * sizeof(Object));
 		name = "";
 		gravity = { 0,9.81f };
 	}
@@ -131,7 +143,7 @@ struct World
 	{
 		objects_array = new Object*[MAX_OBJECTS];
 
-		memset(objects_array, NULL, MAX_OBJECTS);
+		memset(objects_array, NULL, MAX_OBJECTS*sizeof(Object));
 
 		gravity = aGravity;
 		name = aName;
@@ -144,7 +156,6 @@ struct World
 
 		gravity.x += gravX;
 		gravity.y += gravY;
-
 	}
 };
 
