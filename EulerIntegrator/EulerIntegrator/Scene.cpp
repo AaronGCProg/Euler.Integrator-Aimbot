@@ -17,7 +17,8 @@ ModuleScene::~ModuleScene()
 }
 
 
-bool Awake() {
+bool Awake()
+{
 
 
 	return true;
@@ -27,6 +28,11 @@ bool Awake() {
 bool ModuleScene::Start() {
 	LOG("Module Scene succesful Start()");
 
+
+
+	Object* ground = nullptr;
+	ground = new Object({ SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 }, 200, 200, { 0,0 }, { 0,0 }, 1, 1, "EL TERRAH");
+	App->physics->AddObject(*ground);
 
 	return true;
 }
