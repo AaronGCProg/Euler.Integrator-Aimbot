@@ -9,7 +9,7 @@
 
 
 #define AERODINAMIC_COEFICIENT 1.5
-
+#define GRAVITY {0,9.81f}
 
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
@@ -145,7 +145,7 @@ struct World
 		objects_array = new Object*[MAX_OBJECTS];
 		memset(objects_array, NULL, MAX_OBJECTS * sizeof(Object));
 		name = "";
-		gravity = { 0,9.81f };
+		gravity = GRAVITY;
 	}
 
 	World(dPoint aGravity, p2SString aName)
@@ -156,12 +156,20 @@ struct World
 
 		gravity = aGravity;
 		name = aName;
-		
 
 	}
 	~World() {}
 
 	void ChangeGravity(double gravX, double gravY) {
+
+		gravity.x = gravX;
+		gravity.y = gravY;
+	}
+	void ChangeGravity(dPoint grav) {
+
+		gravity = grav;
+	}
+	void AddGravity(double gravX, double gravY) {
 
 		gravity.x += gravX;
 		gravity.y += gravY;

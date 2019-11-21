@@ -36,7 +36,7 @@ update_status ModulePhysics::PostUpdate()
 		rect.h = METERS_TO_PIXELS(world->objects_array[i]->h);
 
 
-		App->renderer->DrawQuad(rect, 255, 0, 0, 255, true, false);
+		App->renderer->DrawQuad(rect, 255, 0, 0, 255, false, true);
 	}
 
 	return UPDATE_CONTINUE;

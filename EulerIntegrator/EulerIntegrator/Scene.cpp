@@ -3,6 +3,8 @@
 #include "Window.h"
 #include "Application.h"
 #include "Input.h"
+#include "Application.h"
+#include "Render.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -48,29 +50,39 @@ update_status ModuleScene::PreUpdate()
 
 update_status ModuleScene::Update(float dt) {
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) //resets gravity to its default value
 	{
-		App->physics->world->ChangeGravity(-9.81, 0);
+		App->physics->world->ChangeGravity(GRAVITY);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+
+	// lets you modify the world gravity with WASD keys
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		App->physics->world->ChangeGravity(9.81, 0);
+		App->physics->world->AddGravity(-1, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		App->physics->world->ChangeGravity(0, 9.81);
+		App->physics->world->AddGravity(1, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		App->physics->world->ChangeGravity(0, -9.81);
+		App->physics->world->AddGravity(0, 1);
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		App->physics->world->AddGravity(0, -1);
+	}
+
+
+	//spawns new cube
 	if (App->input->GetMouseButton(3) == KEY_DOWN)
 	{
 		Object* lol = nullptr;
-		lol = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY())}, 1, 1, { 0,0 }, { 0,0 }, 20, 0.9, "EL TERRAH");
+		lol = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 1, 1, { 0,0 }, { 0,0 }, 20, 0.9, "EL TERRAH");
 		App->physics->AddObject(*lol);
 	}
 
