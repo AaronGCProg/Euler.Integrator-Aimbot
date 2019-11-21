@@ -28,10 +28,11 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules (reverse order for cleanUp)
+	AddModule(window);
 	AddModule(physics);
 	AddModule(collisions);
 	AddModule(input);
-	AddModule(window);
+	AddModule(scene);
 
 	//Renderer
 	AddModule(renderer);
@@ -97,7 +98,7 @@ update_status Application::Update()
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
-  			ret = item->data->Update();
+  			ret = item->data->Update(dt);
 		item = item->next;
 	}
 

@@ -29,7 +29,7 @@ update_status ModulePhysics::PostUpdate()
 {
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
-		App->renderer->DrawQuad(world->objects_array[i]->rect, 255, 0, 0, 255, false, false);
+		App->renderer->DrawQuad(world->objects_array[i]->rect, 255, 0, 0, 255, true, false);
 	}
 
 	return UPDATE_CONTINUE;

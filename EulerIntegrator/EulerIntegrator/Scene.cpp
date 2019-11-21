@@ -1,4 +1,7 @@
 #include "Scene.h"
+#include "Physics.h"
+#include "Window.h"
+#include "Application.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -22,6 +25,9 @@ bool Awake() {
 
 bool ModuleScene::Start() {
 	LOG("Module Scene succesful Start()");
+	Object* lol = nullptr;
+	lol = new Object({ SCREEN_WIDTH/2,SCREEN_HEIGHT/2 }, 10, 20, { 0,0 }, {0,0}, 20, 0.9, "EL TERRAH");
+	App->physics->AddObject(*lol);
 
 	return true;
 }
@@ -35,7 +41,7 @@ update_status ModuleScene::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleScene::Update() {
+update_status ModuleScene::Update(float dt) {
 
 
 
