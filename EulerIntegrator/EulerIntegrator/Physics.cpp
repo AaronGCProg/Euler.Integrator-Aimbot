@@ -27,13 +27,13 @@ update_status ModulePhysics::Update(float dt) {
 
 update_status ModulePhysics::PostUpdate()
 {
-	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != nullptr; i++)
 	{
 		SDL_Rect rect;
-		rect.x = world->objects_array[i]->pos.x;
-		rect.y = world->objects_array[i]->pos.y;
-		rect.w = world->objects_array[i]->w;
-		rect.h = world->objects_array[i]->h;
+		rect.x = METERS_TO_PIXELS(world->objects_array[i]->pos.x);
+		rect.y = METERS_TO_PIXELS(world->objects_array[i]->pos.y);
+		rect.w = METERS_TO_PIXELS(world->objects_array[i]->w);
+		rect.h = METERS_TO_PIXELS(world->objects_array[i]->h);
 
 
 		App->renderer->DrawQuad(rect, 255, 0, 0, 255, true, false);

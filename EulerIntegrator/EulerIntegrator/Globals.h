@@ -39,7 +39,8 @@ enum movement_type : uint16
 	COLL_LAST = 0x0003,
 };
 
-enum collision {
+enum collision 
+{
 	NONE_COLLISION,
 	TOP_COLLISION,
 	BOTTOM_COLLISION,
