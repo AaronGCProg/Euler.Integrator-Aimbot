@@ -57,6 +57,13 @@ bool ModulePhysics::CleanUp() {
 	//Destroy world
 	//Clear all pointers
 	//Clear all arrays
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
+	{
+		delete world->objects_array[i];
+	}
+
+	delete world;
+
 	LOG("Physics CleanUp has been called");
 	return true;
 
