@@ -19,7 +19,6 @@ struct Object {
 
 	//Collision Control
 	movement_type type; //In which "collisions state" is the object located
-	collision current_collision;
 
 	Object() {
 
