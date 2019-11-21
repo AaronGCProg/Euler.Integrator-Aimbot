@@ -29,7 +29,14 @@ update_status ModulePhysics::PostUpdate()
 {
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
-		App->renderer->DrawQuad(world->objects_array[i]->rect, 255, 0, 0, 255, true, false);
+		SDL_Rect rect;
+		rect.x = world->objects_array[i]->pos.x;
+		rect.y = world->objects_array[i]->pos.y;
+		rect.w = world->objects_array[i]->w;
+		rect.h = world->objects_array[i]->h;
+
+
+		App->renderer->DrawQuad(rect, 255, 0, 0, 255, true, false);
 	}
 
 	return UPDATE_CONTINUE;
@@ -61,6 +68,7 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity,float dt)
 	dPoint acc;
 
 	if (object.mass != 0) {
+		object.force += gravity;
 		acc.x = (object.force.x * (1 / object.mass))*dt;
 		acc.y = (object.force.y * (1 / object.mass))*dt;
 	}

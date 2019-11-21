@@ -14,7 +14,6 @@ struct Object {
 	dPoint force;
 	double w, h;
 	double mass;
-	SDL_Rect rect;
 	double friction_coefficient;
 
 
@@ -32,8 +31,6 @@ struct Object {
 		friction_coefficient = 0.5;
 		w = 0;
 		h = 0;
-		rect = {0,0,0,0};
-
 		type = COLL_DYNAMIC;
 	}
 
@@ -46,7 +43,6 @@ struct Object {
 		name = aName;
 		w = width;
 		h = height;
-		rect = { (int)aPos.x,(int)aPos.y,(int)width,(int)height };
 		friction_coefficient = afriction_coefficient;
 
 		type = COLL_DYNAMIC;
@@ -63,7 +59,6 @@ struct Object {
 
 		w = width;
 		h = height;
-		rect = { (int)aPos.x,(int)aPos.y,(int)width,(int)height };
 
 		type = cat;
 	}
