@@ -33,7 +33,7 @@ bool ModuleScene::Start() {
 
 
 	Object* ground = nullptr;
-	ground = new Object({ SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 }, 200, 200, { 0,0 }, { 0,0 }, 1, 1, "EL TERRAH");
+	ground = new Object({ PIXEL_TO_METERS(0),PIXEL_TO_METERS(-SCREEN_HEIGHT + 200) }, PIXEL_TO_METERS(SCREEN_WIDTH - 10), 2, { 0,0 }, { 0,0 }, 0, 0.9, "EL TERRAH");
 	App->physics->AddObject(*ground);
 
 	return true;

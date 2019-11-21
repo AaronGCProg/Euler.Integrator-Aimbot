@@ -72,7 +72,7 @@ bool ModulePhysics::CleanUp() {
 
 void ModulePhysics::Integrate(Object& object, dPoint gravity,float dt)
 {
-	dPoint acc;
+	dPoint acc = {0,0};
 
 	if (object.mass != 0) { //if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
 		
