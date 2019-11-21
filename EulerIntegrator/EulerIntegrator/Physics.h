@@ -45,6 +45,9 @@ struct Object {
 		h = height;
 		friction_coefficient = afriction_coefficient;
 
+		if (mass==0)
+			type = COLL_STATIC;
+		else
 		type = COLL_DYNAMIC;
 	}
 
