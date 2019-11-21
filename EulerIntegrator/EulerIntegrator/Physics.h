@@ -144,6 +144,13 @@ struct World
 
 	}
 	~World() {}
+
+	void ChangeGravity(double gravX, double gravY) {
+
+		gravity.x += gravX;
+		gravity.y += gravY;
+
+	}
 };
 
 class ModulePhysics : public Module
@@ -164,9 +171,6 @@ public:
 
 	//Temp var to test collisions
 	World* world;
-
-private:
-
 	
 };
 
