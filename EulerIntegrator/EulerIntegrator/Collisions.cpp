@@ -55,6 +55,21 @@ bool Object::CheckCollisionRect(Object& obj)
 
 void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2) 
 {
+	dPoint c1center;
+	c1center.x = c1->pos.x + (c1->w * 0.5);
+	c1center.y = c1->pos.y + (c1->h * 0.5);
+	dPoint c2center;
+	c2center.x = c2->pos.x + (c2->w * 0.5);
+	c2center.y = c2->pos.y + (c2->h * 0.5);
+
+	double distance_between_centers = sqrtf(((c1center.x+c2center.x)* (c1center.x + c2center.x))+ ((c1center.y + c2center.y) * (c1center.y + c2center.y)));
+	double incremental_force;
+
+	if (distance_between_centers<0.01)
+		distance_between_centers = 0.01;
+	
+	incremental_force = ((1 / distance_between_centers)+1)*((1 / distance_between_centers) + 1)*2500;//outputs a number that increases when the 2 objects are close enough
+
 	//Determines the direction of the collision
 	//Calculates distances from the player to the collision
 	double collDiference[LAST_COLLISION];
@@ -91,9 +106,9 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 		switch (i) {
 		case TOP_COLLISION:
 			//C1 changes
-			c1->AddForce({ 0,2000 });
+			c1->AddForce({ 0,incremental_force });
 			//C2 changes
-			c2->AddForce({ 0,-2000 });
+			c2->AddForce({ 0,-incremental_force });
 
 
 			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
@@ -103,9 +118,9 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			break;
 		case BOTTOM_COLLISION:
 			//C1 changes
-			c2->AddForce({ 0,2000 });
+			c2->AddForce({ 0,incremental_force });
 			//C2 changes
-			c1->AddForce({ 0,-2000 });
+			c1->AddForce({ 0,-incremental_force });
 
 
 			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
@@ -116,9 +131,9 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			break;
 		case LEFT_COLLISION:
 			//C1 changes
-			c1->AddForce({ 2000,0 });
+			c1->AddForce({ incremental_force,0 });
 			//C2 changes
-			c2->AddForce({ -2000,0 });
+			c2->AddForce({ -incremental_force,0 });
 
 
 			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w / 2 >= c2->pos.x)
@@ -129,9 +144,9 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			break;
 		case RIGHT_COLLISION:
 			//C1 changes
-			c2->AddForce({ 2000,0 });
+			c2->AddForce({ incremental_force,0 });
 			//C2 changes
-			c1->AddForce({ -2000,0 });
+			c1->AddForce({ -incremental_force,0 });
 
 			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w / 2 >= c1->pos.x))
 				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
