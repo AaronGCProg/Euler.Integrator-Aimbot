@@ -14,6 +14,7 @@ class ModuleCollisions;
 class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
+class ModuleScene;
 
 
 class Application
@@ -25,6 +26,7 @@ public:
 	ModuleInput* input;
 	ModuleRender* renderer;
 	ModuleWindow* window;
+	ModuleScene* scene;
 
 	j1Timer* gameTimer = nullptr;
 	j1PerfTimer* gamePerfTimer = nullptr;

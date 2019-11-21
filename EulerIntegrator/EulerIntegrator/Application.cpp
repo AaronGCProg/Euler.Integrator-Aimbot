@@ -5,7 +5,8 @@
 #include "p2List.h"
 #include "Render.h"
 #include "Window.h"
-#include"Input.h"
+#include "Scene.h"
+#include "Input.h"
 //include header of all existing modules
 
 Application::Application()
@@ -16,6 +17,7 @@ Application::Application()
 	input = new ModuleInput(this);
 	physics = new ModulePhysics(this);
 	collisions = new ModuleCollisions(this);
+	scene = new ModuleScene(this);
 
 	gameTimer = new j1Timer();
 	gamePerfTimer = new j1PerfTimer();
