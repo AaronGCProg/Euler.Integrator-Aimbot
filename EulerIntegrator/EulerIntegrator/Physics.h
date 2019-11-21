@@ -146,10 +146,10 @@ public:
 	~ModulePhysics();
 
 	bool Start();
-	update_status Update();
+	update_status Update(float dt);
 	update_status PostUpdate();
 	bool CleanUp();
-	void Integrate(Object &object, dPoint gravity);
+	void Integrate(Object &object, dPoint gravity,float dt);
 	void AddObject(Object& obj);
 	bool DeleteObject(Object& obj);
 	int FindObject(Object& obj); //returns pos in array if found, -1 if not

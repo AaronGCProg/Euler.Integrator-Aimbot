@@ -14,12 +14,12 @@ ModulePhysics::~ModulePhysics()
 	LOG("Destructor of Module Physics has been called");
 }
 
-update_status ModulePhysics::Update() {
+update_status ModulePhysics::Update(float dt) {
 
 	//Here goes a call of Integrate() to all objects of the world
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
-		Integrate(*world->objects_array[i], world->gravity);
+		Integrate(*world->objects_array[i], world->gravity,dt);
 	}
 	return UPDATE_CONTINUE;
 
@@ -56,20 +56,20 @@ bool ModulePhysics::CleanUp() {
 }
 
 
-void ModulePhysics::Integrate(Object& object, dPoint gravity)
+void ModulePhysics::Integrate(Object& object, dPoint gravity,float dt)
 {
 	dPoint acc;
 
 	if (object.mass != 0) {
-		acc.x = object.force.x * (1 / object.mass);
-		acc.y = object.force.y * (1 / object.mass);
+		acc.x = (object.force.x * (1 / object.mass))*dt;
+		acc.y = (object.force.y * (1 / object.mass))*dt;
 	}
 
-	object.speed.x += acc.x;
-	object.speed.y += acc.y; //60 fps, one iteration
+	object.speed.x += acc.x*dt;
+	object.speed.y += acc.y*dt; //60 fps, one iteration
 
-	object.pos.x += object.speed.x;
-	object.pos.y += object.speed.y;
+	object.pos.x += object.speed.x*dt;
+	object.pos.y += object.speed.y*dt;
 
 	App->collisions->OnCollision(object);
 }
