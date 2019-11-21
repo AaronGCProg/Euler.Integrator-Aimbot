@@ -74,12 +74,14 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity,float dt)
 {
 	dPoint acc;
 
-	if (object.mass != 0) {
+	if (object.mass != 0) { //if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
 		object.force += gravity;
 		acc.x = (object.force.x * (1 / object.mass))*dt;
 		acc.y = (object.force.y * (1 / object.mass))*dt;
+	
 	}
-
+	object.force = { 0,0 }; //we reset all the forces of the object after converting them to acceleration, to start a new frame without forces
+	
 	object.speed.x += acc.x*dt;
 	object.speed.y += acc.y*dt; //60 fps, one iteration
 

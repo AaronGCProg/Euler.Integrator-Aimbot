@@ -18,11 +18,12 @@
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
-
+private:	
+	dPoint force; //In newtons
+public:
 	p2SString name;
 	dPoint pos; //In meters
 	dPoint speed;  //In meters/second
-	dPoint force; //In newtons
 	double w, h; //In meters
 	double mass; //In kg
 	double friction_coefficient;
@@ -118,6 +119,14 @@ struct Object {
 			ret = false;
 		}
 		return ret;
+	}
+
+	void AddForce(dPoint aForce){
+		force = aForce;
+	}
+	void ResetForces()
+	{
+		force = { 0,0 };
 	}
 
 	~Object() {};
