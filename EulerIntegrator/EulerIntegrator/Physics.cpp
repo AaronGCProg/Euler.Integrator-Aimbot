@@ -161,3 +161,17 @@ int ModulePhysics::FindObject(Object& obj) {
 
 	return ret;
 }
+
+int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is inside the object (check .h for further info)
+	position.x = PIXEL_TO_METERS(position.x);
+	position.y = PIXEL_TO_METERS(position.y);
+	for (int i = 0; i < MAX_OBJECTS; i++) {
+		if (world->objects_array[i] != nullptr) {
+			if (position.x >= world->objects_array[i]->pos.x && position.x <= world->objects_array[i]->pos.x + world->objects_array[i]->w &&
+				position.y >= world->objects_array[i]->pos.y && position.y <= world->objects_array[i]->pos.y + world->objects_array[i]->h) {
+				return i;
+			}
+		}
+	}
+	return -1;
+}
