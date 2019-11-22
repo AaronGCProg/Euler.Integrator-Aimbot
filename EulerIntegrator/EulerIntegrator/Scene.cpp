@@ -33,7 +33,7 @@ bool ModuleScene::Start() {
 	object_index = -1;
 	mouse_joint = false;
 	Object* ground = nullptr;
-	ground = new Object({ PIXEL_TO_METERS(0),PIXEL_TO_METERS(-SCREEN_HEIGHT + 18) }, PIXEL_TO_METERS(SCREEN_WIDTH), 2, { 0,0 }, { 0,0 }, 0, 0.9, "EL TERRAH");
+	ground = new Object({ PIXEL_TO_METERS(-100),PIXEL_TO_METERS(-SCREEN_HEIGHT + 18) }, PIXEL_TO_METERS(SCREEN_WIDTH+1000), 2, { 0,0 }, { 0,0 }, 0, 0.9, "ground");
 	App->physics->AddObject(*ground);
 
 	
@@ -107,7 +107,7 @@ update_status ModuleScene::Update(float dt) {
 	if (App->input->GetMouseButton(3) == KEY_DOWN)
 	{
 		Object* lol = nullptr;
-		lol = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 1, 1, { 0,0 }, { 0,0 }, 20, 0.9, "EL TERRAH");
+		lol = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 1, 1, { 0,0 }, { 0,0 }, 20, 0.9, "cube");
 		App->physics->AddObject(*lol);
 	}
 
