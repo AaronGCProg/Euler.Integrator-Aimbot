@@ -68,9 +68,9 @@ update_status ModuleScene::Update(float dt) {
 	// Moves the object towards the mouse
 	else if (mouse_joint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
 		dPoint speed;
-		speed.x = (PIXEL_TO_METERS(mouse_pos.x) -App->physics->world->objects_array[object_index]->pos.x) / 10;
-		speed.y = (PIXEL_TO_METERS(mouse_pos.y) -App->physics->world->objects_array[object_index]->pos.y) / 10;
-		App->physics->world->objects_array[object_index]->pos += speed;
+		speed.x = (PIXEL_TO_METERS(mouse_pos.x) -App->physics->world->objects_array[object_index]->pos.x) / 20;
+		speed.y = (PIXEL_TO_METERS(mouse_pos.y) -App->physics->world->objects_array[object_index]->pos.y) / 20;
+		App->physics->world->objects_array[object_index]->speed += speed;
 		App->renderer->DrawLine(mouse_pos.x, mouse_pos.y, METERS_TO_PIXELS(App->physics->world->objects_array[object_index]->pos.x), METERS_TO_PIXELS(App->physics->world->objects_array[object_index]->pos.y), 70, 70, 70);
 	}
 	// Restores previous conditions when mouse stops being pressed

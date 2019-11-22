@@ -62,13 +62,12 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 
 
 	//Calculates the normal dir
-
 	double modul;
 	dPoint normaldir = c2->speed + c1->speed;
 	if (normaldir.x <=0.001f&&normaldir.y<=0.001f)
 		normaldir = { 0,-1 };
 
-	modul = sqrtf((normaldir.x * normaldir.x) + (normaldir.y * normaldir.y));
+	modul = sqrt((normaldir.x * normaldir.x) + (normaldir.y * normaldir.y));
 	normaldir.x = (normaldir.x / modul);
 	normaldir.y = (normaldir.y / modul);
 
