@@ -16,7 +16,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-
 private:
-
+	bool mouse_joint;
+	int object_index;
 };

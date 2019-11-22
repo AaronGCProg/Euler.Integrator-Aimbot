@@ -189,8 +189,8 @@ public:
 	void Integrate(Object &object, dPoint gravity,float dt);
 	void AddObject(Object& obj);
 	bool DeleteObject(Object& obj);
+	int IsInsideObject(dPoint& position);	// returns the object array's position or -1
 	int FindObject(Object& obj); //returns pos in array if found, -1 if not
-
 
 	//Temp var to test collisions
 	World* world;
