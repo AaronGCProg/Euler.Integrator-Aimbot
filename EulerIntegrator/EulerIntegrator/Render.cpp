@@ -18,7 +18,7 @@ ModuleRender::ModuleRender(Application* app, bool start_enabled) : Module(app, s
 ModuleRender::~ModuleRender()
 {}
 
-// Called before render is available
+// Initialice render systems of SFL
 bool ModuleRender::Init()
 {
 	LOG("Creating Renderer context");
@@ -52,7 +52,6 @@ update_status ModuleRender::PreUpdate()
 // Update: debug camera
 update_status ModuleRender::Update(float dt)
 {
-	
 	int speed = 100;
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -131,6 +130,7 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 
 	return ret;
 }
+
 
 bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera)
 {

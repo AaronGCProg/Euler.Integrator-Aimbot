@@ -17,6 +17,8 @@ typedef unsigned long int uint64;
 typedef float float32;
 typedef double float64;
 
+//Macros to change from pixel coordinates to meters and viceverse
+
 #define PIXELS_PER_METER 50.0f // if touched change METER_PER_PIXEL too
 #define METER_PER_PIXEL 0.02f // this is 1 / PIXELS_PER_METER !
 
@@ -27,6 +29,7 @@ typedef double float64;
 #define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
 
 typedef unsigned int uint;
+
 
 enum update_status
 {

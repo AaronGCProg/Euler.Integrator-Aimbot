@@ -4,6 +4,8 @@
 
 #include "SDL\include\SDL.h"
 
+//Module that deals with the user inputs management
+
 ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	keyboard = new KEY_STATE[MAX_KEYS];
@@ -24,6 +26,7 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
+	//Inits the system to manage the user inputs
 	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -40,6 +43,8 @@ update_status ModuleInput::PreUpdate()
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	
+	//Save the keys pressed
+
 	for(int i = 0; i < MAX_KEYS; ++i)
 	{
 		if(keys[i] == 1)
@@ -58,6 +63,8 @@ update_status ModuleInput::PreUpdate()
 		}
 	}
 
+
+	//Save mouse state and position
 	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 	mouse_x /= SCREEN_SIZE;
 	mouse_y /= SCREEN_SIZE;
@@ -80,6 +87,7 @@ update_status ModuleInput::PreUpdate()
 		}
 	}
 
+	//Exit the aplication
 	if(keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;
 

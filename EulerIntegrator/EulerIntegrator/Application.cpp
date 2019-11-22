@@ -39,6 +39,7 @@ Application::Application()
 
 }
 
+//Destructor of aplication, it calls all module destructors
 Application::~Application()
 {
 	p2List_item<Module*>* item = list_modules.getLast();
@@ -122,7 +123,7 @@ void Application::PrepareUpdate()
 	last_second_frame_count++;
 
 	//Controls pause of the game
-		dt = lastFrameTimer.ReadSec();
+	dt = lastFrameTimer.ReadSec();
 
 	lastFrameTimer.Start();
 
@@ -130,7 +131,6 @@ void Application::PrepareUpdate()
 
 void Application::FinishUpdate()
 {
-
 	// Amount of time since game start (use a low resolution timer)
 	float seconds_since_startup = gameTimer->ReadSec();
 
@@ -156,6 +156,7 @@ void Application::FinishUpdate()
 			SDL_Delay(delay);
 		}
 
+		//Title shown in the window
 		p2SString title("%s-%s || FPS: %i Av.FPS: %.2f || Target FPS: %i || Last Frame Ms: %u ",
 			TITLE, ORGANIZATION,
 			frames_on_last_update, avg_fps,
@@ -166,7 +167,7 @@ void Application::FinishUpdate()
 
 }
 
-
+//Calls all modules CleanUp()
 bool Application::CleanUp()
 {
 	bool ret = true;
