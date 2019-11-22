@@ -30,7 +30,7 @@ void ModuleCollisions::OnCollision(Object& object) {
 	for (int i = 0; i < MAX_OBJECTS && App->physics->world->objects_array[i] != NULL; i++) {
 		c1 = App->physics->world->objects_array[i];
 
-		if (&object == c1) continue;
+		if (&object == c1 || c1->type == COLL_STATIC) continue;
 
 		if (c1->CheckCollisionRect(object)) {
 			ForwardPropagation(c1, &object);
@@ -113,16 +113,20 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 			//C1 changes
 			c1->AddForce({ 0,incremental_force* collDiference[TOP_COLLISION] });
 			//C2 changes
-			c2->AddForce({ 0,-incremental_force* collDiference[TOP_COLLISION] });
+			c2->AddForce({ 0,-incremental_force* collDiference[TOP_COLLISION]});
 
 		
 			break;
 		case BOTTOM_COLLISION:
-			//C1 changes
-			c2->AddForce({ 0,incremental_force* collDiference[BOTTOM_COLLISION] });
-			//C2 changes
-			c1->AddForce({ 0,-incremental_force * collDiference[BOTTOM_COLLISION] });
-
+			if (c2->type != COLL_STATIC)
+			{
+				//C1 changes
+				c2->AddForce({ 0,incremental_force * collDiference[BOTTOM_COLLISION] });
+				//C2 changes
+				c1->AddForce({ 0,-incremental_force * collDiference[BOTTOM_COLLISION] });
+			}
+			else
+				c1->pos.y = c2->pos.y + c2->h +1 ;
 
 
 			break;
