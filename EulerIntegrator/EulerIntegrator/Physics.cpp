@@ -35,8 +35,18 @@ update_status ModulePhysics::PostUpdate()
 		rect.w = METERS_TO_PIXELS(world->objects_array[i]->w);
 		rect.h = METERS_TO_PIXELS(world->objects_array[i]->h);
 
-
-		App->renderer->DrawQuad(rect, 255, 0, 0, 255, false, true);
+		switch(world->objects_array[i]->type)
+		{ 
+		case COLL_DYNAMIC:
+			//Borderless RED
+			App->renderer->DrawQuad(rect, 255, 0, 0, 255, false, true);
+			break;
+		case COLL_STATIC:
+			//Borderless LIGHT BLUE
+			App->renderer->DrawQuad(rect, 0, 255, 255, 255, false, true);
+			break;
+		
+		}
 	}
 
 	return UPDATE_CONTINUE;
