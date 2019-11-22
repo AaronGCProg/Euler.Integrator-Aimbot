@@ -118,7 +118,7 @@ public:
 	}
 
 	void AddForce(dPoint aForce){
-		force = aForce;
+		force += aForce;
 	}
 	void ResetForces()
 	{

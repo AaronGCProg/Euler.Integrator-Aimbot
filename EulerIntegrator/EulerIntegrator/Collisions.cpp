@@ -55,10 +55,7 @@ bool Object::CheckCollisionRect(Object& obj)
 
 void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2) 
 {
-	bool continueColl = true;
 
-	while (continueColl)
-	{
 		dPoint c1center;
 		c1center.x = c1->pos.x + (c1->w * 0.5);
 		c1center.y = c1->pos.y + (c1->h * 0.5);
@@ -72,7 +69,7 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 		if (distance_between_centers < 0.01)
 			distance_between_centers = 0.01;
 
-		incremental_force = ((1 / distance_between_centers) + 1) * ((1 / distance_between_centers) + 1) * 2500;//outputs a number that increases when the 2 objects are close enough
+		incremental_force = ((1 / distance_between_centers) + 1) * ((1 / distance_between_centers) + 1) * 25000;//outputs a number that increases when the 2 objects are close enough
 
 
 		//Determines the direction of the collision
@@ -84,20 +81,16 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 		collDiference[TOP_COLLISION] = NULL;
 		collDiference[BOTTOM_COLLISION] = NULL;
 
-		if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w >= c1->pos.x))
 			collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
 
-		if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w >= c2->pos.x)
 			collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
 
-		if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
 			collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
 
-		if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-			collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
+			collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on topç
 
 
-			//If a collision from various aixs is detected, it determines what is the closets one to exit from
+		//If a collision from various aixs is detected, it determines what is the closets one to exit from
 		int directionCheck = NONE_COLLISION;
 
 		dPoint c1pos = { c1->pos.x,c1->pos.y };
@@ -106,133 +99,55 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 
 		for (int i = 0; i < LAST_COLLISION; ++i)
 		{
-			if (collDiference[i] == NULL)
-				continue;
-
 			if (directionCheck == NONE_COLLISION)
 				directionCheck = i;
+
 			else if ((collDiference[i] < collDiference[directionCheck]))
 				directionCheck = i;
 		}
 
 
+
 		switch (directionCheck) {
 		case TOP_COLLISION:
 			//C1 changes
-			c1->AddForce({ 0,incremental_force });
+			c1->AddForce({ 0,incremental_force* collDiference[TOP_COLLISION] });
 			//C2 changes
-			c2->AddForce({ 0,-incremental_force });
+			c2->AddForce({ 0,-incremental_force* collDiference[TOP_COLLISION] });
 
-			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w >= c1->pos.x))
-				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
-			else
-				collDiference[LEFT_COLLISION] = NULL;
-
-			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w >= c2->pos.x)
-				collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
-			else
-				collDiference[RIGHT_COLLISION] = NULL;
-
-			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
-				collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
-			else
-				collDiference[TOP_COLLISION] = NULL;
-
-			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-				collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
-			else
-				collDiference[BOTTOM_COLLISION] = NULL;
-
+		
 			break;
 		case BOTTOM_COLLISION:
 			//C1 changes
-			c2->AddForce({ 0,incremental_force });
+			c2->AddForce({ 0,incremental_force* collDiference[BOTTOM_COLLISION] });
 			//C2 changes
-			c1->AddForce({ 0,-incremental_force });
+			c1->AddForce({ 0,-incremental_force * collDiference[BOTTOM_COLLISION] });
 
-			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w >= c1->pos.x))
-				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
-			else
-				collDiference[LEFT_COLLISION] = NULL;
 
-			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w >= c2->pos.x)
-				collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
-			else
-				collDiference[RIGHT_COLLISION] = NULL;
-
-			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
-				collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
-			else
-				collDiference[TOP_COLLISION] = NULL;
-
-			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-				collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
-			else
-				collDiference[BOTTOM_COLLISION] = NULL;
 
 			break;
 		case LEFT_COLLISION:
 			//C1 changes
-			c1->AddForce({ incremental_force,0 });
+			c1->AddForce({ incremental_force * collDiference[LEFT_COLLISION],0 });
 			//C2 changes
-			c2->AddForce({ -incremental_force,0 });
+			c2->AddForce({ -incremental_force * collDiference[LEFT_COLLISION],0 });
 
 
-			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w >= c1->pos.x))
-				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
-			else
-				collDiference[LEFT_COLLISION] = NULL;
 
-			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w >= c2->pos.x)
-				collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
-			else
-				collDiference[RIGHT_COLLISION] = NULL;
-
-			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
-				collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
-			else
-				collDiference[TOP_COLLISION] = NULL;
-
-			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-				collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
-			else
-				collDiference[BOTTOM_COLLISION] = NULL;
 
 			break;
 		case RIGHT_COLLISION:
 			//C1 changes
-			c2->AddForce({ incremental_force,0 });
+			c2->AddForce({ incremental_force * collDiference[RIGHT_COLLISION],0 });
 			//C2 changes
-			c1->AddForce({ -incremental_force,0 });
-
-			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w >= c1->pos.x))
-				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
-			else
-				collDiference[LEFT_COLLISION] = NULL;
-
-			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w >= c2->pos.x)
-				collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
-			else
-				collDiference[RIGHT_COLLISION] = NULL;
-
-			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
-				collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
-			else
-				collDiference[TOP_COLLISION] = NULL;
-
-			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-				collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
-			else
-				collDiference[BOTTOM_COLLISION] = NULL;
+			c1->AddForce({ -incremental_force * collDiference[RIGHT_COLLISION],0 });
 			break;
 
 		case NONE_COLLISION:
-			continueColl = false;
 			break;
 		}
 
-
-	}
+	
 }
 
 
