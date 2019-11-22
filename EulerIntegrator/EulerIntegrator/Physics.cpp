@@ -19,7 +19,7 @@ update_status ModulePhysics::Update(float dt) {
 	//Here goes a call of Integrate() to all objects of the world
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
-		Integrate(*world->objects_array[i], world->gravity,dt);
+		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
 	return UPDATE_CONTINUE;
 
@@ -80,26 +80,31 @@ bool ModulePhysics::CleanUp() {
 }
 
 
-void ModulePhysics::Integrate(Object& object, dPoint gravity,float dt)
+void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 {
-	dPoint acc = {0,0};
+	dPoint acc = { 0,0 };
 
-	if (object.mass != 0) { //if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
-		
+	if (object.mass >= 0.001) { //if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
 
-		acc.x = (object.force.x * (1 / object.mass))*dt;
-		acc.y = (object.force.y * (1 / object.mass))*dt;
-		acc.x += gravity.x*dt;
-		acc.y += gravity.y*dt;
-	
+		dPoint aerodinamic_drag;
+		aerodinamic_drag.x = object.CalculateAerodinamicCoeficientX();
+		aerodinamic_drag.y = object.CalculateAerodinamicCoeficientY();
+		object.AddForce(aerodinamic_drag);
+		acc.x = (object.force.x * (1 / object.mass)) * dt;
+		acc.y = (object.force.y * (1 / object.mass)) * dt;
+		acc.x += gravity.x * dt;
+		acc.y += gravity.y * dt;
+
+
+
 	}
 	object.force = { 0,0 }; //we reset all the forces of the object after converting them to acceleration, to start a new frame without forces
-	
-	object.speed.x += acc.x*dt;
-	object.speed.y += acc.y*dt; //60 fps, one iteration
 
-	object.pos.x += object.speed.x*dt;
-	object.pos.y += object.speed.y*dt;
+	object.speed.x += acc.x * dt;
+	object.speed.y += acc.y * dt; //60 fps, one iteration
+
+	object.pos.x += object.speed.x * dt;
+	object.pos.y += object.speed.y * dt;
 
 	App->collisions->OnCollision(object);
 }
@@ -109,8 +114,11 @@ void ModulePhysics::AddObject(Object& obj)
 
 	if (world->objects_array[i] != nullptr)
 	{
+		if ( world->objects_array[i]->type != COLL_STATIC)
+		{
 		delete world->objects_array[i]; //if there is something, delete it
 		world->objects_array[i] = nullptr; //clear the pointer
+		}
 	}
 	world->objects_array[i] = &obj; //ad the object
 
@@ -122,13 +130,13 @@ bool ModulePhysics::DeleteObject(Object& obj)
 	bool ret = false;
 	for (int i = 0; i < MAX_OBJECTS; i++)
 	{
-		if (obj==*world->objects_array[i])
+		if (obj == *world->objects_array[i])
 		{
 			delete world->objects_array[i]; //if there is something, delete it
 			world->objects_array[i] = nullptr; //clear the pointer
 			ret = true;
 		}
-		
+
 	}
 	return ret;
 }
@@ -136,7 +144,7 @@ bool ModulePhysics::DeleteObject(Object& obj)
 int ModulePhysics::FindObject(Object& obj) {
 
 	int ret = -1;
-	
+
 	for (int i = 0; i < MAX_OBJECTS; i++)
 	{
 		if (obj == *world->objects_array[i])
