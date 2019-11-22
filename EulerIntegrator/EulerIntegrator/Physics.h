@@ -8,7 +8,7 @@
 
 
 
-#define AERODINAMIC_COEFICIENT 1.5
+#define AERODINAMIC_COEFICIENT 1.05
 #define GRAVITY {0,9.81f}
 
 // Module --------------------------------------
@@ -77,12 +77,12 @@ public:
 
 	double CalculateAerodinamicCoeficientY() {
 
-		return 0.5f * 1.225f * (double)speed.y * (double)speed.y * w * AERODINAMIC_COEFICIENT;
+		return 0.5 * 1.225 * (double)speed.y * (double)speed.y * w * AERODINAMIC_COEFICIENT;
 	}
 
 	double CalculateAerodinamicCoeficientX() {
 
-		return 0.5f * 1.225f * (double)speed.x * (double)speed.x * h * AERODINAMIC_COEFICIENT;
+		return 0.5 * 1.225 * (double)speed.x * (double)speed.x * h * AERODINAMIC_COEFICIENT;
 	}
 
 	bool operator==(Object& dt) const {
@@ -118,7 +118,7 @@ public:
 	}
 
 	void AddForce(dPoint aForce){
-		force = aForce;
+		force += aForce;
 	}
 	void ResetForces()
 	{
