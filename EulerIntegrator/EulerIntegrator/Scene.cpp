@@ -36,6 +36,7 @@ bool ModuleScene::Start() {
 	ground = new Object({ PIXEL_TO_METERS(0),PIXEL_TO_METERS(-SCREEN_HEIGHT + 18) }, PIXEL_TO_METERS(SCREEN_WIDTH), 2, { 0,0 }, { 0,0 }, 0, 0.9, "EL TERRAH");
 	App->physics->AddObject(*ground);
 
+	
 	return true;
 }
 
@@ -125,10 +126,6 @@ update_status ModuleScene::PostUpdate()
 
 
 bool ModuleScene::CleanUp() {
-
-	//Destroy world
-	//Clear all pointers
-	//Clear all arrays
 
 	LOG("Scene CleanUp has been called");
 	return true;

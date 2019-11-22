@@ -27,6 +27,8 @@ update_status ModulePhysics::Update(float dt) {
 
 update_status ModulePhysics::PostUpdate()
 {
+	//Paint all objects of the world to the screen
+
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != nullptr; i++)
 	{
 		SDL_Rect rect;
@@ -70,9 +72,11 @@ bool ModulePhysics::CleanUp() {
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
 		delete world->objects_array[i];
+		world->objects_array[i] = nullptr;
 	}
 
 	delete world;
+	world = nullptr;
 
 	LOG("Physics CleanUp has been called");
 	return true;
@@ -108,6 +112,7 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 
 	App->collisions->OnCollision(object);
 }
+
 void ModulePhysics::AddObject(Object& obj)
 {
 	int i = world->index % MAX_OBJECTS; //search position in array. If full, start from the beggining

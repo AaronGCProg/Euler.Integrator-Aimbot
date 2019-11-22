@@ -30,6 +30,7 @@ public:
 	//Collision Control
 	movement_type type; //In which "collisions state" is the object located
 
+	//Diferent object constructors
 	Object() {
 
 		pos = { 0, 0 };
@@ -75,8 +76,11 @@ public:
 		type = cat;
 	}
 
+
+	//Check if this object is colliding with anothe object
 	bool CheckCollisionRect(Object& obj);
 
+	//Functions to calculate aerodinamic coeficients
 	double CalculateAerodinamicCoeficientY() {
 
 		return 0.5 * 1.225 * (double)speed.y * (double)speed.y * w * AERODINAMIC_COEFICIENT;
@@ -87,6 +91,7 @@ public:
 		return 0.5 * 1.225 * (double)speed.x * (double)speed.x * h * AERODINAMIC_COEFICIENT;
 	}
 
+	//Overloaded operator to compare objects
 	bool operator==(Object& dt) const {
 
 		bool ret = true;
@@ -119,6 +124,7 @@ public:
 		return ret;
 	}
 
+	//Funcions to set forces into objects
 	void AddForce(dPoint aForce){
 		force += aForce;
 	}
@@ -131,6 +137,7 @@ public:
 
 };
 
+//Contains all objects created and apllies its gravity to them
 struct World
 {
 	dPoint gravity;
@@ -138,6 +145,7 @@ struct World
 	p2SString name;
 
 	//p2List<Object*>* objects_list;
+	//Objects array
 	Object** objects_array;
 	int index = 0;
 
@@ -188,8 +196,8 @@ public:
 	update_status Update(float dt);
 	update_status PostUpdate();
 	bool CleanUp();
-	void Integrate(Object &object, dPoint gravity,float dt);
-	void AddObject(Object& obj);
+	void Integrate(Object &object, dPoint gravity,float dt); //Integrates objects
+	void AddObject(Object& obj); //Adds object to the world list
 	bool DeleteObject(Object& obj);
 	int IsInsideObject(dPoint& position);	// returns the object array's position or -1
 	int FindObject(Object& obj); //returns pos in array if found, -1 if not

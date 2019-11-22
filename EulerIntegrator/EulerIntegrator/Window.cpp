@@ -13,7 +13,7 @@ ModuleWindow::~ModuleWindow()
 {
 }
 
-// Called before render is available
+// Init of SDL video system
 bool ModuleWindow::Init()
 {
 	LOG("Init SDL window & surface");

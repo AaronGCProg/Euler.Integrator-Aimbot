@@ -4,7 +4,7 @@
 
 class Application;
 
-
+//Base class for all modules
 class Module
 {
 private :

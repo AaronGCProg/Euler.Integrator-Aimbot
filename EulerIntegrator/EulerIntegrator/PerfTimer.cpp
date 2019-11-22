@@ -19,6 +19,7 @@ j1PerfTimer::j1PerfTimer()
 // ---------------------------------------------
 void j1PerfTimer::Start()
 {
+	//Gets the time the timer is started and the frequency
 	started_at = SDL_GetPerformanceCounter();
 	frequency = SDL_GetPerformanceFrequency();
 }
