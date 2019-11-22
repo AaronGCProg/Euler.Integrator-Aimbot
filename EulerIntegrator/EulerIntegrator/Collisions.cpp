@@ -24,7 +24,7 @@ bool ModuleCollisions::Start()
 }
 
 void ModuleCollisions::OnCollision(Object& object) {
-	
+
 	Object* c1;
 
 	for (int i = 0; i < MAX_OBJECTS && App->physics->world->objects_array[i] != NULL; i++) {
@@ -38,7 +38,7 @@ void ModuleCollisions::OnCollision(Object& object) {
 	}
 }
 
-bool ModuleCollisions::CleanUp() 
+bool ModuleCollisions::CleanUp()
 {
 
 	LOG("Collisions CleanUp has been called");
@@ -53,7 +53,7 @@ bool Object::CheckCollisionRect(Object& obj)
 	return !((this->pos.x + this->w < obj.pos.x || obj.pos.x + obj.w < this->pos.x) || (this->pos.y + this->h + PIXEL_TO_METERS(1) < obj.pos.y || obj.pos.y + obj.h + PIXEL_TO_METERS(1) < this->pos.y));
 }
 
-void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2) 
+void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 {
 	dPoint c1center;
 	c1center.x = c1->pos.x + (c1->w * 0.5);
@@ -62,104 +62,45 @@ void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 	c2center.x = c2->pos.x + (c2->w * 0.5);
 	c2center.y = c2->pos.y + (c2->h * 0.5);
 
-	double distance_between_centers = sqrtf(((c1center.x+c2center.x)* (c1center.x + c2center.x))+ ((c1center.y + c2center.y) * (c1center.y + c2center.y)));
-	double incremental_force;
-
-	if (distance_between_centers<0.01)
-		distance_between_centers = 0.01;
-	
-	incremental_force = ((1 / distance_between_centers)+1)*((1 / distance_between_centers) + 1)*2500;//outputs a number that increases when the 2 objects are close enough
-
+	c1->speed = { 0,0 };
+	c2->speed = { 0,0 };
 	//Determines the direction of the collision
 	//Calculates distances from the player to the collision
-	double collDiference[LAST_COLLISION];
-	collDiference[NONE_COLLISION] = NULL;
-	collDiference[LEFT_COLLISION] = NULL;
-	collDiference[RIGHT_COLLISION] = NULL;
-	collDiference[TOP_COLLISION] = NULL;
-	collDiference[BOTTOM_COLLISION] = NULL;
+	double modul;
+	dPoint direction = c1center - c2center;
+	dPoint inverted_dir;
 
-	if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w/2 >= c1->pos.x))
-	collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
+	modul = sqrtf((direction.x * direction.x) + (direction.y * direction.y));
 
-	if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w/2 >= c2->pos.x)
-	collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
+	double forcescalar;//scalar that multiplies the foce direction, it will change with the proximity of the centers
 
-	if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
-	collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
-
-	if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-	collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
+	forcescalar = (1 / (modul+1)); //the force scalar has to range between 1 and 0.42
+	forcescalar -= (1 / (sqrtf(2) + 1));//max case
+	//forcescalar *= sqrtf(2);
+	forcescalar += 1;
+	forcescalar *= forcescalar*20000;
 
 
-	//If a collision from various aixs is detected, it determines what is the closets one to exit from
-	int directionCheck = NONE_COLLISION;
-
-	dPoint c1pos = { c1->pos.x,c1->pos.y };
-	dPoint c2pos = { c2->pos.x,c2->pos.y };
-
-	for (int i = 0; i < LAST_COLLISION; ++i)
-	{
-		if (collDiference[i] == NULL)
-			continue;
-
-		switch (i) {
-		case TOP_COLLISION:
-			//C1 changes
-			c1->AddForce({ 0,incremental_force });
-			//C2 changes
-			c2->AddForce({ 0,-incremental_force });
+	direction.x = (direction.x / modul)*forcescalar;
+	direction.y = (direction.y / modul)* forcescalar;
 
 
-			if (c1->pos.y < c2->pos.y && c1->pos.y + c1->h >= c2->pos.y)
-				collDiference[BOTTOM_COLLISION] = (c1->pos.y + c1->w) - c2->pos.y; //C1 is on top
-			else
-				collDiference[BOTTOM_COLLISION] = NULL;
-			break;
-		case BOTTOM_COLLISION:
-			//C1 changes
-			c2->AddForce({ 0,incremental_force });
-			//C2 changes
-			c1->AddForce({ 0,-incremental_force });
+	inverted_dir.x = direction.x*-1;
+	inverted_dir.y = direction.y * -1;
+
+	c1->AddForce(direction);
+	c2->AddForce(inverted_dir);
 
 
-			if (c2->pos.y < c1->pos.y && c2->pos.y + c2->h >= c1->pos.y)
-				collDiference[TOP_COLLISION] = (c2->pos.y + c2->h) - c1->pos.y; // C2 is on top
-			else
-				collDiference[TOP_COLLISION] = NULL;
-
-			break;
-		case LEFT_COLLISION:
-			//C1 changes
-			c1->AddForce({ incremental_force,0 });
-			//C2 changes
-			c2->AddForce({ -incremental_force,0 });
-
-
-			if (c1->pos.x < c2->pos.x && c1->pos.x + c1->w / 2 >= c2->pos.x)
-				collDiference[RIGHT_COLLISION] = (c1->pos.x + c1->w) - c2->pos.x; //C1 is in the left
-			else
-				collDiference[RIGHT_COLLISION] = NULL;
-
-			break;
-		case RIGHT_COLLISION:
-			//C1 changes
-			c2->AddForce({ incremental_force,0 });
-			//C2 changes
-			c1->AddForce({ -incremental_force,0 });
-
-			if ((c2->pos.x < c1->pos.x && c2->pos.x + c2->w / 2 >= c1->pos.x))
-				collDiference[LEFT_COLLISION] = (c2->pos.x + c2->w) - c1->pos.x; //C2 is in the left
-			else
-				collDiference[LEFT_COLLISION] = NULL;
-			break;
-
-		case NONE_COLLISION:
-			break;
-		}
-	}
-
-
+	//tried conservation of energy, doesn't work
+//	dPoint vfc1;
+//	vfc1.x= (c1->speed.x * (c1->mass - c2->mass)) + (2 *c2->speed.x*c2->speed.x*c2->mass) /(c1->mass+c2->mass);
+//	vfc1.y = (c1->speed.y * (c1->mass - c2->mass)) + (2 * c2->speed.y * c2->speed.y * c2->mass) / (c1->mass + c2->mass);
+//	dPoint vfc2;
+//	vfc2.x = (c2->speed.x * (c2->mass - c1->mass)) + (2 * c1->speed.x * c1->speed.x * c1->mass) / (c2->mass + c1->mass);
+//	vfc2.y = (c2->speed.y * (c2->mass - c1->mass)) + (2 * c1->speed.y * c1->speed.x * c1->mass) / (c2->mass + c1->mass);
+//	c1->AddForce(vfc2);
+//	c2->AddForce(vfc1);
 }
 
 
