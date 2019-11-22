@@ -143,7 +143,7 @@ struct World
 	World()
 	{
 		objects_array = new Object*[MAX_OBJECTS];
-		memset(objects_array, NULL, MAX_OBJECTS * sizeof(Object));
+		memset(objects_array, NULL, MAX_OBJECTS*sizeof(Object*));
 		name = "";
 		gravity = GRAVITY;
 	}
@@ -152,7 +152,7 @@ struct World
 	{
 		objects_array = new Object*[MAX_OBJECTS];
 
-		memset(objects_array, NULL, MAX_OBJECTS*sizeof(Object));
+		memset(objects_array, NULL, MAX_OBJECTS * sizeof(Object*));
 
 		gravity = aGravity;
 		name = aName;
