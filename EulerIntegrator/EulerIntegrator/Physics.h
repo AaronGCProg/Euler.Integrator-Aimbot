@@ -9,6 +9,8 @@
 
 
 #define AERODINAMIC_COEFICIENT 1.05
+#define RESTITUTION_COEFICIENT 0.9
+
 #define GRAVITY {0,9.81f}
 
 // Module --------------------------------------
