@@ -49,7 +49,7 @@ Juan Hernández Almagro:
  - Physics Programmer
 
 Oscar Pérez Martín:
- -Wiki Lead
+ - Physics programmer
 
 Aaron Guerrero Cruz:
  - Project Lead & Coordinator
