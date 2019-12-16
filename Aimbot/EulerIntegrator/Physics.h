@@ -5,9 +5,6 @@
 #include "p2SString.h"
 #include "Application.h"
 
-
-
-
 #define AERODINAMIC_COEFICIENT 1.05
 #define RESTITUTION_COEFICIENT 0.9
 
@@ -137,15 +134,13 @@ public:
 
 };
 
-//Contains all objects created and apllies its gravity to them
+//Contains all objects created and applies its gravity to them
 struct World
 {
 	dPoint gravity;
 
 	p2SString name;
 
-	//p2List<Object*>* objects_list;
-	//Objects array
 	Object** objects_array;
 	int index = 0;
 

@@ -13,7 +13,6 @@ public:
 	ModuleCollisions(Application* app, bool start_enabled = true);
 	~ModuleCollisions();
 
-	bool Start();
 	bool CleanUp();
 
 	void OnCollision(Object& object);

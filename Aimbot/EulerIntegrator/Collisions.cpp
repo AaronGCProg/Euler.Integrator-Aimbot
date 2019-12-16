@@ -5,22 +5,13 @@
 #include "p2Defs.h"
 #include "p2Point.h"
 
-ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
+ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled) {
 	LOG("Contructor of Module Physics has been called");
 }
 
 // Destructor
-ModuleCollisions::~ModuleCollisions()
-{
+ModuleCollisions::~ModuleCollisions() {
 	LOG("Destructor of Module Physics has been called");
-}
-
-bool ModuleCollisions::Start()
-{
-	LOG("Module Collisions succesful Start()");
-
-	return true;
 }
 
 void ModuleCollisions::OnCollision(Object& object) {
@@ -38,8 +29,7 @@ void ModuleCollisions::OnCollision(Object& object) {
 	}
 }
 
-bool ModuleCollisions::CleanUp()
-{
+bool ModuleCollisions::CleanUp() {
 
 	LOG("Collisions CleanUp has been called");
 	return true;
@@ -48,13 +38,12 @@ bool ModuleCollisions::CleanUp()
 
 // -----------------------------------------------------
 
-bool Object::CheckCollisionRect(Object& obj)
-{
+bool Object::CheckCollisionRect(Object& obj) {
 	return !((this->pos.x + this->w < obj.pos.x || obj.pos.x + obj.w < this->pos.x) || (this->pos.y + this->h + PIXEL_TO_METERS(1) < obj.pos.y || obj.pos.y + obj.h + PIXEL_TO_METERS(1) < this->pos.y));
 }
 
-void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
-{
+void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2) {
+	
 	double mass1=c1->mass;
 	double mass2=c2->mass;
 	if (mass1 <= 0.01) mass1 = 100000000;

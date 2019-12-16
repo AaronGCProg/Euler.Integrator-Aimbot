@@ -17,28 +17,24 @@ ModulePhysics::~ModulePhysics()
 update_status ModulePhysics::Update(float dt) {
 
 	//Here goes a call of Integrate() to all objects of the world
-	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
-	{
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++) {
 		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
 	return UPDATE_CONTINUE;
 
 }
 
-update_status ModulePhysics::PostUpdate()
-{
+update_status ModulePhysics::PostUpdate() {
 	//Paint all objects of the world to the screen
 
-	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != nullptr; i++)
-	{
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != nullptr; i++) {
 		SDL_Rect rect;
 		rect.x = METERS_TO_PIXELS(world->objects_array[i]->pos.x);
 		rect.y = METERS_TO_PIXELS(world->objects_array[i]->pos.y);
 		rect.w = METERS_TO_PIXELS(world->objects_array[i]->w);
 		rect.h = METERS_TO_PIXELS(world->objects_array[i]->h);
 
-		switch(world->objects_array[i]->type)
-		{ 
+		switch(world->objects_array[i]->type) { 
 		case COLL_DYNAMIC:
 			//Borderless RED
 			App->renderer->DrawQuad(rect, 255, 0, 0, 255, false, true);
@@ -69,8 +65,7 @@ bool ModulePhysics::CleanUp() {
 	//Destroy world
 	//Clear all pointers
 	//Clear all arrays
-	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
-	{
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++) {
 		delete world->objects_array[i];
 		world->objects_array[i] = nullptr;
 	}
@@ -98,9 +93,6 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 		acc.y = (object.force.y * (1 / object.mass)) * dt;
 		acc.x += gravity.x * dt;
 		acc.y += gravity.y * dt;
-
-
-
 	}
 	object.force = { 0,0 }; //we reset all the forces of the object after converting them to acceleration, to start a new frame without forces
 
@@ -113,14 +105,11 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 	App->collisions->OnCollision(object);
 }
 
-void ModulePhysics::AddObject(Object& obj)
-{
+void ModulePhysics::AddObject(Object& obj) {
 	int i = world->index % MAX_OBJECTS; //search position in array. If full, start from the beggining
 
-	if (world->objects_array[i] != nullptr)
-	{
-		if ( world->objects_array[i]->type != COLL_STATIC)
-		{
+	if (world->objects_array[i] != nullptr) {
+		if ( world->objects_array[i]->type != COLL_STATIC) {
 		delete world->objects_array[i]; //if there is something, delete it
 		world->objects_array[i] = nullptr; //clear the pointer
 		}
@@ -130,18 +119,14 @@ void ModulePhysics::AddObject(Object& obj)
 	world->index++;
 }
 
-bool ModulePhysics::DeleteObject(Object& obj)
-{
+bool ModulePhysics::DeleteObject(Object& obj) {
 	bool ret = false;
-	for (int i = 0; i < MAX_OBJECTS; i++)
-	{
-		if (obj == *world->objects_array[i])
-		{
+	for (int i = 0; i < MAX_OBJECTS; i++) {
+		if (obj == *world->objects_array[i]) {
 			delete world->objects_array[i]; //if there is something, delete it
 			world->objects_array[i] = nullptr; //clear the pointer
 			ret = true;
 		}
-
 	}
 	return ret;
 }
@@ -150,13 +135,10 @@ int ModulePhysics::FindObject(Object& obj) {
 
 	int ret = -1;
 
-	for (int i = 0; i < MAX_OBJECTS; i++)
-	{
-		if (obj == *world->objects_array[i])
-		{
+	for (int i = 0; i < MAX_OBJECTS; i++) {
+		if (obj == *world->objects_array[i]) {
 			ret = i;
 		}
-
 	}
 
 	return ret;
