@@ -158,7 +158,6 @@ int ModulePhysics::FindObject(Object& obj) {
 		}
 
 	}
-
 	return ret;
 }
 

@@ -48,10 +48,6 @@ bool ModuleCollisions::CleanUp()
 
 // -----------------------------------------------------
 
-bool Object::CheckCollisionRect(Object& obj)
-{
-	return !((this->pos.x + this->w < obj.pos.x || obj.pos.x + obj.w < this->pos.x) || (this->pos.y + this->h + PIXEL_TO_METERS(1) < obj.pos.y || obj.pos.y + obj.h + PIXEL_TO_METERS(1) < this->pos.y));
-}
 
 void ModuleCollisions::ForwardPropagation(Object* c1, Object* c2)
 {

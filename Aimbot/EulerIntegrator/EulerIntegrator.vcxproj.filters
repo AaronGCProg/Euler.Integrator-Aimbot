@@ -16,12 +16,12 @@
     <Filter Include="Defines">
       <UniqueIdentifier>{fd3d3e5f-c4f6-4811-9a1e-0872ffd34490}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PhysicObjects">
+      <UniqueIdentifier>{bfc0223f-1881-4b87-aa66-78391a3ec6bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="p2Log.cpp">
@@ -51,11 +51,17 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectStruct.cpp">
+      <Filter>Source Files\PhysicObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\PhysicObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Physics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -95,14 +101,23 @@
     <ClInclude Include="Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PerfTimer.h">
+    <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="PerfTimer.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectStruct.h">
+      <Filter>Source Files\PhysicObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Source Files\PhysicObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
