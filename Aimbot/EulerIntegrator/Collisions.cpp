@@ -5,14 +5,12 @@
 #include "p2Defs.h"
 #include "p2Point.h"
 
-ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
+ModuleCollisions::ModuleCollisions(Application* app, bool start_enabled) : Module(app, start_enabled) {
 	LOG("Contructor of Module Physics has been called");
 }
 
 // Destructor
-ModuleCollisions::~ModuleCollisions()
-{
+ModuleCollisions::~ModuleCollisions() {
 	LOG("Destructor of Module Physics has been called");
 }
 
