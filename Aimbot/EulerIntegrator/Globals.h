@@ -38,15 +38,6 @@ enum update_status
 	UPDATE_ERROR
 };
 
-enum collision 
-{
-	NONE_COLLISION,
-	TOP_COLLISION,
-	BOTTOM_COLLISION,
-	LEFT_COLLISION,
-	RIGHT_COLLISION,
-	LAST_COLLISION
-};
 
 // Configuration -----------
 #define SCREEN_WIDTH 720

@@ -39,8 +39,8 @@ update_status ModuleScene::Update(float dt) {
 	dPoint mouse_pos(App->input->GetMouseX(), App->input->GetMouseY());
 	// Creates the mouse joint
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
-		object_index = App->physics->IsInsideObject(mouse_pos);
-		if (object_index != -1) {
+		body_index = App->physics->IsInsideObject(mouse_pos);
+		if (body_index != -1) {
 			mouse_joint = true;
 		}
 	}

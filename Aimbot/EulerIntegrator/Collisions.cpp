@@ -14,12 +14,6 @@ ModuleCollisions::~ModuleCollisions() {
 	LOG("Destructor of Module Physics has been called");
 }
 
-bool ModuleCollisions::Start()
-{
-	LOG("Module Collisions succesful Start()");
-
-	return true;
-}
 
 void ModuleCollisions::OnCollision(Object& object) 
 {

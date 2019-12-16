@@ -14,24 +14,18 @@ public:
 	p2SString name;
 	dPoint pos; //In meters
 	dPoint speed;  //In meters/second
-	double w, h; //In meters
+	double radius; //In meters
 	double mass; //In kg
 	double friction_coefficient;
 
 
-	//Collision Control
-	movement_type type; //In which "collisions state" is the object located
 
 	//Diferent object constructors
 	Object();
 
-	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName);
-
-	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName, movement_type cat);
+	Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName);
 
 
-	//Check if this object is colliding with anothe object
-	bool CheckCollisionRect(Object& obj);
 
 	//Functions to calculate aerodinamic coeficients
 	double CalculateAerodinamicCoeficientY();
