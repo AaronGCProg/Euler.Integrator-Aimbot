@@ -140,7 +140,6 @@ int ModulePhysics::FindObject(Object& obj) {
 			ret = i;
 		}
 	}
-
 	return ret;
 }
 

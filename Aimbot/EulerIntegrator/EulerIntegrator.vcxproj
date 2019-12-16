@@ -125,6 +125,7 @@
     <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ObjectStruct.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -139,6 +141,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Module.h" />
+    <ClInclude Include="ObjectStruct.h" />
     <ClInclude Include="p2Defs.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="p2Log.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
