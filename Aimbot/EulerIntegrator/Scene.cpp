@@ -32,9 +32,7 @@ bool ModuleScene::Start() {
 
 	object_index = -1;
 	mouse_joint = false;
-	Object* ground = nullptr;
-	ground = new Object({ PIXEL_TO_METERS(-100),PIXEL_TO_METERS(-SCREEN_HEIGHT + 18) }, PIXEL_TO_METERS(SCREEN_WIDTH+1000), 2, { 0,0 }, { 0,0 }, 0, 0.9, "ground");
-	App->physics->AddObject(*ground);
+
 
 	
 	return true;
@@ -61,8 +59,7 @@ update_status ModuleScene::Update(float dt) {
 	// Creates the mouse joint
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		object_index = App->physics->IsInsideObject(mouse_pos);
-		if (object_index != -1 && App->physics->world->objects_array[object_index]->type == COLL_DYNAMIC) {
-			App->physics->world->objects_array[object_index]->type = COLL_STATIC;
+		if (object_index != -1) {
 			mouse_joint = true;
 		}
 	}
@@ -76,7 +73,6 @@ update_status ModuleScene::Update(float dt) {
 	}
 	// Restores previous conditions when mouse stops being pressed
 	else if (mouse_joint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
-		App->physics->world->objects_array[object_index]->type = COLL_DYNAMIC;
 		mouse_joint = false;
 	}
 	// -----------------------------------------------------------------------------------------------------
@@ -107,7 +103,7 @@ update_status ModuleScene::Update(float dt) {
 	if (App->input->GetMouseButton(3) == KEY_DOWN)
 	{
 		Object* lol = nullptr;
-		lol = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 1, 1, { 0,0 }, { 0,0 }, 20, 0.9, "cube");
+		lol = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.1, { 0,0 }, { 0,0 }, 20, 0.9, "cube");
 		App->physics->AddObject(*lol);
 	}
 

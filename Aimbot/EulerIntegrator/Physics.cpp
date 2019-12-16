@@ -31,24 +31,9 @@ update_status ModulePhysics::PostUpdate()
 
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != nullptr; i++)
 	{
-		SDL_Rect rect;
-		rect.x = METERS_TO_PIXELS(world->objects_array[i]->pos.x);
-		rect.y = METERS_TO_PIXELS(world->objects_array[i]->pos.y);
-		rect.w = METERS_TO_PIXELS(world->objects_array[i]->w);
-		rect.h = METERS_TO_PIXELS(world->objects_array[i]->h);
 
-		switch(world->objects_array[i]->type)
-		{ 
-		case COLL_DYNAMIC:
-			//Borderless RED
-			App->renderer->DrawQuad(rect, 255, 0, 0, 255, false, true);
-			break;
-		case COLL_STATIC:
-			//Borderless LIGHT BLUE
-			App->renderer->DrawQuad(rect, 0, 255, 255, 255, false, true);
-			break;
-		
-		}
+		App->renderer->DrawCircle(METERS_TO_PIXELS(world->objects_array[i]->pos.x), METERS_TO_PIXELS(world->objects_array[i]->pos.y), METERS_TO_PIXELS(world->objects_array[i]->radius), 255, 255, 255, 255, false);
+
 	}
 
 	return UPDATE_CONTINUE;
@@ -119,11 +104,8 @@ void ModulePhysics::AddObject(Object& obj)
 
 	if (world->objects_array[i] != nullptr)
 	{
-		if ( world->objects_array[i]->type != COLL_STATIC)
-		{
 		delete world->objects_array[i]; //if there is something, delete it
 		world->objects_array[i] = nullptr; //clear the pointer
-		}
 	}
 	world->objects_array[i] = &obj; //ad the object
 
@@ -162,6 +144,7 @@ int ModulePhysics::FindObject(Object& obj) {
 	return ret;
 }
 
+/*
 int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is inside the object (check .h for further info)
 	position.x = PIXEL_TO_METERS(position.x);
 	position.y = PIXEL_TO_METERS(position.y);
@@ -175,3 +158,4 @@ int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is 
 	}
 	return -1;
 }
+*/

@@ -17,7 +17,6 @@ public:
 	bool CleanUp();
 
 	void OnCollision(Object& object);
-	void ForwardPropagation(Object* object1, Object* object2);
 
 private:
 

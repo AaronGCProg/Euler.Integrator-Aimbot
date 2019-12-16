@@ -38,14 +38,6 @@ enum update_status
 	UPDATE_ERROR
 };
 
-enum movement_type : uint16
-{
-	COLL_NONE = 0x0000,
-	COLL_STATIC = 0x0001,
-	COLL_DYNAMIC = 0x0002,
-	COLL_LAST = 0x0003,
-};
-
 enum collision 
 {
 	NONE_COLLISION,

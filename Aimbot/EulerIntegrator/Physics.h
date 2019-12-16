@@ -13,6 +13,8 @@
 
 #define GRAVITY {0,9.81f}
 
+
+
 // Module --------------------------------------
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
@@ -22,13 +24,10 @@ public:
 	p2SString name;
 	dPoint pos; //In meters
 	dPoint speed;  //In meters/second
-	double w, h; //In meters
+	double radius; //In meters
 	double mass; //In kg
 	double friction_coefficient;
 
-
-	//Collision Control
-	movement_type type; //In which "collisions state" is the object located
 
 	//Diferent object constructors
 	Object() {
@@ -38,68 +37,37 @@ public:
 		force = { 0, 0 };
 		mass = 1;
 		name = "";
-		friction_coefficient = 0.5;
-		w = 0;
-		h = 0;
-		type = COLL_DYNAMIC;
+		friction_coefficient = 0.85;
+		radius = 0;
 	}
 
-	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName) {
+	Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName) {
 
 		pos = aPos;
 		speed = aSpeed;
 		force = aforce;
 		mass = aMass;
 		name = aName;
-		w = width;
-		h = height;
+		this->radius = radius;
 		friction_coefficient = afriction_coefficient;
-
-		if (mass==0)
-			type = COLL_STATIC;
-		else
-		type = COLL_DYNAMIC;
 	}
 
-	Object(dPoint aPos, double width, double height, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName, movement_type cat) {
-
-		pos = aPos;
-		speed = aSpeed;
-		force = aforce;
-		mass = aMass;
-		friction_coefficient = afriction_coefficient;
-		name = aName;
-
-		w = width;
-		h = height;
-
-		type = cat;
-	}
-
-
-	//Check if this object is colliding with anothe object
-	bool CheckCollisionRect(Object& obj);
 
 	//Functions to calculate aerodinamic coeficients
 	double CalculateAerodinamicCoeficientY() {
 
-		return 0.5 * 1.225 * (double)speed.y * (double)speed.y * w * AERODINAMIC_COEFICIENT;
+		return 0.5 * 1.225 * (double)speed.y * (double)speed.y * radius * AERODINAMIC_COEFICIENT;
 	}
 
 	double CalculateAerodinamicCoeficientX() {
 
-		return 0.5 * 1.225 * (double)speed.x * (double)speed.x * h * AERODINAMIC_COEFICIENT;
+		return 0.5 * 1.225 * (double)speed.x * (double)speed.x * radius * AERODINAMIC_COEFICIENT;
 	}
 
 	//Overloaded operator to compare objects
 	bool operator==(Object& dt) const {
 
 		bool ret = true;
-
-		if (this->h != dt.h)
-		{
-			ret = false;
-		}
 		
 		if (this->mass != dt.mass)
 		{
@@ -117,7 +85,7 @@ public:
 		{
 			ret = false;
 		}
-		if (this->w != dt.w)
+		if (this->radius != dt.radius)
 		{
 			ret = false;
 		}
@@ -199,7 +167,7 @@ public:
 	void Integrate(Object &object, dPoint gravity,float dt); //Integrates objects
 	void AddObject(Object& obj); //Adds object to the world list
 	bool DeleteObject(Object& obj);
-	int IsInsideObject(dPoint& position);	// returns the object array's position or -1
+	int IsInsideObject(dPoint& position) { return -1; };	// returns the object array's position or -1
 	int FindObject(Object& obj); //returns pos in array if found, -1 if not
 
 	//Temp var to test collisions
