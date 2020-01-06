@@ -162,14 +162,20 @@ public:
 		return(r);
 	}
 
-	double modul()
+
+	double Dot(p2Point& v)
+	{
+		return((x * v.x) + (y * v.y));
+	}
+
+	double Module()
 	{
 		return sqrt((x * x) + (y * y));
 	}
 
-	void normalize()
+	void Normalize()
 	{
-		double mod = modul();
+		double mod = Module();
 		x = (x / mod);
 		y = (y / mod);
 	}
