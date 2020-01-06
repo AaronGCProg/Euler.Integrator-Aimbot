@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Globals.h"
+#include "p2Point.h"
 #include "Module.h"
 
 class ModuleScene : public Module
@@ -14,8 +15,12 @@ public:
 	bool CleanUp();
 
 	void MouseJointLogic();
+	void TargetLogic();
+	bool TargetExists();
+	iPoint Target();
 
 private:
 	bool mouse_joint;
+	iPoint target;
 	int body_index;
 };

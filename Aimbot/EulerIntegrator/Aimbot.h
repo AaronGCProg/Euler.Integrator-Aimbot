@@ -3,6 +3,14 @@
 #include "p2List.h"
 #include "Module.h"
 
+struct Object;
+
+enum Aimbot_States {
+	AIMBOT_INITIAL_STATE,
+	AIMBOT_SHOOTING,
+	AIMBOT_TARGET_IMPACT
+};
+
 // Module --------------------------------------
 class ModuleAimbot : public Module
 {
@@ -14,6 +22,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-private:
+	dPoint CalculateTrajectory(dPoint& iPosition, dPoint& fPosition);
 
+private:
+	Aimbot_States state;
+	Object* aimbot;
 };

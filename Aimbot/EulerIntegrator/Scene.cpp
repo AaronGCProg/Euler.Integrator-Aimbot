@@ -24,8 +24,7 @@ bool ModuleScene::Start() {
 
 	body_index = -1;
 	mouse_joint = false;
-
-
+	target = { NULL, NULL };
 	
 	return true;
 }
@@ -37,6 +36,8 @@ update_status ModuleScene::Update(float dt) {
 	}
 
 	MouseJointLogic();
+
+	TargetLogic();
 
 	// lets you modify the world gravity with WASD keys
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
@@ -103,3 +104,18 @@ void ModuleScene::MouseJointLogic() {
 	}
 
 }
+
+void ModuleScene::TargetLogic() {
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_joint == false) {
+		target.x = App->input->GetMouseX();
+		target.y = App->input->GetMouseY();
+	}
+	if (target.x != NULL && target.y != NULL) { App->renderer->DrawCircle(target.x, target.y, 5, 0, 0, 255); }
+}
+
+bool ModuleScene::TargetExists() {
+	if (target.x != NULL && target.y != NULL) { return true; }
+	return false;
+}
+
+iPoint ModuleScene::Target() { return target; }
