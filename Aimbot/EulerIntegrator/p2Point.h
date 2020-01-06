@@ -60,6 +60,16 @@ public:
 		return(r);
 	}
 
+	p2Point operator * (const p2Point& v) const
+	{
+		p2Point r;
+
+		r.x = x * v.x;
+		r.y = y * v.y;
+
+		return(r);
+	}
+
 	const p2Point& operator -=(const p2Point &v)
 	{
 		x -= v.x;
@@ -164,7 +174,15 @@ public:
 		return(*this);
 	}
 
-	p2Point& GetInverse()
+	p2Point& Abs()
+	{
+		x = abs(x);
+		y = abs(y);
+
+		return(*this);
+	}
+
+	p2Point GetInverse()
 	{
 		p2Point r;
 		r.x = -x;

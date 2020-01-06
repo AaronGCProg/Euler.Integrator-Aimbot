@@ -15,9 +15,11 @@ public:
 
 	bool CleanUp();
 
-	void OnCollision(Object& object);
+	void OnCollision();
 
 	void ChangeCollBetweenObj();
+
+	void CheckBorderCollision(Object& object);
 
 private:
 	void ResolveCollision(Object* c1, Object* c2);
