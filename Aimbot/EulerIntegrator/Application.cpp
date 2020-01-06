@@ -11,7 +11,7 @@
 
 Application::Application()
 {
-	
+
 	renderer = new ModuleRender(this);
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
@@ -44,7 +44,7 @@ Application::~Application()
 {
 	p2List_item<Module*>* item = list_modules.getLast();
 
-	while(item != NULL)
+	while (item != NULL)
 	{
 		delete item->data;
 		item = item->prev;
@@ -55,12 +55,12 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	capTime = 30u;
+	capTime = 60u;
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		ret = item->data->Init();
 		item = item->next;
@@ -70,13 +70,13 @@ bool Application::Init()
 	LOG("Application Start --------------");
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
-		if(item->data->IsEnabled())
+		if (item->data->IsEnabled())
 			ret = item->data->Start();
 		item = item->next;
 	}
-	
+
 	return ret;
 }
 
@@ -87,27 +87,27 @@ update_status Application::Update()
 	p2List_item<Module*>* item = list_modules.getFirst();
 
 	PrepareUpdate();
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if(item->data->IsEnabled())
+		if (item->data->IsEnabled())
 			ret = item->data->PreUpdate();
 		item = item->next;
 	}
 
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if(item->data->IsEnabled())
-  			ret = item->data->Update(dt);
+		if (item->data->IsEnabled())
+			ret = item->data->Update(dt);
 		item = item->next;
 	}
 
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if(item->data->IsEnabled())
+		if (item->data->IsEnabled())
 			ret = item->data->PostUpdate();
 		item = item->next;
 	}
@@ -148,22 +148,19 @@ void Application::FinishUpdate()
 		lastSecFrames->Start();
 	}
 
-		if (last_frame_ms < 1000 / capTime)
-		{
-			uint32 delay = MAX(0, (int)capTime - (int)last_frame_ms);
-			//LOG("Should wait: %i", delay);
-			//j1PerfTimer delayTimer;
-			SDL_Delay(delay);
-		}
+	if (last_frame_ms < 1000 / capTime)
+	{
+		SDL_Delay((1000 / capTime) - last_frame_ms);
+	}
 
-		//Title shown in the window
-		p2SString title("%s-%s || FPS: %i Av.FPS: %.2f || Target FPS: %i || Last Frame Ms: %u ",
-			TITLE, ORGANIZATION,
-			frames_on_last_update, avg_fps,
-			 capTime,
-			last_frame_ms);
+	//Title shown in the window
+	p2SString title("%s-%s || FPS: %i Av.FPS: %.2f || Target FPS: %i || Last Frame Ms: %u ",
+		TITLE, ORGANIZATION,
+		frames_on_last_update, avg_fps,
+		capTime,
+		last_frame_ms);
 
-		window->SetTitle(title.GetString());
+	window->SetTitle(title.GetString());
 
 }
 
@@ -173,7 +170,7 @@ bool Application::CleanUp()
 	bool ret = true;
 	p2List_item<Module*>* item = list_modules.getLast();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		ret = item->data->CleanUp();
 		item = item->prev;

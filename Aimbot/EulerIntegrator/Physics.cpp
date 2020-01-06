@@ -17,11 +17,11 @@ ModulePhysics::~ModulePhysics()
 update_status ModulePhysics::Update(float dt) 
 {
 	//Here goes a call of Integrate() to all objects of the world
+	App->collisions->OnCollision();
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++) 
 	{
 		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
-	App->collisions->OnCollision();
 	return UPDATE_CONTINUE;
 }
 

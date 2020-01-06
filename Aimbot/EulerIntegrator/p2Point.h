@@ -191,7 +191,6 @@ public:
 		return(r);
 	}
 
-
 	double Dot(p2Point& v)
 	{
 		return((x * v.x) + (y * v.y));

@@ -24,32 +24,31 @@ void ModuleCollisions::OnCollision()
 	Object* c2;
 
 	if (collBewtweenObjectsActive)
-		for (int i = 0; i < MAX_OBJECTS; ++i) {
+		for (int i = 0; i < MAX_OBJECTS; ++i)
+		{
+			// skip empty colliders
+			if (App->physics->world->objects_array[i] == nullptr)
+				continue;
+
+			c1 = App->physics->world->objects_array[i];
+
+			// avoid checking collisions already checked
+			for (uint k = 0; k < MAX_OBJECTS; ++k)
 			{
 				// skip empty colliders
-				if (App->physics->world->objects_array[i] == nullptr)
+				if (App->physics->world->objects_array[k] == nullptr || c1 == App->physics->world->objects_array[k])
 					continue;
 
-				c1 = App->physics->world->objects_array[i];
+				c2 = App->physics->world->objects_array[k];
 
-				// avoid checking collisions already checked
-				for (uint k = i + 1; k < MAX_OBJECTS; ++k)
+				if (c1->QuickCheckCollision(c2) && c1->AccurateCheckCollision(c2))
 				{
-					// skip empty colliders
-					if (App->physics->world->objects_array[k] == nullptr)
-						continue;
-
-					c2 = App->physics->world->objects_array[k];
-
-					if (c1->QuickCheckCollision(c2))
-					{
-						if(c1->AccurateCheckCollision(c2))
-						ResolveCollision(c1, c2);
-					}
+					ResolveCollision(c1, c2);
 				}
 			}
-
 		}
+
+
 }
 
 bool ModuleCollisions::CleanUp()
@@ -85,24 +84,18 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 	{
 		dPoint p1 = c1->pos + c1->radius;
 		dPoint p2 = c2->pos + c2->radius;
-		dPoint vel1 = c1->speed;
-		dPoint vel2 = c2->speed;
-		double m_vel1 = vel1.Module();
-		double m_vel2 = vel2.Module();
+		double m_vel1 = c1->speed.Module();
+		double m_vel2 = c2->speed.Module();
 
-		dPoint centersdir = p2 - p1;
+		dPoint centersdir(p2 - p1);
 		centersdir.Normalize();
 
-		c1->pos += ((p2 - p1).Abs().Negate() + (c1->radius + c2->radius))*0.5 * centersdir.GetInverse();
-		c2->pos += ((p2 - p1).Abs().Negate() + (c1->radius + c2->radius))*0.5 * centersdir;
+		c1->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersdir.GetInverse());
+		c2->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersdir);
 
-		vel1 = centersdir.GetInverse() * m_vel1 * c1->friction_coefficient;
-		vel2 = centersdir * m_vel2 * c2->friction_coefficient;
-
-		c1->speed = vel1;
-		c2->speed = vel2;
+		c1->speed = centersdir.GetInverse() * m_vel1 * c1->friction_coefficient;
+		c2->speed = centersdir * m_vel2 * c2->friction_coefficient;
 	}
-
 }
 
 void ModuleCollisions::ChangeCollBetweenObj()
