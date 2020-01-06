@@ -56,17 +56,13 @@ update_status ModuleAimbot::Update(float dt) {
 		break;
 
 	case AimbotStates::AIMBOT_SHOOT:
-
-		//do things
-
-	case AimbotStates::AIMBOT_TARGET_IMPACT:
 		App->scene->ResetTarget();
 		App->physics->DeleteObject(propagationObj);
 		propagationObj = nullptr;
-		state = AimbotStates::AIMBOT_RESET;
-		break;
+		state = AimbotStates::AIMBOT_IDLE;
+		//do things
 
-	
+		break;
 	}
 
 	return UPDATE_CONTINUE;

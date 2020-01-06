@@ -17,8 +17,6 @@ enum class AimbotStates {
 	AIMBOT_CALCULATE_MONTECARLO,
 	AIMBOT_CALCULATED_MONTECARLO,
 	AIMBOT_SHOOT,
-	AIMBOT_TARGET_IMPACT,
-	AIMBOT_RESET
 };
 
 // Module --------------------------------------
