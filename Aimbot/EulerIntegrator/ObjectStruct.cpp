@@ -37,6 +37,11 @@ double Object::CalculateAerodinamicCoeficientX() {
 	return 0.5 * 1.225 * (double)speed.x * (double)speed.x * radius * AERODINAMIC_COEFICIENT;
 }
 
+bool Object::CheckCollision(const Object obj) const
+{
+	return !((this->pos.x + this->radius*2 < obj.pos.x || obj.pos.x + obj.radius*2 < this->pos.x) || (this->pos.y + this->radius*2 + PIXEL_TO_METERS(1) < obj.pos.y || obj.pos.y + obj.radius*2 + PIXEL_TO_METERS(1) < this->pos.y));
+}
+
 
 bool Object::operator==(Object& dt) const {
 

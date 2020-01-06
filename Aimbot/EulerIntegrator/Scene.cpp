@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Application.h"
 #include "Render.h"
+#include "Collisions.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -73,6 +74,9 @@ update_status ModuleScene::Update(float dt) {
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		App->physics->world->AddGravity(0, -1);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
+		App->collisions->ChangeCollBetweenObj();
 	}
 
 

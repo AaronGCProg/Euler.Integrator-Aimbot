@@ -35,6 +35,9 @@ public:
 	//Overloaded operator to compare objects
 	bool operator==(Object& dt) const;
 
+	//Checks collision w/ other objects
+	bool CheckCollision( const Object c2) const;
+
 	//Funcions to set forces into objects
 	void AddForce(dPoint aForce);
 	void ResetForces();
