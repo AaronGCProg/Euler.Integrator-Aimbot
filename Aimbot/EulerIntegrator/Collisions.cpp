@@ -69,7 +69,7 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 	dPoint normaldir = c2->speed + c1->speed;
 	
 	if (normaldir.x <= 0.001f && normaldir.y <= 0.001f)
-		normaldir = { 0,-1 };
+		normaldir = { 0,-1 };//default normal
 
 	normaldir.Normalize();
 
@@ -96,42 +96,13 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 		dPoint centersdir= p2 - p1;
 		centersdir.Normalize();
 		
-		centersdir.x *= 10;//change this
-		centersdir.y *= 10;
+		vel1 = centersdir.GetInverse() * m_vel1 * RESTITUTION_COEFICIENT;
+		vel2 = centersdir * m_vel2 * RESTITUTION_COEFICIENT;
 
-		dPoint centersdir_inverse=centersdir;
-		centersdir_inverse.x *= -1;
-		centersdir_inverse.y *= -1;
-
-		c1->speed = centersdir.GetInverse();
-		c2->speed = centersdir;
+		c1->speed = vel1;
+		c2->speed = vel2;
 	}
 
-}
-
-int ModuleCollisions::CheckCollisionDir(Object* c1, Object* c2)
-{
-	//Determines the direction of the collision
-	//Calculates distances from the player to the collision
-	int collDiference[DIRECTION_MAX];
-	collDiference[DIRECTION_LEFT] = (c1->pos.x + c2->radius*2) - c1->pos.x;
-	collDiference[DIRECTION_RIGHT] = (c1->pos.x + c1->radius*2) - c2->pos.x;
-	collDiference[DIRECTION_UP] = (c2->pos.y + c2->radius*2) - c1->pos.y;
-	collDiference[DIRECTION_DOWN] = (c1->pos.y + c1->radius*2) - c2->pos.y;
-
-
-	//If a collision from various aixs is detected, it determines what is the closets one to exit from
-	int directionCheck = DIRECTION_NONE;
-
-	for (int i = 0; i < DIRECTION_MAX; ++i)
-	{
-		if (directionCheck == DIRECTION_NONE)
-			directionCheck = i;
-		else if ((collDiference[i] < collDiference[directionCheck]))
-			directionCheck = i;
-	}
-
-	return directionCheck;
 }
 
 void ModuleCollisions::ChangeCollBetweenObj()
