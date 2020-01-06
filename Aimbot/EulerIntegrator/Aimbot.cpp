@@ -3,6 +3,8 @@
 #include "Physics.h"
 #include "Scene.h"
 #include "Collisions.h"
+#include "Input.h"
+
 #include <time.h>
 
 
@@ -27,7 +29,9 @@ bool ModuleAimbot::Start() {
 	return true;
 }
 
-update_status ModuleAimbot::Update() {
+update_status ModuleAimbot::Update(float dt) {
+
+	HandleInput();
 
 	switch (state) {
 
@@ -36,10 +40,20 @@ update_status ModuleAimbot::Update() {
 		break;
 
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
+		
 		if (App->scene->TargetExists()) {
 			dPoint fPosition = { (double) App->scene->Target().x, (double) App->scene->Target().y};
-			// dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
+			//dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
+			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
+
 		}
+
+		break;
+
+	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
+
+		LOG("Ready to shoot baby");
+
 		break;
 
 	case AimbotStates::AIMBOT_SHOOT:
@@ -57,6 +71,17 @@ update_status ModuleAimbot::Update() {
 
 	return UPDATE_CONTINUE;
 }
+
+
+void ModuleAimbot::HandleInput() {
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
+	}
+
+}
+
 
 bool ModuleAimbot::CleanUp() {
 
