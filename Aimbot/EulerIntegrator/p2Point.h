@@ -107,6 +107,17 @@ public:
 		return(r);
 	}
 
+	p2Point operator * (const TYPE& v) const
+	{
+		p2Point r;
+
+		r.x = x * v;
+		r.y = y * v;
+
+		return(r);
+	}
+
+
 	const p2Point& operator +=(const TYPE& v)
 	{
 		x += v;
@@ -170,7 +181,7 @@ public:
 
 	double Module()
 	{
-		return sqrt((x * x) + (y * y));
+		return sqrtf((x * x) + (y * y));
 	}
 
 	void Normalize()

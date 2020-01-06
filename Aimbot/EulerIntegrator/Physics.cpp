@@ -14,14 +14,13 @@ ModulePhysics::~ModulePhysics()
 	LOG("Destructor of Module Physics has been called");
 }
 
-update_status ModulePhysics::Update(float dt) {
-
+update_status ModulePhysics::Update(float dt) 
+{
 	//Here goes a call of Integrate() to all objects of the world
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++) {
 		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
 	return UPDATE_CONTINUE;
-
 }
 
 update_status ModulePhysics::PostUpdate() {
@@ -29,9 +28,7 @@ update_status ModulePhysics::PostUpdate() {
 
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != nullptr; i++)
 	{
-
 		App->renderer->DrawCircle(METERS_TO_PIXELS(world->objects_array[i]->pos.x), METERS_TO_PIXELS(world->objects_array[i]->pos.y), METERS_TO_PIXELS(world->objects_array[i]->radius), 255, 255, 255, 255, false);
-
 	}
 
 	return UPDATE_CONTINUE;
@@ -108,6 +105,7 @@ void ModulePhysics::AddObject(Object* obj) {
 
 bool ModulePhysics::DeleteObject(Object& obj) {
 	bool ret = false;
+
 	for (int i = 0; i < MAX_OBJECTS; i++) {
 		if (obj == *world->objects_array[i]) {
 			delete world->objects_array[i]; //if there is something, delete it
