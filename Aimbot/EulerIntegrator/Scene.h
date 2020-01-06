@@ -15,7 +15,10 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	bool TargetExists();
 
+	iPoint Target();
+private:
 	void MouseJointLogic();
 	void TargetLogic();
 	bool TargetExists();

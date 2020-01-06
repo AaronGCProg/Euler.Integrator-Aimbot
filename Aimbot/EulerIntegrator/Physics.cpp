@@ -17,9 +17,9 @@ ModulePhysics::~ModulePhysics()
 update_status ModulePhysics::Update(float dt)
 {
 	//Here goes a call of Integrate() to all objects of the world
-	App->collisions->OnCollision();
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
+		if (world->objects_array[i] == nullptr) continue;
 		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
 	return UPDATE_CONTINUE;
@@ -77,7 +77,9 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 
 	dPoint acc = { 0,0 };
 
-	if (object.mass >= 0.001) { //if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
+	//if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
+	if (object.mass >= 0.001) 
+	{ 
 
 		dPoint aerodinamic_drag;
 		aerodinamic_drag.x = object.CalculateAerodinamicCoeficientX();
@@ -97,6 +99,7 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 	object.pos.y += object.speed.y * dt;
 
 	App->collisions->CheckBorderCollision(object);
+	App->collisions->OnCollision(&object);
 }
 
 void ModulePhysics::AddObject(Object* obj) {
