@@ -36,7 +36,7 @@ Jose Luís Redondo Tello:
  - Programming
  
  Aaron Guerrero Cruz:
- - Programming
+ - Coordinator & Programming
 
 David Carrasquet Iniesta:
  - Programming
@@ -48,7 +48,7 @@ Oscar Pérez Martín:
  - Report Lead
  
  Adrià Serrano López:
- - Project Lead & Coordinator
+ - Project Lead & Programming
  
  Àlex Melenchón Maza:
  - Physics Programmer
