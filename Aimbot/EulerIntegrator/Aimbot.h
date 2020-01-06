@@ -5,10 +5,12 @@
 
 struct Object;
 
-enum Aimbot_States {
-	AIMBOT_INITIAL_STATE,
-	AIMBOT_SHOOTING,
-	AIMBOT_TARGET_IMPACT
+enum class AimbotStates {
+	AIMBOT_IDLE,
+	AIMBOT_CALCULATE_MONTECARLO,
+	AIMBOT_SHOOT,
+	AIMBOT_TARGET_IMPACT,
+	AIMBOT_RESET
 };
 
 // Module --------------------------------------
@@ -22,9 +24,18 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+private:
+	void HandleInput();
 	dPoint CalculateTrajectory(dPoint& iPosition, dPoint& fPosition);
 
 private:
-	Aimbot_States state;
+	AimbotStates state;
 	Object* aimbot;
+};
+
+
+struct Trajectory
+{
+	dPoint speed;
+	float angle;
 };

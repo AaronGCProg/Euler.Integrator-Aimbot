@@ -8,29 +8,39 @@ ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, s
 ModuleAimbot::~ModuleAimbot() {}
 
 bool ModuleAimbot::Start() {
+
 	double radius = 0.5f;
 	aimbot = new Object({ 5.0f, SCREEN_HEIGHT - radius }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "aimbot");
 	App->physics->AddObject(aimbot);
-	state = AIMBOT_INITIAL_STATE;
+	state = AimbotStates::AIMBOT_IDLE;
 	return true;
 }
 
 update_status ModuleAimbot::Update() {
 
 	switch (state) {
-	case AIMBOT_INITIAL_STATE:
+
+	case AimbotStates::AIMBOT_IDLE:
+
+		break;
+
+	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
 		if (App->scene->TargetExists()) {
 			dPoint fPosition = { (double) App->scene->Target().x, (double) App->scene->Target().y};
 			dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
 		}
 		break;
-	case AIMBOT_SHOOTING:
+
+	case AimbotStates::AIMBOT_SHOOT:
 
 		break;
-	case AIMBOT_TARGET_IMPACT:
+
+	case AimbotStates::AIMBOT_TARGET_IMPACT:
 
 		break;
-	default:
+	
+	case AimbotStates::AIMBOT_RESET:
+
 		break;
 	}
 
