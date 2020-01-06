@@ -17,11 +17,11 @@ ModulePhysics::~ModulePhysics()
 update_status ModulePhysics::Update(float dt) 
 {
 	//Here goes a call of Integrate() to all objects of the world
+	App->collisions->OnCollision();
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++) 
 	{
 		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
-	App->collisions->OnCollision();
 	return UPDATE_CONTINUE;
 }
 
@@ -67,6 +67,8 @@ bool ModulePhysics::CleanUp() {
 
 void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 {
+	if (object.noPhys) return;
+
 	dPoint acc = { 0,0 };
 
 	if (object.mass >= 0.001) { //if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them

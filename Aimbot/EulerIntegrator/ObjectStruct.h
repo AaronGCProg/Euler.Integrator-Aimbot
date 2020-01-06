@@ -17,13 +17,14 @@ public:
 	double radius; //In meters
 	double mass; //In kg
 	double friction_coefficient;
+	bool noPhys; // If true, deactivates movement & speed updates
 
 
 
 	//Diferent object constructors
 	Object();
 
-	Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName);
+	Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, p2SString aName);
 
 
 

@@ -62,7 +62,7 @@ update_status ModuleScene::Update(float dt) {
 	//spawns new cube
 	if (App->input->GetMouseButton(3) == KEY_DOWN) {
 		Object* newObj = nullptr;
-		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5, { 0,0 }, { 0,0 }, 150, 0.95, "cube");
+		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5f, { 0,0 }, { 0,0 }, 150, 0.75f, false, "Ball");
 		App->physics->AddObject(newObj);
 	}
 
