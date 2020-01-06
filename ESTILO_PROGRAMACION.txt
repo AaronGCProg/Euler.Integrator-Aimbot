@@ -1,6 +1,6 @@
 - NADA SE INICIALIZA EN HEADER
 - CADA FUNCION (Primera letra de cada palabra en mayus) tiene un comentario de una linea explicando lo que hace (comentario en la linea superior a la declaracion)
-- Variables (todo en minuscula) tienen un nombre con significado. Varias palabra separadas con barra baja
+- Variables primera en minuscula, separacion de palabras marcando mayus en nuevo palabra
 - Si un commit no compila, revert automatico a sangre fria
 - Los commits tienen un nombre que indica QUÉ se ha hecho en ese commit, explicando los cambios en codigo en en Descripcion
 - Los memes en los commits se escriben debajo de todo, bajo una linea de guiones
