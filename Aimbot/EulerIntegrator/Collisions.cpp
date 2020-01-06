@@ -16,29 +16,28 @@ ModuleCollisions::~ModuleCollisions() {
 
 void ModuleCollisions::OnCollision(Object& object) 
 {
-	if (object.pos.x > PIXEL_TO_METERS(SCREEN_WIDTH)  || object.pos.x < 0)
+	if ((object.pos.x + object.radius) > PIXEL_TO_METERS(SCREEN_WIDTH)  || (object.pos.x - object.radius) < 0)
 	{
 		object.speed.x = -object.speed.x * object.friction_coefficient;
 
-		if (object.pos.x > PIXEL_TO_METERS(SCREEN_WIDTH))
-			object.pos.x = PIXEL_TO_METERS(SCREEN_WIDTH);
+		if ((object.pos.x + object.radius) > PIXEL_TO_METERS(SCREEN_WIDTH))
+			object.pos.x = PIXEL_TO_METERS(SCREEN_WIDTH) - object.radius;
 
-		else if(object.pos.x < 0)
-			object.pos.x = 0;
+		else if((object.pos.x - object.radius) < 0)
+			object.pos.x = object.radius;
 
 	}
 
-	if (object.pos.y > PIXEL_TO_METERS(SCREEN_HEIGHT) || object.pos.y < 0)
+	if ( (object.pos.y + object.radius) > PIXEL_TO_METERS(SCREEN_HEIGHT) || (object.pos.y-object.radius) < 0)
 	{
 		object.speed.y = -object.speed.y * object.friction_coefficient;
 
-		if (object.pos.y > PIXEL_TO_METERS(SCREEN_HEIGHT))
-			object.pos.y = PIXEL_TO_METERS(SCREEN_HEIGHT);
+		if ((object.pos.y + object.radius) > PIXEL_TO_METERS(SCREEN_HEIGHT))
+			object.pos.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - object.radius;
 
-		else if (object.pos.y < 0)
-			object.pos.y = 0;
+		else if (object.pos.y - object.radius < 0)
+			object.pos.y = object.radius;
 	}
-
 
 }
 
