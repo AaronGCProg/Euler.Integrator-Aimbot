@@ -40,7 +40,7 @@ public:
 	// Math ------------------------------------------------
 
 	//Operators between p2Points-------
-	p2Point operator -(const p2Point &v) const
+	p2Point operator -(const p2Point& v) const
 	{
 		p2Point r;
 
@@ -50,7 +50,7 @@ public:
 		return(r);
 	}
 
-	p2Point operator + (const p2Point &v) const
+	p2Point operator + (const p2Point& v) const
 	{
 		p2Point r;
 
@@ -70,7 +70,7 @@ public:
 		return(r);
 	}
 
-	const p2Point& operator -=(const p2Point &v)
+	const p2Point& operator -=(const p2Point& v)
 	{
 		x -= v.x;
 		y -= v.y;
@@ -78,7 +78,7 @@ public:
 		return(*this);
 	}
 
-	const p2Point& operator +=(const p2Point &v)
+	const p2Point& operator +=(const p2Point& v)
 	{
 		x += v.x;
 		y += v.y;
@@ -199,14 +199,20 @@ public:
 
 	double Module()
 	{
-		return sqrtf((x * x) + (y * y));
+		if ((x <= 0.001f && x >= -0.001f) && (y <= 0.001f && y >= -0.001f))//if the vector is nearly 0
+			return 0;
+		else
+			return sqrtf((x * x) + (y * y));
 	}
 
 	void Normalize()
 	{
 		double mod = Module();
-		x = (x / mod);
-		y = (y / mod);
+		if (mod != 0)
+		{
+			x = (x / mod);
+			y = (y / mod);
+		}
 	}
 
 
@@ -216,7 +222,7 @@ public:
 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
 
-		return sqrtf((fx*fx) + (fy*fy));
+		return sqrtf((fx * fx) + (fy * fy));
 	}
 
 	TYPE DistanceNoSqrt(const p2Point& v) const
@@ -224,7 +230,7 @@ public:
 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
 
-		return (fx*fx) + (fy*fy);
+		return (fx * fx) + (fy * fy);
 	}
 
 	TYPE DistanceManhattan(const p2Point& v) const
