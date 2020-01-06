@@ -22,7 +22,7 @@ public:
 	bool CleanUp();
 	void Integrate(Object &object, dPoint gravity,float dt); //Integrates objects
 	void AddObject(Object* obj); //Adds object to the world list
-	bool DeleteObject(Object& obj);
+	bool DeleteObject(Object* obj);
 	int IsInsideObject(dPoint& position);	// returns the object array's position or -1
 	int FindObject(Object& obj); //returns pos in array if found, -1 if not
 

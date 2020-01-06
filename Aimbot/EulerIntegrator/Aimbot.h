@@ -22,7 +22,7 @@ public:
 	~ModuleAimbot();
 
 	bool Start();
-	update_status Update();
+	update_status Update(float dt);
 	bool CleanUp();
 
 private:

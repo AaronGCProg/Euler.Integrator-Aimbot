@@ -3,6 +3,8 @@
 #include "p2Point.h"
 #include "Module.h"
 
+struct Object;
+
 class ModuleScene : public Module
 {
 
@@ -17,10 +19,11 @@ public:
 	void MouseJointLogic();
 	void TargetLogic();
 	bool TargetExists();
-	iPoint Target();
+	void ResetTarget();
+	Object* Target();
 
 private:
 	bool mouse_joint;
-	iPoint target;
+	Object* target;
 	int body_index;
 };
