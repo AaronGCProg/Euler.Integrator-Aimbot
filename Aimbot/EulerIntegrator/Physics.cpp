@@ -92,15 +92,16 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 	App->collisions->OnCollision(object);
 }
 
-void ModulePhysics::AddObject(Object& obj) {
+void ModulePhysics::AddObject(Object* obj) {
 	int i = world->index % MAX_OBJECTS; //search position in array. If full, start from the beggining
 
 	if (world->objects_array[i] != nullptr)
 	{
+		world->objects_array[i]->name.Clear();
 		delete world->objects_array[i]; //if there is something, delete it
 		world->objects_array[i] = nullptr; //clear the pointer
 	}
-	world->objects_array[i] = &obj; //ad the object
+	world->objects_array[i] = obj; //ad the object
 
 	world->index++;
 }

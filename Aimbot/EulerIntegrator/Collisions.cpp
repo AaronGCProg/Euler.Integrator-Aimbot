@@ -88,11 +88,8 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 		dPoint centersdir= p2 - p1;
 
-		double m = sqrt((centersdir.x*centersdir.x) + (centersdir.y*centersdir.y));//vector normalization
-		centersdir.x /= m;
-		centersdir.y /= m;
-		centersdir.x *= 10;
-		centersdir.y *= 10;
+		centersdir.normalize();
+		centersdir *= 10;
 
 		dPoint centersdir_inverse=centersdir;
 		centersdir_inverse.x *= -1;
