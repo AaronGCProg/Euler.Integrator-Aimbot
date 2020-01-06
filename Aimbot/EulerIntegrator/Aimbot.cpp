@@ -10,7 +10,7 @@ ModuleAimbot::~ModuleAimbot() {}
 
 bool ModuleAimbot::Start() {
 	double radius = 0.5f;
-	App->physics->AddObject(new Object({5, SCREEN_HEIGHT-radius}, radius, { 0, 0 }, { 0, 0 }, 5, 0.1, "aimbot"));
+	App->physics->AddObject(new Object({5, SCREEN_HEIGHT-radius}, radius, { 0, 0 }, { 0, 0 }, 5, 0.1, false, "aimbot"));
 
 	return true;
 }

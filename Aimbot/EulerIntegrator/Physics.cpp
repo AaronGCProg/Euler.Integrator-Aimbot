@@ -14,11 +14,11 @@ ModulePhysics::~ModulePhysics()
 	LOG("Destructor of Module Physics has been called");
 }
 
-update_status ModulePhysics::Update(float dt) 
+update_status ModulePhysics::Update(float dt)
 {
 	//Here goes a call of Integrate() to all objects of the world
 	App->collisions->OnCollision();
-	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++) 
+	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
 		Integrate(*world->objects_array[i], world->gravity, dt);
 	}
@@ -67,7 +67,11 @@ bool ModulePhysics::CleanUp() {
 
 void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 {
-	if (object.noPhys) return;
+	if (object.noPhys)
+	{
+		App->collisions->CheckBorderCollision(object);
+		return;
+	}
 
 	dPoint acc = { 0,0 };
 
@@ -132,18 +136,18 @@ int ModulePhysics::FindObject(Object& obj) {
 	return ret;
 }
 
-/*
+
 int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is inside the object (check .h for further info)
 	position.x = PIXEL_TO_METERS(position.x);
 	position.y = PIXEL_TO_METERS(position.y);
+
 	for (int i = 0; i < MAX_OBJECTS; i++) {
 		if (world->objects_array[i] != nullptr) {
-			if (position.x >= world->objects_array[i]->pos.x && position.x <= world->objects_array[i]->pos.x + world->objects_array[i]->w &&
-				position.y >= world->objects_array[i]->pos.y && position.y <= world->objects_array[i]->pos.y + world->objects_array[i]->h) {
+			if (position.x >= world->objects_array[i]->pos.x && position.x <= world->objects_array[i]->pos.x + world->objects_array[i]->radius &&
+				position.y >= world->objects_array[i]->pos.y && position.y <= world->objects_array[i]->pos.y + world->objects_array[i]->radius) {
 				return i;
 			}
 		}
 	}
 	return -1;
 }
-*/
