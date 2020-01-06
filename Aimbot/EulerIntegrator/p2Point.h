@@ -162,14 +162,14 @@ public:
 		return(r);
 	}
 
-	double modul(const p2Point* v)
+	double modul()
 	{
-		return sqrt((v->x * v->x) + (v->y * v->y));
+		return sqrt((x * x) + (y * y));
 	}
 
 	void normalize()
 	{
-		double mod = modul(this);
+		double mod = modul();
 		x = (x / mod);
 		y = (y / mod);
 	}
