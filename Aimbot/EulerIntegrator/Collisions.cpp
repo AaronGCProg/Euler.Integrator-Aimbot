@@ -98,8 +98,8 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 		dPoint centersdir= p2 - p1;
 		centersdir.Normalize();
 		
-		vel1 = centersdir.GetInverse() * m_vel1 * RESTITUTION_COEFICIENT;
-		vel2 = centersdir * m_vel2 * RESTITUTION_COEFICIENT;
+		vel1 = centersdir.GetInverse() * m_vel1 * c1->friction_coefficient;
+		vel2 = centersdir * m_vel2 * c2->friction_coefficient;
 
 		c1->speed = vel1;
 		c2->speed = vel2;
