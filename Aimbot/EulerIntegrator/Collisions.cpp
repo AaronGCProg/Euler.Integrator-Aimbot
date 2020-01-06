@@ -41,9 +41,9 @@ void ModuleCollisions::OnCollision()
 
 					c2 = App->physics->world->objects_array[k];
 
-					if (c1->QuickCheckCollision(*c2))
+					if (c1->QuickCheckCollision(c2))
 					{
-						if(c1->AccurateCheckCollision(*c2))
+						if(c1->AccurateCheckCollision(c2))
 						ResolveCollision(c1, c2);
 					}
 				}

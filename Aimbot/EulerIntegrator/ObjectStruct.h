@@ -36,8 +36,8 @@ public:
 	bool operator==(Object& dt) const;
 
 	//Checks collision w/ other objects
-	bool QuickCheckCollision( const Object c2) const;
-	bool AccurateCheckCollision( const Object c2) const;
+	bool QuickCheckCollision( const Object* c2) const;
+	bool AccurateCheckCollision( const Object* c2) const;
 
 	//Funcions to set forces into objects
 	void AddForce(dPoint aForce);

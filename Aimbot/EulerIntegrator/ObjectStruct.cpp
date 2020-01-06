@@ -37,23 +37,24 @@ double Object::CalculateAerodinamicCoeficientX() {
 	return 0.5 * 1.225 * (double)speed.x * (double)speed.x * radius * AERODINAMIC_COEFICIENT;
 }
 
-bool Object::QuickCheckCollision(const Object obj) const
+bool Object::QuickCheckCollision(const Object* obj) const
 {
-	return !((this->pos.x + this->radius*2 < obj.pos.x || obj.pos.x + obj.radius*2 < this->pos.x) || (this->pos.y + this->radius*2 + PIXEL_TO_METERS(1) < obj.pos.y || obj.pos.y + obj.radius*2 + PIXEL_TO_METERS(1) < this->pos.y));
+	return !((this->pos.x + this->radius*2 < obj->pos.x
+		|| obj->pos.x + obj->radius*2 < this->pos.x)
+		|| (this->pos.y + this->radius*2  < obj->pos.y
+		|| obj->pos.y + obj->radius*2 < this->pos.y));
 }
 
-bool Object::AccurateCheckCollision(const Object obj) const
+bool Object::AccurateCheckCollision(const Object* obj) const
 {
 	bool ret = false;
-	double a = (pos.x + radius) - (obj.pos.x + obj.radius);
-	double b = (pos.y + radius) -(obj.pos.y + obj.radius);
 
-	double distance = sqrt(
-		((a) * (a))
-		+ ((b) * (b))
-	);
+	double a = (pos.x + radius) - (obj->pos.x + obj->radius);
+	double b = (pos.y + radius) -(obj->pos.y + obj->radius);
 
-	if (distance < radius + obj.radius)
+	double distance = sqrt( (a*a) + (b*b) );
+
+	if (distance < radius + obj->radius)
 		ret = true;
 
 	return ret;
