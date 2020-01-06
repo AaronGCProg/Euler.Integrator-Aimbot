@@ -2,6 +2,10 @@
 #include "Application.h"
 #include "Physics.h"
 #include "Scene.h"
+#include <time.h>
+
+
+#define MONTECARLO_ITERATION 100
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 
@@ -44,6 +48,14 @@ bool ModuleAimbot::CleanUp() {
 
 dPoint ModuleAimbot::CalculateTrajectory(dPoint& iPosition, dPoint& fPosition) {
 	dPoint speed = { 0, 0 };	// This is just so that the functions compiles
+
+	// MONTECARLO 
+	/*int numbers[MONTECARLO_ITERATION];
+	srand(time(NULL));
+	for (int i = 0; i < MONTECARLO_ITERATION; i++) {
+		numbers[i] = rand() % 200 + 1;	// Generates number from 1 to 200
+	}*/
+
 
 	return speed;
 }
