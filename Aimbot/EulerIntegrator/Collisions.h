@@ -15,7 +15,7 @@ public:
 
 	bool CleanUp();
 
-	void OnCollision();
+	void OnCollision(Object* c1);
 
 	void ChangeCollBetweenObj();
 

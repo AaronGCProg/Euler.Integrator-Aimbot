@@ -18,35 +18,26 @@ ModuleCollisions::~ModuleCollisions()
 	LOG("Destructor of Module Physics has been called");
 }
 
-void ModuleCollisions::OnCollision()
+void ModuleCollisions::OnCollision(Object* c1)
 {
-	Object* c1;
 	Object* c2;
 
+	// avoid checking collisions already checked
 	if (collBewtweenObjectsActive)
-		for (int i = 0; i < MAX_OBJECTS; ++i)
+		for (uint k = 0; k < MAX_OBJECTS; ++k)
 		{
 			// skip empty colliders
-			if (App->physics->world->objects_array[i] == nullptr)
+			if (App->physics->world->objects_array[k] == nullptr || c1 == App->physics->world->objects_array[k])
 				continue;
 
-			c1 = App->physics->world->objects_array[i];
+			c2 = App->physics->world->objects_array[k];
 
-			// avoid checking collisions already checked
-			for (uint k = 0; k < MAX_OBJECTS; ++k)
+			if (c1->QuickCheckCollision(c2) && c1->AccurateCheckCollision(c2))
 			{
-				// skip empty colliders
-				if (App->physics->world->objects_array[k] == nullptr || c1 == App->physics->world->objects_array[k])
-					continue;
-
-				c2 = App->physics->world->objects_array[k];
-
-				if (c1->QuickCheckCollision(c2) && c1->AccurateCheckCollision(c2))
-				{
-					ResolveCollision(c1, c2);
-				}
+				ResolveCollision(c1, c2);
 			}
 		}
+
 
 
 }
@@ -90,12 +81,12 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 		dPoint centersDirection(p2 - p1);
 		centersDirection.Normalize();
 
-		if(!c1->noPhys)
-		c1->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection.GetInverse());
+		if (!c1->noPhys)
+			c1->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection.GetInverse());
 		c1->speed = centersDirection.GetInverse() * mVel1 * c1->friction_coefficient;
 
 		if (!c2->noPhys)
-		c2->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection);
+			c2->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection);
 		c2->speed = centersDirection * mVel2 * c2->friction_coefficient;
 	}
 }
