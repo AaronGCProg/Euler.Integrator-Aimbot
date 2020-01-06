@@ -42,8 +42,7 @@ update_status ModuleAimbot::Update(float dt) {
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
 		
 		if (App->scene->TargetExists()) {
-			dPoint fPosition = { (double) App->scene->Target().x, (double) App->scene->Target().y};
-			//dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
+			//dPoint iSpeed = CalculateTrajectory(aimbot->pos, App->scene->Target()->pos);
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 
 		}
@@ -62,6 +61,8 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_TARGET_IMPACT:
 		App->scene->ResetTarget();
+		App->physics->DeleteObject(propagationObj);
+		propagationObj = nullptr;
 		state = AimbotStates::AIMBOT_RESET;
 		break;
 	
