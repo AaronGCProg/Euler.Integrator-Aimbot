@@ -14,27 +14,26 @@ ModuleCollisions::~ModuleCollisions() {
 	LOG("Destructor of Module Physics has been called");
 }
 
-
 void ModuleCollisions::OnCollision(Object& object) 
 {
-	if (object.pos.x > SCREEN_WIDTH || object.pos.x < 0)
+	if (object.pos.x > PIXEL_TO_METERS(SCREEN_WIDTH)  || object.pos.x < 0)
 	{
 		object.speed.x = -object.speed.x * object.friction_coefficient;
 
-		if (object.pos.x > SCREEN_WIDTH)
-			object.pos.x = SCREEN_WIDTH;
+		if (object.pos.x > PIXEL_TO_METERS(SCREEN_WIDTH))
+			object.pos.x = PIXEL_TO_METERS(SCREEN_WIDTH);
 
 		else if(object.pos.x < 0)
 			object.pos.x = 0;
 
 	}
 
-	if (object.pos.y > SCREEN_HEIGHT || object.pos.y < 0)
+	if (object.pos.y > PIXEL_TO_METERS(SCREEN_HEIGHT) || object.pos.y < 0)
 	{
 		object.speed.y = -object.speed.y * object.friction_coefficient;
 
-		if (object.pos.y > SCREEN_HEIGHT)
-			object.pos.y = SCREEN_HEIGHT;
+		if (object.pos.y > PIXEL_TO_METERS(SCREEN_HEIGHT))
+			object.pos.y = PIXEL_TO_METERS(SCREEN_HEIGHT);
 
 		else if (object.pos.y < 0)
 			object.pos.y = 0;
@@ -50,11 +49,3 @@ bool ModuleCollisions::CleanUp()
 	return true;
 
 }
-
-
-
-
-
-
-
-
