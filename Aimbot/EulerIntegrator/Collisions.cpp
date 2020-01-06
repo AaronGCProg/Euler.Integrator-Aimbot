@@ -64,30 +64,48 @@ bool ModuleCollisions::CleanUp()
 
 void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 {
-	//If a collision from various aixs is detected, it determines what is the closets one to exit from
-	int directionCheck = CheckCollisionDir(c1, c2);
 
-	//Then we update the objects's position & logic according to it's movement & the minimum result that we just calculated
-	 switch (directionCheck) {
-	 case DIRECTION_UP:
-		 c1->pos.y = c2->pos.y + c2->radius * 2 + PIXEL_TO_METERS(1);
-		 c1->speed.y *= -c1->friction_coefficient;
-		 c2->speed.y *= -c2->friction_coefficient;
-		 break;
+	//Calculates the normal dir
+	double modul;
+	dPoint normaldir = c2->speed + c1->speed;
+	
+	if (normaldir.x <= 0.001f&&normaldir.y <= 0.001f)
+		normaldir = { 0,-1 };
 
-	 case DIRECTION_DOWN:
-		 c1->pos.y = c2->pos.y - c2->radius * 2 - PIXEL_TO_METERS(1);
-		 c1->speed.y *= -c1->friction_coefficient;
-		 c2->speed.y *= -c2->friction_coefficient;
-		 break;
+	modul = sqrt((normaldir.x * normaldir.x) + (normaldir.y * normaldir.y));
+	normaldir.x = (normaldir.x / modul);
+	normaldir.y = (normaldir.y / modul);
 
-	 case DIRECTION_LEFT:
-		 break;
-	 case DIRECTION_RIGHT:
-		 break;
-	 case DIRECTION_NONE:
-		 break;
-	 }
+	//Calculate relative velocity
+	dPoint rv = c2->speed - c1->speed;
+	// Calculate relative velocity in terms of the normal direction
+	float velAlongNormal = (rv.x * normaldir.x) + (rv.y * normaldir.y);//dot product
+
+	// Do not resolve if velocities are separating
+	if (velAlongNormal > 0)
+		return;
+	else
+	{
+		dPoint p1 = c1->pos;
+		dPoint p2 = c2->pos;
+
+		dPoint centersdir= p2 - p1;
+
+		double m = sqrt((centersdir.x*centersdir.x) + (centersdir.y*centersdir.y));//vector normalization
+		centersdir.x /= m;
+		centersdir.y /= m;
+		centersdir.x *= 10;
+		centersdir.y *= 10;
+
+		dPoint centersdir_inverse=centersdir;
+		centersdir_inverse.x *= -1;
+		centersdir_inverse.y *= -1;
+
+		c1->speed = centersdir_inverse;
+		c2->speed = centersdir;
+
+	}
+
 }
 
 int ModuleCollisions::CheckCollisionDir(Object* c1, Object* c2)
