@@ -71,12 +71,13 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 	if (normaldir.x <= 0.001f && normaldir.y <= 0.001f)
 		normaldir = { 0,-1 };
 
-	normaldir.normalize();
+	normaldir.Normalize();
 
 	//Calculate relative velocity
 	dPoint rv = c2->speed - c1->speed;
+
 	// Calculate relative velocity in terms of the normal direction
-	float velAlongNormal = (rv.x * normaldir.x) + (rv.y * normaldir.y);//dot product
+	double velAlongNormal = rv.Dot(normaldir);//dot product
 
 	// Do not resolve if velocities are separating
 	if (velAlongNormal > 0)
@@ -88,7 +89,7 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 		dPoint centersdir= p2 - p1;
 
-		centersdir.normalize();
+		centersdir.Normalize();
 		centersdir *= 10;
 
 		c1->speed = centersdir.GetInverse();
