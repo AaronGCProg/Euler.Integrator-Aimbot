@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Scene.h"
 #include "Input.h"
+#include "Aimbot.h"
 //include header of all existing modules
 
 Application::Application()
@@ -16,6 +17,7 @@ Application::Application()
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	physics = new ModulePhysics(this);
+	aimbot = new ModuleAimbot(this);
 	collisions = new ModuleCollisions(this);
 	scene = new ModuleScene(this);
 
@@ -32,6 +34,7 @@ Application::Application()
 	AddModule(physics);
 	AddModule(collisions);
 	AddModule(input);
+	AddModule(aimbot);
 	AddModule(scene);
 
 	//Renderer

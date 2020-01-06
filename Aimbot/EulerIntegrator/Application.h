@@ -15,7 +15,7 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleInput;
 class ModuleScene;
-
+class ModuleAimbot;
 
 class Application
 {
@@ -27,6 +27,7 @@ public:
 	ModuleRender* renderer;
 	ModuleWindow* window;
 	ModuleScene* scene;
+	ModuleAimbot* aimbot;
 
 	j1Timer* gameTimer = nullptr;
 	j1PerfTimer* gamePerfTimer = nullptr;

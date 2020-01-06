@@ -60,6 +60,9 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\PhysicObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Aimbot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Source Files\PhysicObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Aimbot.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

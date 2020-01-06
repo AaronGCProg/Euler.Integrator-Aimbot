@@ -13,6 +13,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void MouseJointLogic();
+
 private:
 	bool mouse_joint;
 	int body_index;
