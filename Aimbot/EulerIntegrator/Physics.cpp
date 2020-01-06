@@ -143,10 +143,15 @@ int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is 
 
 	for (int i = 0; i < MAX_OBJECTS; i++) {
 		if (world->objects_array[i] != nullptr) {
-			if (position.x >= world->objects_array[i]->pos.x && position.x <= world->objects_array[i]->pos.x + world->objects_array[i]->radius &&
-				position.y >= world->objects_array[i]->pos.y && position.y <= world->objects_array[i]->pos.y + world->objects_array[i]->radius) {
+			Object* obj = world->objects_array[i];
+			SDL_DRect objRect = { obj->pos.x - obj->radius, obj->pos.y - obj->radius, (obj->radius*2), (obj->radius*2) };
+			SDL_DPoint mousePoint = { position.x, position.y};
+
+			if (SDL_DPointInRect(mousePoint, objRect))
+			{
 				return i;
 			}
+
 		}
 	}
 	return -1;
