@@ -17,9 +17,9 @@ Application::Application()
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	physics = new ModulePhysics(this);
-	aimbot = new ModuleAimbot(this);
 	collisions = new ModuleCollisions(this);
 	scene = new ModuleScene(this);
+	aimbot = new ModuleAimbot(this);
 
 	gameTimer = new j1Timer();
 	gamePerfTimer = new j1PerfTimer();

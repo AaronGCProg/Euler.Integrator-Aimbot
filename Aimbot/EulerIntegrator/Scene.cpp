@@ -30,20 +30,6 @@ bool ModuleScene::Start() {
 }
 
 
-update_status ModuleScene::PreUpdate() {
-
-	HandleInput();
-
-	return UPDATE_CONTINUE;
-}
-
-
-void ModuleScene::HandleInput() {
-
-	MouseJointLogic();
-	TargetLogic();
-}
-
 
 update_status ModuleScene::Update(float dt) {
 
@@ -51,6 +37,8 @@ update_status ModuleScene::Update(float dt) {
 		App->physics->world->ChangeGravity(GRAVITY);
 	}
 
+	MouseJointLogic();
+	TargetLogic();
 	
 
 	// lets you modify the world gravity with WASD keys
@@ -124,7 +112,9 @@ void ModuleScene::TargetLogic() {
 		target.x = App->input->GetMouseX();
 		target.y = App->input->GetMouseY();
 	}
-	if (target.x != NULL && target.y != NULL) { App->renderer->DrawCircle(target.x, target.y, 5, 0, 0, 255); }
+	if (target.x != NULL && target.y != NULL) { 
+		App->renderer->DrawCircle(target.x, target.y, 5, 0, 0, 255); 
+	}
 }
 
 bool ModuleScene::TargetExists() {
