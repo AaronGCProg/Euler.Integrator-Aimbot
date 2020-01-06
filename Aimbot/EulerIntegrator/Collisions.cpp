@@ -80,18 +80,22 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 	// Do not resolve if velocities are separating
 	if (velAlongNormal > 0)
+	{
 		return;
+	}
 	else
 	{
 		dPoint p1 = c1->pos + c1->radius;
 		dPoint p2 = c2->pos + c2->radius;
+		dPoint vel1 = c1->speed;
+		dPoint vel2 = c1->speed;
+		double m_vel1=vel1.modul();
+		double m_vel2=vel2.modul();
 
 		dPoint centersdir= p2 - p1;
-
-		double m = sqrt((centersdir.x*centersdir.x) + (centersdir.y*centersdir.y));//vector normalization
-		centersdir.x /= m;
-		centersdir.y /= m;
-		centersdir.x *= 10;
+		centersdir.normalize();
+		
+		centersdir.x *= 10;//change this
 		centersdir.y *= 10;
 
 		dPoint centersdir_inverse=centersdir;
