@@ -9,10 +9,11 @@ Object::Object() {
 	name = "";
 	friction_coefficient = 0.5;
 	radius = 0;
+	noPhys = false;
 }
 
 
-Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, p2SString aName) {
+Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, p2SString aName) {
 
 	pos = aPos;
 	speed = aSpeed;
@@ -21,6 +22,7 @@ Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double 
 	name = aName;
 	this->radius = radius;
 	friction_coefficient = afriction_coefficient;
+	this->noPhys = noPhys;
 
 }
 
