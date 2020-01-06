@@ -2,10 +2,12 @@
 #include "Application.h"
 #include "Physics.h"
 #include "Scene.h"
+#include "Collisions.h"
 #include <time.h>
 
 
 #define MONTECARLO_ITERATION 100
+#define PROPAGATION 100
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 
@@ -17,6 +19,11 @@ bool ModuleAimbot::Start() {
 	aimbot = new Object({ 5.0f, SCREEN_HEIGHT - radius }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "aimbot");
 	App->physics->AddObject(aimbot);
 	state = AimbotStates::AIMBOT_IDLE;
+
+	double propagationRadius = 0.1f;
+	propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "propagation");
+	App->physics->AddObject(propagationObj);
+
 	return true;
 }
 
@@ -31,7 +38,7 @@ update_status ModuleAimbot::Update() {
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
 		if (App->scene->TargetExists()) {
 			dPoint fPosition = { (double) App->scene->Target().x, (double) App->scene->Target().y};
-			dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
+			// dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
 		}
 		break;
 
@@ -56,18 +63,38 @@ bool ModuleAimbot::CleanUp() {
 	return true;
 }
 
-dPoint ModuleAimbot::CalculateTrajectory(dPoint& iPosition, dPoint& fPosition) {
-	dPoint speed = { 0, 0 };	// This is just so that the functions compiles
+// Trajectory with Montecarlo method
+Trajectory ModuleAimbot::CalculateTrajectory(float speed, float angle) {
 
-	// MONTECARLO 
-	int numbers[MONTECARLO_ITERATION];
+	Trajectory result;
+	result.angle = 0;
+	result.speed = 0;
+
+	float seedSpeed[MONTECARLO_ITERATION];
+	float seedAngle[MONTECARLO_ITERATION];
 
 	srand(time(NULL));
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		numbers[i] = rand() % 200 + 1;	// Generates number from 1 to 200
+		seedSpeed[i] = rand() % 200 + 1;	
+		seedAngle[i] = rand() % 180 + 1;
+
+		for (int j = 0; j < PROPAGATION; j++)
+		{
+			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
+
+			/* DESCOMENTAR AL PONER EL NOMBRE DEL OBJETO TARGET
+			if (propagationObj->AccurateCheckCollision(App->scene->"PONER OBJETO TARGET")) 
+			{
+				
+				result.angle = seedAngle[i];
+				result.speed = seedSpeed[i];
+
+				return result;
+			}*/
+		}
 	}
 
-	return speed;
+	return result;
 }

@@ -6,6 +6,12 @@
 
 struct Object;
 
+struct Trajectory
+{
+	float speed;
+	float angle;
+};
+
 enum class AimbotStates {
 	AIMBOT_IDLE,
 	AIMBOT_CALCULATE_MONTECARLO,
@@ -27,16 +33,10 @@ public:
 
 private:
 	void HandleInput();
-	dPoint CalculateTrajectory(dPoint& iPosition, dPoint& fPosition);
+	Trajectory CalculateTrajectory(float speed, float angle);
 
 private:
 	AimbotStates state;
 	Object* aimbot;
-};
-
-
-struct Trajectory
-{
-	dPoint speed;
-	float angle;
+	Object* propagationObj;
 };
