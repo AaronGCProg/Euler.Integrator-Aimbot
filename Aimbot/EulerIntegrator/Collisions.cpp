@@ -64,17 +64,14 @@ bool ModuleCollisions::CleanUp()
 
 void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 {
-
 	//Calculates the normal dir
 	double modul;
 	dPoint normaldir = c2->speed + c1->speed;
 	
-	if (normaldir.x <= 0.001f&&normaldir.y <= 0.001f)
+	if (normaldir.x <= 0.001f && normaldir.y <= 0.001f)
 		normaldir = { 0,-1 };
 
-	modul = sqrt((normaldir.x * normaldir.x) + (normaldir.y * normaldir.y));
-	normaldir.x = (normaldir.x / modul);
-	normaldir.y = (normaldir.y / modul);
+	normaldir.normalize();
 
 	//Calculate relative velocity
 	dPoint rv = c2->speed - c1->speed;
@@ -86,8 +83,8 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 		return;
 	else
 	{
-		dPoint p1 = c1->pos;
-		dPoint p2 = c2->pos;
+		dPoint p1 = c1->pos + c1->radius;
+		dPoint p2 = c2->pos + c2->radius;
 
 		dPoint centersdir= p2 - p1;
 
@@ -103,7 +100,6 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 		c1->speed = centersdir_inverse;
 		c2->speed = centersdir;
-
 	}
 
 }

@@ -84,6 +84,36 @@ public:
 		return (x != v.x || y != v.y);
 	}
 
+	const p2Point& operator +=(const TYPE& v)
+	{
+		x += v;
+		y += v;
+
+		return(*this);
+	}
+
+	p2Point operator + (const TYPE& v) const
+	{
+		p2Point r;
+
+		r.x = x + v;
+		r.y = y + v;
+
+		return(r);
+	}
+
+	double modul(const p2Point* v)
+	{
+		return sqrt((v->x * v->x) + (v->y * v->y));
+	}
+
+	void normalize ()
+	{
+		double mod = modul(this);
+		x = (x / mod);
+		y = (y / mod);
+	}
+
 	// Utils ------------------------------------------------
 	bool IsZero() const
 	{
