@@ -71,7 +71,7 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 	dPoint normaldir = c2->speed + c1->speed;
 	
 	if (normaldir.x <= 0.001f && normaldir.y <= 0.001f)
-		normaldir = { 0,-1 };
+		normaldir = { 0,-1 };//default normal
 
 	normaldir.Normalize();
 
@@ -83,19 +83,26 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 	// Do not resolve if velocities are separating
 	if (velAlongNormal > 0)
+	{
 		return;
+	}
 	else
 	{
 		dPoint p1 = c1->pos + c1->radius;
 		dPoint p2 = c2->pos + c2->radius;
+		dPoint vel1 = c1->speed;
+		dPoint vel2 = c1->speed;
+		double m_vel1=vel1.Module();
+		double m_vel2=vel2.Module();
 
 		dPoint centersdir= p2 - p1;
-
 		centersdir.Normalize();
-		centersdir *= 10;
+		
+		vel1 = centersdir.GetInverse() * m_vel1 * RESTITUTION_COEFICIENT;
+		vel2 = centersdir * m_vel2 * RESTITUTION_COEFICIENT;
 
-		c1->speed = centersdir.GetInverse();
-		c2->speed = centersdir;
+		c1->speed = vel1;
+		c2->speed = vel2;
 	}
 
 }
