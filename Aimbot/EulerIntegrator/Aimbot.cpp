@@ -111,15 +111,14 @@ Trajectory ModuleAimbot::CalculateTrajectory(float speed, float angle) {
 		{
 			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
 
-			/* DESCOMENTAR AL PONER EL NOMBRE DEL OBJETO TARGET
-			if (propagationObj->AccurateCheckCollision(App->scene->"PONER OBJETO TARGET")) 
+			if (propagationObj->AccurateCheckCollision(App->scene->Target())) 
 			{
 				
 				result.angle = seedAngle[i];
 				result.speed = seedSpeed[i];
 
 				return result;
-			}*/
+			}
 		}
 	}
 
