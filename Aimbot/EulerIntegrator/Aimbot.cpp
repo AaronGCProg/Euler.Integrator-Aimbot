@@ -60,12 +60,14 @@ dPoint ModuleAimbot::CalculateTrajectory(dPoint& iPosition, dPoint& fPosition) {
 	dPoint speed = { 0, 0 };	// This is just so that the functions compiles
 
 	// MONTECARLO 
-	/*int numbers[MONTECARLO_ITERATION];
-	srand(time(NULL));
-	for (int i = 0; i < MONTECARLO_ITERATION; i++) {
-		numbers[i] = rand() % 200 + 1;	// Generates number from 1 to 200
-	}*/
+	int numbers[MONTECARLO_ITERATION];
 
+	srand(time(NULL));
+
+	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
+	{
+		numbers[i] = rand() % 200 + 1;	// Generates number from 1 to 200
+	}
 
 	return speed;
 }
