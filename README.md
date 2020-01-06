@@ -25,10 +25,6 @@ Aaron Guerrero Cruz:
 Ferran-Roger Basar i Bosch:
 - https://github.com/ferba93
 
-
-Xavier Trillo Lucero:
- - https://github.com/xatrilu
-
 Àlex Melenchón Maza:
  - https://github.com/AlexMelenchon
 
@@ -36,32 +32,29 @@ Xavier Trillo Lucero:
 https://github.com/AaronGCProg/Euler.Integrator
 
 ## Team roles:
-José Tello:
- - Project Manager
-
-Adrià Serrano López:
- - Physics Lead
+Jose Luís Redondo Tello:
+ - Programming
+ 
+ Aaron Guerrero Cruz:
+ - Programming
 
 David Carrasquet Iniesta:
  - Programming
 
-Juan Hernández Almagro:
- - Physics Programmer
-
 Oscar Pérez Martín:
- - Physics programmer
-
-Aaron Guerrero Cruz:
+ - Physics Programmer Lead
+ 
+ Juan Hernández Almagro:
+ - Report Lead
+ 
+ Adrià Serrano López:
  - Project Lead & Coordinator
+ 
+ Àlex Melenchón Maza:
+ - Physics Programmer
 
 Ferran-Roger Basar i Bosch:
  - Programming Lead
-
-Xavier Trillo Lucero:
- - Wiki 
-
-Àlex Melenchón Maza:
- - Collision Programmer
 
 
 DISCLAIMER: Mostly everything was done in cooperation. The statements above reflect who was the one to take responsability for the section, as well as supervision and final implementation.<br>
