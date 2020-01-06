@@ -38,6 +38,8 @@ public:
 	}
 
 	// Math ------------------------------------------------
+
+	//Operators between p2Points-------
 	p2Point operator -(const p2Point &v) const
 	{
 		p2Point r;
@@ -83,13 +85,16 @@ public:
 	{
 		return (x != v.x || y != v.y);
 	}
+	//Operators w/ Template -----------
 
-	const p2Point& operator +=(const TYPE& v)
+	p2Point operator - (const TYPE& v) const
 	{
-		x += v;
-		y += v;
+		p2Point r;
 
-		return(*this);
+		r.x = x - v;
+		r.y = y - v;
+
+		return(r);
 	}
 
 	p2Point operator + (const TYPE& v) const
@@ -102,17 +107,31 @@ public:
 		return(r);
 	}
 
-	double modul(const p2Point* v)
+	const p2Point& operator +=(const TYPE& v)
 	{
-		return sqrt((v->x * v->x) + (v->y * v->y));
+		x += v;
+		y += v;
+
+		return(*this);
 	}
 
-	void normalize ()
+	const p2Point& operator -=(const TYPE& v)
 	{
-		double mod = modul(this);
-		x = (x / mod);
-		y = (y / mod);
+		x -= v;
+		y -= v;
+
+		return(*this);
 	}
+
+	const p2Point& operator *=(const TYPE& v)
+	{
+		x *= v;
+		y *= v;
+
+		return(*this);
+	}
+
+
 
 	// Utils ------------------------------------------------
 	bool IsZero() const
@@ -133,6 +152,28 @@ public:
 
 		return(*this);
 	}
+
+	p2Point& GetInverse()
+	{
+		p2Point r;
+		r.x = -x;
+		r.y = -y;
+
+		return(r);
+	}
+
+	double modul()
+	{
+		return sqrt((x * x) + (y * y));
+	}
+
+	void normalize()
+	{
+		double mod = modul();
+		x = (x / mod);
+		y = (y / mod);
+	}
+
 
 	// Distances ---------------------------------------------
 	TYPE DistanceTo(const p2Point& v) const

@@ -102,7 +102,7 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 		centersdir_inverse.x *= -1;
 		centersdir_inverse.y *= -1;
 
-		c1->speed = centersdir_inverse;
+		c1->speed = centersdir.GetInverse();
 		c2->speed = centersdir;
 	}
 
