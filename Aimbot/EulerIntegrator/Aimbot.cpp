@@ -43,5 +43,7 @@ bool ModuleAimbot::CleanUp() {
 }
 
 dPoint ModuleAimbot::CalculateTrajectory(dPoint& iPosition, dPoint& fPosition) {
+	dPoint speed = { 0, 0 };	// This is just so that the functions compiles
 
+	return speed;
 }
