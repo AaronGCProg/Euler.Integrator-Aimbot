@@ -18,7 +18,7 @@ ModuleAimbot::~ModuleAimbot() {}
 bool ModuleAimbot::Start() {
 
 	double radius = 0.5f;
-	aimbot = new Object({ 5.0f, SCREEN_HEIGHT - radius }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "aimbot");
+	aimbot = new Object({ PIXEL_TO_METERS(SCREEN_WIDTH / 3), PIXEL_TO_METERS(SCREEN_HEIGHT - radius) }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "aimbot");
 	App->physics->AddObject(aimbot);
 	state = AimbotStates::AIMBOT_IDLE;
 
@@ -42,8 +42,7 @@ update_status ModuleAimbot::Update(float dt) {
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
 		
 		if (App->scene->TargetExists()) {
-			dPoint fPosition = { (double) App->scene->Target().x, (double) App->scene->Target().y};
-			//dPoint iSpeed = CalculateTrajectory(aimbot->pos, fPosition);
+			//dPoint iSpeed = CalculateTrajectory(aimbot->pos, App->scene->Target()->pos);
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 
 		}
@@ -60,7 +59,11 @@ update_status ModuleAimbot::Update(float dt) {
 
 		//do things
 
-		state = AimbotStates::AIMBOT_IDLE;
+	case AimbotStates::AIMBOT_TARGET_IMPACT:
+		App->scene->ResetTarget();
+		App->physics->DeleteObject(propagationObj);
+		propagationObj = nullptr;
+		state = AimbotStates::AIMBOT_RESET;
 		break;
 
 	
@@ -110,15 +113,14 @@ Trajectory ModuleAimbot::CalculateTrajectory(float speed, float angle) {
 		{
 			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
 
-			/* DESCOMENTAR AL PONER EL NOMBRE DEL OBJETO TARGET
-			if (propagationObj->AccurateCheckCollision(App->scene->"PONER OBJETO TARGET")) 
+			if (propagationObj->AccurateCheckCollision(App->scene->Target())) 
 			{
 				
 				result.angle = seedAngle[i];
 				result.speed = seedSpeed[i];
 
 				return result;
-			}*/
+			}
 		}
 	}
 

@@ -24,7 +24,7 @@ bool ModuleScene::Start() {
 
 	body_index = -1;
 	mouse_joint = false;
-	target = { NULL, NULL };
+	target = nullptr;
 	
 	return true;
 }
@@ -108,18 +108,22 @@ void ModuleScene::MouseJointLogic() {
 }
 
 void ModuleScene::TargetLogic() {
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_joint == false) {
-		target.x = App->input->GetMouseX();
-		target.y = App->input->GetMouseY();
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_joint == false && target == nullptr) {
+		dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
+		target = new Object(position, 0.1f, { 0.0f, 0.0f }, {0.0f, 0.0f}, 10.0f, 0.1f, true, "target");
+		App->physics->AddObject(target);
 	}
-	if (target.x != NULL && target.y != NULL) { 
-		App->renderer->DrawCircle(target.x, target.y, 5, 0, 0, 255); 
-	}
+	else if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && target != nullptr){ ResetTarget(); }
 }
 
 bool ModuleScene::TargetExists() {
-	if (target.x != NULL && target.y != NULL) { return true; }
+	if (target != nullptr) { return true; }
 	return false;
 }
 
-iPoint ModuleScene::Target() { return target; }
+Object* ModuleScene::Target() { return target; }
+
+void ModuleScene::ResetTarget() {
+	App->physics->DeleteObject(target);
+	target = nullptr;
+}
