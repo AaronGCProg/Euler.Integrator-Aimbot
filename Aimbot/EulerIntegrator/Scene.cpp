@@ -29,15 +29,29 @@ bool ModuleScene::Start() {
 	return true;
 }
 
+
+update_status ModuleScene::PreUpdate() {
+
+	HandleInput();
+
+	return UPDATE_CONTINUE;
+}
+
+
+void ModuleScene::HandleInput() {
+
+	MouseJointLogic();
+	TargetLogic();
+}
+
+
 update_status ModuleScene::Update(float dt) {
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) { //resets gravity to its default value
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) { //resets gravity to its default value
 		App->physics->world->ChangeGravity(GRAVITY);
 	}
 
-	MouseJointLogic();
-
-	TargetLogic();
+	
 
 	// lets you modify the world gravity with WASD keys
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {

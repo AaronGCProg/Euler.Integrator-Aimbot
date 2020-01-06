@@ -6,9 +6,16 @@
 
 struct Object;
 
+struct Trajectory
+{
+	float speed;
+	float angle;
+};
+
 enum class AimbotStates {
 	AIMBOT_IDLE,
 	AIMBOT_CALCULATE_MONTECARLO,
+	AIMBOT_CALCULATED_MONTECARLO,
 	AIMBOT_SHOOT,
 	AIMBOT_TARGET_IMPACT,
 	AIMBOT_RESET
@@ -22,21 +29,16 @@ public:
 	~ModuleAimbot();
 
 	bool Start();
-	update_status Update();
+	update_status Update(float dt);
 	bool CleanUp();
 
 private:
 	void HandleInput();
-	dPoint CalculateTrajectory(dPoint& iPosition, dPoint& fPosition);
+	Trajectory CalculateTrajectory(float speed, float angle);
 
 private:
 	AimbotStates state;
 	Object* aimbot;
+	Object* propagationObj;
 };
 
-
-struct Trajectory
-{
-	dPoint speed;
-	float angle;
-};
