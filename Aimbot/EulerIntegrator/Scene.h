@@ -11,13 +11,16 @@ public:
 	~ModuleScene();
 
 	bool Start();
+	update_status PreUpdate();
 	update_status Update(float dt);
 	bool CleanUp();
+	bool TargetExists();
 
+	iPoint Target();
+private:
 	void MouseJointLogic();
 	void TargetLogic();
-	bool TargetExists();
-	iPoint Target();
+	void HandleInput();
 
 private:
 	bool mouse_joint;
