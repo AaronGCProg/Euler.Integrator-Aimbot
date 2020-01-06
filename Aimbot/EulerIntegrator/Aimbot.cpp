@@ -58,15 +58,12 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_SHOOT:
 
+		//do things
+
+		state = AimbotStates::AIMBOT_IDLE;
 		break;
 
-	case AimbotStates::AIMBOT_TARGET_IMPACT:
-
-		break;
 	
-	case AimbotStates::AIMBOT_RESET:
-
-		break;
 	}
 
 	return UPDATE_CONTINUE;
@@ -80,6 +77,10 @@ void ModuleAimbot::HandleInput() {
 		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && state == AimbotStates::AIMBOT_CALCULATED_MONTECARLO)
+	{
+		state = AimbotStates::AIMBOT_SHOOT;
+	}
 }
 
 
