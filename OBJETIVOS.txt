@@ -1,4 +1,5 @@
-	PRIMARIOS
+		PRIMARIOS
+
 1o - Copiar proyecto 1. Limpiar codigo.
 	DONE
 2o - Implementar colision con las esquinas
@@ -15,11 +16,14 @@
 
 
 
-	SECUNDARIOS
+		SECUNDARIOS
+
 - Objetivo móvil con mouse joint
 	DONE
 - Optimizar montecarlo (escoger mejor opcion)
+	DONE
 - Modo debug => blit de los montecarlos
 	DAVID IS DOING IT 09/01/2020
 - Objetivo de forma humanoide
 	- Diferente daño en funcion de zona de impacto
+	
