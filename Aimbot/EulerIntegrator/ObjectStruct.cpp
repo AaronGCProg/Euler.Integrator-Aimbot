@@ -13,8 +13,8 @@ Object::Object() {
 }
 
 
-Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, p2SString aName) {
-
+Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, p2SString aName) 
+{
 	pos = aPos;
 	speed = aSpeed;
 	force = aforce;
@@ -41,18 +41,21 @@ double Object::CalculateAerodinamicCoeficientX() {
 
 bool Object::QuickCheckCollision(const Object* obj) const
 {
-	return !((this->pos.x + this->radius*2 < obj->pos.x
-		|| obj->pos.x + obj->radius*2 < this->pos.x)
-		|| (this->pos.y + this->radius*2  < obj->pos.y
-		|| obj->pos.y + obj->radius*2 < this->pos.y));
+	return !(
+		(this->pos.x + this->radius < (obj->pos.x - obj->radius))
+		|| (obj->pos.x + obj->radius < (this->pos.x - this->radius))
+		|| (this->pos.y + this->radius  < (obj->pos.y - obj->radius))
+		|| (obj->pos.y + obj->radius < this->pos.y - obj->radius)
+		 
+		);
 }
 
 bool Object::AccurateCheckCollision(const Object* obj) const
 {
 	bool ret = false;
 
-	double a = (pos.x + radius) - (obj->pos.x + obj->radius);
-	double b = (pos.y + radius) -(obj->pos.y + obj->radius);
+	double a = (pos.x) - (obj->pos.x);
+	double b = (pos.y ) -(obj->pos.y);
 
 	double distance = sqrt( (a*a) + (b*b) );
 

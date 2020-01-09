@@ -72,21 +72,21 @@ update_status ModuleScene::Update(float dt) {
 	return UPDATE_CONTINUE;
 }
 
-bool ModuleScene::CleanUp() {
-
+bool ModuleScene::CleanUp() 
+{
 	LOG("Scene CleanUp has been called");
 	return true;
 
 }
 
-void ModuleScene::MouseJointLogic() {
-
+void ModuleScene::MouseJointLogic() 
+{
 	dPoint mouse_pos(App->input->GetMouseX(), App->input->GetMouseY());
 
 	// Creates the mouse joint
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		body_index = App->physics->IsInsideObject(mouse_pos);
-		if (body_index != -1) {
+		if (body_index != -1 && App->physics->world->objects_array[body_index]->noPhys == false) {
 			mouse_joint = true;
 		}
 	}
@@ -121,7 +121,10 @@ bool ModuleScene::TargetExists() {
 	return false;
 }
 
-Object* ModuleScene::Target() { return target; }
+Object* ModuleScene::Target() 
+{ 
+	return target;
+}
 
 void ModuleScene::ResetTarget() {
 	App->physics->DeleteObject(target);
