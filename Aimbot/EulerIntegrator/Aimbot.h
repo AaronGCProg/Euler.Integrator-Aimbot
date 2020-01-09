@@ -32,7 +32,7 @@ public:
 
 private:
 	void HandleInput();
-	Trajectory CalculateTrajectory(float speed, float angle);
+	Trajectory CalculateTrajectory();
 
 private:
 	AimbotStates state;

@@ -22,9 +22,7 @@ bool ModuleAimbot::Start() {
 	App->physics->AddObject(aimbot);
 	state = AimbotStates::AIMBOT_IDLE;
 
-	double propagationRadius = 0.1f;
-	propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "propagation");
-	App->physics->AddObject(propagationObj);
+	propagationObj = nullptr;
 
 	return true;
 }
@@ -41,17 +39,22 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
 		
-		if (App->scene->TargetExists()) {
-			//dPoint iSpeed = CalculateTrajectory(aimbot->pos, App->scene->Target()->pos);
-			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
+		if (propagationObj == nullptr) {
+			double propagationRadius = 0.1f;
+			propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "propagation");
+			App->physics->AddObject(propagationObj);
+		}
 
+		if (App->scene->TargetExists()) {
+			Trajectory speed_angle = CalculateTrajectory();
+			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 		}
 
 		break;
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
-		LOG("Ready to shoot baby");
+		LOG("Ready to shoot, baby");
 
 		break;
 
@@ -89,7 +92,7 @@ bool ModuleAimbot::CleanUp() {
 }
 
 // Trajectory with Montecarlo method
-Trajectory ModuleAimbot::CalculateTrajectory(float speed, float angle) {
+Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	Trajectory result;
 	result.angle = 0;
