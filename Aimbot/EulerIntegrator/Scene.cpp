@@ -72,15 +72,15 @@ update_status ModuleScene::Update(float dt) {
 	return UPDATE_CONTINUE;
 }
 
-bool ModuleScene::CleanUp() {
-
+bool ModuleScene::CleanUp() 
+{
 	LOG("Scene CleanUp has been called");
 	return true;
 
 }
 
-void ModuleScene::MouseJointLogic() {
-
+void ModuleScene::MouseJointLogic() 
+{
 	dPoint mouse_pos(App->input->GetMouseX(), App->input->GetMouseY());
 
 	// Creates the mouse joint
@@ -121,7 +121,10 @@ bool ModuleScene::TargetExists() {
 	return false;
 }
 
-Object* ModuleScene::Target() { return target; }
+Object* ModuleScene::Target() 
+{ 
+	return target;
+}
 
 void ModuleScene::ResetTarget() {
 	App->physics->DeleteObject(target);
