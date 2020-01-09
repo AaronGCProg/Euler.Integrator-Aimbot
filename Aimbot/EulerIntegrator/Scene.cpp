@@ -86,7 +86,7 @@ void ModuleScene::MouseJointLogic()
 	// Creates the mouse joint
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		body_index = App->physics->IsInsideObject(mouse_pos);
-		if (body_index != -1) {
+		if (body_index != -1 && App->physics->world->objects_array[body_index]->noPhys == false) {
 			mouse_joint = true;
 		}
 	}

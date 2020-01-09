@@ -1,14 +1,22 @@
 	PRIMARIOS
 1o - Copiar proyecto 1. Limpiar codigo.
+	DONE
 2o - Implementar colision con las esquinas
+	DONE
 3o - Crear objetivo (circulo, definir via radio)
+	DONE
 4o - Disparar PARTICULA, colision con target
+	WE'RE ON IT 09/01/2020
 5o - Monte Carlo
+	DONE
 (6o) - Cerrar 2o Apartado en Wiki
+	JUAN PLS
 	
 	SECUNDARIOS
 - Objetivo móvil con mouse joint
+	DONE
 - Optimizar montecarlo (escoger mejor opcion)
 - Modo debug => blit de los montecarlos
+	DAVID IS DOING IT 09/01/2020
 - Objetivo de forma humanoide
 	- Diferente daño en funcion de zona de impacto
