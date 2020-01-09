@@ -69,6 +69,9 @@ bool ModulePhysics::CleanUp() {
 
 void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 {
+	if (dt > 0.16f)
+		dt = 0.16f;
+
 	if (object.noPhys)
 	{
 		App->collisions->CheckBorderCollision(object);

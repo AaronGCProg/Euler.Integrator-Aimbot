@@ -18,7 +18,7 @@ ModuleAimbot::~ModuleAimbot() {}
 bool ModuleAimbot::Start() {
 
 	double radius = 0.5f;
-	aimbot = new Object({ PIXEL_TO_METERS(SCREEN_WIDTH / 3), PIXEL_TO_METERS(SCREEN_HEIGHT - radius) }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "aimbot");
+	aimbot = new Object({ PIXEL_TO_METERS(SCREEN_WIDTH / 3), PIXEL_TO_METERS(SCREEN_HEIGHT - radius) }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, true, "aimbot");
 	App->physics->AddObject(aimbot);
 	state = AimbotStates::AIMBOT_IDLE;
 
@@ -111,8 +111,11 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		seedSpeed[i] = rand() % 200 + 1;	
+		seedSpeed[i] = (rand() % 200 + 1) * 100;	
 		seedAngle[i] = rand() % 300 + 1;
+
+		propagationObj->speed = { seedSpeed[i] * cos(seedAngle[i]), seedSpeed[i] * sin(seedAngle[i]) };
+		propagationObj->pos = {0,0};
 
 		for (int j = 0; j < PROPAGATION; j++)
 		{
@@ -120,7 +123,6 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 			if (propagationObj->AccurateCheckCollision(App->scene->Target())) 
 			{
-				
 				AuxResult.angle = seedAngle[i];
 				AuxResult.speed = seedSpeed[i];
 				AuxTimeCompare = j;
