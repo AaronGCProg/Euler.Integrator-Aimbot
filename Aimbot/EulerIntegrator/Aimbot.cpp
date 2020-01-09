@@ -9,7 +9,7 @@
 
 
 #define MONTECARLO_ITERATION 100
-#define PROPAGATION 100
+#define PROPAGATION 10000
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 
@@ -97,6 +97,12 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	Trajectory result;
 	result.angle = 0;
 	result.speed = 0;
+	Trajectory AuxResult;
+	AuxResult.angle = 0;
+	AuxResult.speed = 0;
+
+	int TimeCompare = 100;
+	int AuxTimeCompare = 100;
 
 	float seedSpeed[MONTECARLO_ITERATION];
 	float seedAngle[MONTECARLO_ITERATION];
@@ -106,7 +112,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
 		seedSpeed[i] = rand() % 200 + 1;	
-		seedAngle[i] = rand() % 180 + 1;
+		seedAngle[i] = rand() % 300 + 1;
 
 		for (int j = 0; j < PROPAGATION; j++)
 		{
@@ -115,10 +121,14 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 			if (propagationObj->AccurateCheckCollision(App->scene->Target())) 
 			{
 				
-				result.angle = seedAngle[i];
-				result.speed = seedSpeed[i];
+				AuxResult.angle = seedAngle[i];
+				AuxResult.speed = seedSpeed[i];
+				AuxTimeCompare = j;
 
-				return result;
+				if (AuxTimeCompare < TimeCompare) {
+					result = AuxResult;
+					TimeCompare = j;
+				}
 			}
 		}
 	}
