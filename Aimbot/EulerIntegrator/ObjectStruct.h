@@ -9,7 +9,7 @@
 //each object has a name, position, velocity and mass. It also has a force, which is set to 0 at the start of every loop
 struct Object {
 
-private:
+public:
 	dPoint force; //In newtons WARNING, DO NOT ACCES THE VARIABLE WITHOUT EXPLICIT PERMISSION FROM THE PHYSICS GUYS, IF YOU NEED TO ADD A FORCE USE THE FUNCTION .AddForce()
 	p2SString name;
 	dPoint pos; //In meters
