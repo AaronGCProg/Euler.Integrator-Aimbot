@@ -106,17 +106,13 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 }
 
 void ModulePhysics::AddObject(Object* obj) {
-	int i = world->index % MAX_OBJECTS; //search position in array. If full, start from the beggining
 
-	if (world->objects_array[i] != nullptr)
-	{
-		world->objects_array[i]->name.Clear();
-		delete world->objects_array[i]; //if there is something, delete it
-		world->objects_array[i] = nullptr; //clear the pointer
+	for (int i = 0; i < MAX_OBJECTS; i++) {
+		if (world->objects_array[i] == nullptr) {
+			world->objects_array[i] = obj;
+			i = MAX_OBJECTS;
+		}
 	}
-	world->objects_array[i] = obj; //ad the object
-
-	world->index++;
 }
 
 bool ModulePhysics::DeleteObject(Object* obj) {
