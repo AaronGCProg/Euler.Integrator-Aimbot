@@ -2,15 +2,11 @@
 #include "p2Point.h"
 #include "p2List.h"
 #include "Module.h"
-
+#include "Trajectory.h"
 
 struct Object;
 
-struct Trajectory
-{
-	float speed;
-	float angle;
-};
+
 
 enum class AimbotStates {
 	AIMBOT_IDLE,

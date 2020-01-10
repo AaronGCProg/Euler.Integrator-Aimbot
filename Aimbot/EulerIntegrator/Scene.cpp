@@ -107,13 +107,18 @@ void ModuleScene::MouseJointLogic()
 
 }
 
-void ModuleScene::TargetLogic() {
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_joint == false && target == nullptr) {
+void ModuleScene::TargetLogic() 
+{
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_joint == false) {
+
+		if (TargetExists())
+			ResetTarget();
+		
 		dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
-		target = new Object(position, 0.1f, { 0.0f, 0.0f }, {0.0f, 0.0f}, 10.0f, 0.1f, true, "target");
+		target = new Object(position, 0.1f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, "target");
 		App->physics->AddObject(target);
+		
 	}
-	else if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && target != nullptr){ ResetTarget(); }
 }
 
 bool ModuleScene::TargetExists() {
