@@ -34,8 +34,10 @@ private:
 	void HandleInput();
 	Trajectory CalculateTrajectory();
 
+
 private:
 	AimbotStates state;
+	Trajectory trajectory;
 	Object* aimbot;
 	Object* propagationObj;
 };

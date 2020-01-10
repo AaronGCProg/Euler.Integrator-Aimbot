@@ -11,6 +11,7 @@ struct Object {
 
 public:
 	dPoint force; //In newtons WARNING, DO NOT ACCES THE VARIABLE WITHOUT EXPLICIT PERMISSION FROM THE PHYSICS GUYS, IF YOU NEED TO ADD A FORCE USE THE FUNCTION .AddForce()
+					// Why dont you put it in fucking private you fck morons? Att: Jose :D
 	p2SString name;
 	dPoint pos; //In meters
 	dPoint speed;  //In meters/second
@@ -20,7 +21,7 @@ public:
 	bool noPhys; // If true, deactivates movement & speed updates
 
 
-
+public:
 	//Diferent object constructors
 	Object();
 
@@ -42,6 +43,7 @@ public:
 
 	//Funcions to set forces into objects
 	void AddForce(dPoint aForce);
+	void AddSpeed(float speed, float angle);
 	void ResetForces();
 
 	~Object();

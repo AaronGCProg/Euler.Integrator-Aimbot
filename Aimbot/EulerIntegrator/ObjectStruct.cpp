@@ -94,7 +94,18 @@ bool Object::operator==(Object& dt) const {
 
 
 void Object::AddForce(dPoint aForce) {
+
 	force += aForce;
+}
+
+
+void Object::AddSpeed(float speed, float angle) {
+
+	double xSpeed = speed * cos(angle);
+	double ySpeed = speed * sin(angle);
+
+	this->speed.x += xSpeed;
+	this->speed.y += ySpeed;
 }
 
 

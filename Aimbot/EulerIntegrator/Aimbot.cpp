@@ -9,7 +9,7 @@
 
 
 #define MONTECARLO_ITERATION 100
-#define PROPAGATION 10000
+#define PROPAGATION 1000
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 
@@ -46,7 +46,7 @@ update_status ModuleAimbot::Update(float dt) {
 		}
 
 		if (App->scene->TargetExists()) {
-			Trajectory speed_angle = CalculateTrajectory();
+			trajectory = CalculateTrajectory();
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 		}
 
@@ -59,12 +59,11 @@ update_status ModuleAimbot::Update(float dt) {
 		break;
 
 	case AimbotStates::AIMBOT_SHOOT:
-		App->scene->ResetTarget();
-		App->physics->DeleteObject(propagationObj);
-		propagationObj = nullptr;
+		
+		propagationObj->AddSpeed(trajectory.speed, trajectory.angle);
+
 		state = AimbotStates::AIMBOT_IDLE;
 		//do things
-
 		break;
 	}
 
@@ -76,6 +75,10 @@ void ModuleAimbot::HandleInput() {
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
+		App->scene->ResetTarget();
+		App->physics->DeleteObject(propagationObj);
+		propagationObj = nullptr;
+
 		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
 	}
 
@@ -111,7 +114,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		seedSpeed[i] = (rand() % 200 + 1) * 100;	
+		seedSpeed[i] = (rand() % 100 + 1) * 100;	
 		seedAngle[i] = rand() % 300 + 1;
 
 		propagationObj->speed = { seedSpeed[i] * cos(seedAngle[i]), seedSpeed[i] * sin(seedAngle[i]) };
