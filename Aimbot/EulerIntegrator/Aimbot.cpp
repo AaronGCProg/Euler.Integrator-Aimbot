@@ -63,7 +63,6 @@ update_status ModuleAimbot::Update(float dt) {
 		propagationObj->AddSpeed(trajectory.speed, trajectory.angle);
 
 		state = AimbotStates::AIMBOT_IDLE;
-		//do things
 		break;
 	}
 
@@ -75,10 +74,12 @@ void ModuleAimbot::HandleInput() {
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		App->scene->ResetTarget();
-		App->physics->DeleteObject(propagationObj);
-		propagationObj = nullptr;
-
+		if (propagationObj != nullptr) {
+		
+			App->physics->DeleteObject(propagationObj);
+			propagationObj = nullptr;
+		}
+		
 		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
 	}
 

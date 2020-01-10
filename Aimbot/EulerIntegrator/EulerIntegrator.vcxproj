@@ -133,6 +133,7 @@
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="Render.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Trajectory.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

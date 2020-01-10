@@ -63,6 +63,9 @@
     <ClCompile Include="Aimbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Trajectory.cpp">
+      <Filter>Source Files\PhysicObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="Aimbot.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trajectory.h">
+      <Filter>Source Files\PhysicObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
