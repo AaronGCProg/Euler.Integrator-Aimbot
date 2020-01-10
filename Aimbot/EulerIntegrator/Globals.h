@@ -44,6 +44,13 @@ enum update_status
 	UPDATE_ERROR
 };
 
+enum collision_flag : uint16
+{
+	COLLISION_NONE = 0x000,
+	COLLISION_FRONT = 0x001,
+	COLLISION_BACK = 0x002
+};
+
 
 // Configuration -----------
 #define SCREEN_WIDTH 720

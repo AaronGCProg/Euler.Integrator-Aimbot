@@ -18,7 +18,7 @@ ModuleAimbot::~ModuleAimbot() {}
 bool ModuleAimbot::Start() {
 
 	double radius = 0.5f;
-	aimbot = new Object({ PIXEL_TO_METERS(SCREEN_WIDTH / 3), PIXEL_TO_METERS(SCREEN_HEIGHT - radius) }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, true, "aimbot");
+	aimbot = new Object({ PIXEL_TO_METERS(SCREEN_WIDTH / 3), PIXEL_TO_METERS(SCREEN_HEIGHT - radius) }, radius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, true, COLLISION_BACK, "aimbot");
 	App->physics->AddObject(aimbot);
 	state = AimbotStates::AIMBOT_IDLE;
 
@@ -41,12 +41,13 @@ update_status ModuleAimbot::Update(float dt) {
 		
 		if (propagationObj == nullptr) {
 			double propagationRadius = 0.1f;
-			propagationObj = new Object({ aimbot->pos.x, aimbot->pos.y }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "propagation");
+			propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, COLLISION_FRONT, "propagation");
 			App->physics->AddObject(propagationObj);
 		}
 
 		if (App->scene->TargetExists()) {
 			trajectory = CalculateTrajectory();
+			LOG("Ready to shoot, baby");
 			propagationObj->pos.x = aimbot->pos.x;
 			propagationObj->pos.y = aimbot->pos.y;
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
@@ -56,6 +57,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
+		//Do not log here. It does it every frame
 		propagationObj->pos.x = aimbot->pos.x;
 		propagationObj->pos.y = aimbot->pos.y;
 
@@ -65,7 +67,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_SHOOT:
 		
-		propagationObj->AddSpeed(trajectory.speed, trajectory.angle);
+		propagationObj->AddSpeed	(trajectory.speed, trajectory.angle);
 
 		state = AimbotStates::AIMBOT_IDLE;
 		break;
@@ -104,7 +106,8 @@ bool ModuleAimbot::CleanUp() {
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	dPoint auxPos = propagationObj->pos;
-
+	dPoint auxSpeed = propagationObj->speed;
+	
 
 	Trajectory result;
 	result.angle = 0;
@@ -150,6 +153,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	}
 
 	propagationObj->pos = auxPos;
+	propagationObj->speed = auxSpeed;
 
 	return result;
 }
