@@ -9,7 +9,7 @@
 
 
 #define MONTECARLO_ITERATION 100
-#define PROPAGATION 1000
+#define PROPAGATION 100
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 
@@ -47,12 +47,19 @@ update_status ModuleAimbot::Update(float dt) {
 
 		if (App->scene->TargetExists()) {
 			trajectory = CalculateTrajectory();
+			LOG("Ready to shoot, baby");
+			propagationObj->pos.x = aimbot->pos.x;
+			propagationObj->pos.y = aimbot->pos.y;
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 		}
 
 		break;
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
+
+		//Do not log here. It does it every frame
+		propagationObj->pos.x = aimbot->pos.x;
+		propagationObj->pos.y = aimbot->pos.y;
 
 		LOG("Ready to shoot, baby");
 
@@ -98,6 +105,10 @@ bool ModuleAimbot::CleanUp() {
 // Trajectory with Montecarlo method
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
+	dPoint auxPos = propagationObj->pos;
+	dPoint auxSpeed = propagationObj->speed;
+	
+
 	Trajectory result;
 	result.angle = 0;
 	result.speed = 0;
@@ -115,7 +126,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		seedSpeed[i] = (rand() % 100 + 1) * 100;	
+		seedSpeed[i] = rand() % 100 + 1;	
 		seedAngle[i] = rand() % 300 + 1;
 
 		propagationObj->speed = { seedSpeed[i] * cos(seedAngle[i]), seedSpeed[i] * sin(seedAngle[i]) };
@@ -138,6 +149,9 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 			}
 		}
 	}
+
+	propagationObj->pos = auxPos;
+	propagationObj->speed = auxSpeed;
 
 	return result;
 }
