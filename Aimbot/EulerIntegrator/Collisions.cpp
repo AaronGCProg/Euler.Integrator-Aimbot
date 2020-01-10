@@ -34,7 +34,7 @@ void ModuleCollisions::OnCollision(Object* c1)
 
 			if (c1->QuickCheckCollision(c2) && c1->AccurateCheckCollision(c2))
 			{
-				if (!c1->noPhys && !c2->noPhys)
+				if (c1->collFlag == c2->collFlag)
 				ResolveCollision(c1, c2);
 			}
 		}

@@ -18,13 +18,14 @@ public:
 	double mass; //In kg
 	double friction_coefficient;
 	bool noPhys; // If true, deactivates movement & speed updates
+	collision_flag collFlag; // The object will only collide if they have the same flag
 
 
 public:
 	//Diferent object constructors
 	Object();
 
-	Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, p2SString aName);
+	Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, collision_flag collFlag, p2SString aName);
 
 
 

@@ -63,9 +63,10 @@ update_status ModuleScene::Update(float dt) {
 
 
 	//spawns new cube
-	if (App->input->GetMouseButton(3) == KEY_DOWN) {
+	if (App->input->GetMouseButton(3) == KEY_DOWN) 
+	{
 		Object* newObj = nullptr;
-		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5f, { 0,0 }, { 0,0 }, 150, 0.75f, false, "Ball");
+		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5f, { 0,0 }, { 0,0 }, 150, 0.75f, false, COLLISION_FRONT, "Ball");
 		App->physics->AddObject(newObj);
 	}
 
@@ -115,7 +116,7 @@ void ModuleScene::TargetLogic()
 			ResetTarget();
 		
 		dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
-		target = new Object(position, 0.1f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, "target");
+		target = new Object(position, 0.1f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, COLLISION_FRONT, "target");
 		App->physics->AddObject(target);
 		
 	}

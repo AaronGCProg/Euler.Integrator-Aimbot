@@ -13,7 +13,7 @@ Object::Object() {
 }
 
 
-Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, p2SString aName) 
+Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, collision_flag collFlag, p2SString aName)
 {
 	pos = aPos;
 	speed = aSpeed;
@@ -23,7 +23,7 @@ Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double 
 	this->radius = radius;
 	friction_coefficient = afriction_coefficient;
 	this->noPhys = noPhys;
-
+	this->collFlag = collFlag;
 }
 
 
