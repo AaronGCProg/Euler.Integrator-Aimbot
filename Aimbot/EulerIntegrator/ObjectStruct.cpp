@@ -101,7 +101,7 @@ void Object::AddForce(dPoint aForce) {
 
 void Object::AddSpeed(float speed, float angle) {
 
-	angle = DEG_TO_RAD(angle);
+	angle = DEG_TO_RAD(angle); 
 
 	double xSpeed = speed * cos(angle);
 	double ySpeed = speed * sin(angle);

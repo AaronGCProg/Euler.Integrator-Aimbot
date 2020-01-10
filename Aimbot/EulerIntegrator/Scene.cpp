@@ -116,7 +116,7 @@ void ModuleScene::TargetLogic()
 			ResetTarget();
 		
 		dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
-		target = new Object(position, 0.1f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, COLLISION_FRONT, "target");
+		target = new Object(position, 0.5f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, COLLISION_FRONT, "target");
 		App->physics->AddObject(target);
 		
 	}
