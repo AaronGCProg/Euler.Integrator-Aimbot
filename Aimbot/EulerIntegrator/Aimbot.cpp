@@ -47,6 +47,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 		if (App->scene->TargetExists()) {
 			trajectory = CalculateTrajectory();
+			LOG("Ready to shoot, baby");
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 		}
 
@@ -54,7 +55,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
-		LOG("Ready to shoot, baby");
+		//Do not log here. It does it every frame
 
 		break;
 
@@ -99,7 +100,8 @@ bool ModuleAimbot::CleanUp() {
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	dPoint auxPos = propagationObj->pos;
-
+	dPoint auxSpeed = propagationObj->speed;
+	
 
 	Trajectory result;
 	result.angle = 0;
@@ -143,6 +145,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	}
 
 	propagationObj->pos = auxPos;
+	propagationObj->speed = auxSpeed;
 
 	return result;
 }
