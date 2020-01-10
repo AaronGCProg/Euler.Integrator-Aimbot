@@ -16,7 +16,7 @@ public:
 	dPoint speed;  //In meters/second
 	double radius; //In meters
 	double mass; //In kg
-	double friction_coefficient;
+	double frictionCoefficient;
 	bool noPhys; // If true, deactivates movement & speed updates
 	collision_flag collFlag; // The object will only collide if they have the same flag
 
