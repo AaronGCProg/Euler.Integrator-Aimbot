@@ -84,11 +84,11 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 		if (!c1->noPhys)
 			c1->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection.GetInverse());
-		c1->speed = centersDirection.GetInverse() * mVel1 * c1->friction_coefficient;
+		c1->speed = centersDirection.GetInverse() * mVel1 * c1->frictionCoefficient;
 
 		if (!c2->noPhys)
 			c2->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection);
-		c2->speed = centersDirection * mVel2 * c2->friction_coefficient;
+		c2->speed = centersDirection * mVel2 * c2->frictionCoefficient;
 	}
 }
 
@@ -101,7 +101,7 @@ void ModuleCollisions::CheckBorderCollision(Object& object)
 {
 	if ((object.pos.x + object.radius) > PIXEL_TO_METERS(SCREEN_WIDTH) || (object.pos.x - object.radius) < 0)
 	{
-		object.speed.x = -object.speed.x * object.friction_coefficient;
+		object.speed.x = -object.speed.x * object.frictionCoefficient;
 
 		if ((object.pos.x + object.radius) > PIXEL_TO_METERS(SCREEN_WIDTH))
 			object.pos.x = PIXEL_TO_METERS(SCREEN_WIDTH) - object.radius;
@@ -113,7 +113,7 @@ void ModuleCollisions::CheckBorderCollision(Object& object)
 
 	if ((object.pos.y + object.radius) > PIXEL_TO_METERS(SCREEN_HEIGHT) || (object.pos.y - object.radius) < 0)
 	{
-		object.speed.y = -object.speed.y * object.friction_coefficient;
+		object.speed.y = -object.speed.y * object.frictionCoefficient;
 
 		if ((object.pos.y + object.radius) > PIXEL_TO_METERS(SCREEN_HEIGHT))
 			object.pos.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - object.radius;

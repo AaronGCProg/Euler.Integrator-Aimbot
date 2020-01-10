@@ -1,31 +1,28 @@
 #include "ObjectStruct.h"
 
-Object::Object() {
+Object::Object() :
+	pos(0, 0),
+	speed(0, 0),
+	force(0, 0),
+	mass(1),
+	name(),
+	frictionCoefficient(0.5),
+	radius(0),
+	noPhys(false)
+{}
 
-	pos = { 0, 0 };
-	speed = { 0, 0 };
-	force = { 0, 0 };
-	mass = 1;
-	name = "";
-	friction_coefficient = 0.5;
-	radius = 0;
-	noPhys = false;
-}
 
-
-Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, collision_flag collFlag, p2SString aName)
-{
-	pos = aPos;
-	speed = aSpeed;
-	force = aforce;
-	mass = aMass;
-	name = aName;
-	this->radius = radius;
-	friction_coefficient = afriction_coefficient;
-	this->noPhys = noPhys;
-	this->collFlag = collFlag;
-}
-
+Object::Object(dPoint aPos, double radius, dPoint aSpeed, dPoint aforce, double aMass, double afriction_coefficient, bool noPhys, collision_flag collFlag, p2SString aName) :
+	pos(aPos),
+	speed(aSpeed),
+	force(aforce),
+	mass(aMass),
+	name(aName),
+	radius(radius),
+	frictionCoefficient(afriction_coefficient),
+	noPhys(noPhys),
+	collFlag(collFlag)
+{}
 
 
 double Object::CalculateAerodinamicCoeficientY() {

@@ -93,6 +93,7 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 		acc.x += gravity.x * dt;
 		acc.y += gravity.y * dt;
 	}
+
 	object.force = { 0,0 }; //we reset all the forces of the object after converting them to acceleration, to start a new frame without forces
 
 	object.speed.x += acc.x * dt;
@@ -142,11 +143,13 @@ int ModulePhysics::FindObject(Object& obj) {
 
 
 int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is inside the object (check .h for further info)
+
 	position.x = PIXEL_TO_METERS(position.x);
 	position.y = PIXEL_TO_METERS(position.y);
 
 	for (int i = 0; i < MAX_OBJECTS; i++) {
 		if (world->objects_array[i] != nullptr) {
+
 			Object* obj = world->objects_array[i];
 			SDL_DRect objRect = { obj->pos.x - obj->radius, obj->pos.y - obj->radius, (obj->radius*2), (obj->radius*2) };
 			SDL_DPoint mousePoint = { position.x, position.y};
@@ -155,8 +158,8 @@ int ModulePhysics::IsInsideObject(dPoint& position) {	// Checks if the point is 
 			{
 				return i;
 			}
-
 		}
 	}
+
 	return -1;
 }
