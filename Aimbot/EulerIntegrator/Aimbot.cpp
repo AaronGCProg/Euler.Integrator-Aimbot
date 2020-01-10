@@ -8,7 +8,7 @@
 #include <time.h>
 
 
-#define MONTECARLO_ITERATION 100
+#define MONTECARLO_ITERATION 300
 #define PROPAGATION 100
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
@@ -60,8 +60,6 @@ update_status ModuleAimbot::Update(float dt) {
 		//Do not log here. It does it every frame
 		propagationObj->pos.x = aimbot->pos.x;
 		propagationObj->pos.y = aimbot->pos.y;
-
-		LOG("Ready to shoot, baby");
 
 		break;
 
@@ -126,11 +124,13 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		seedSpeed[i] = rand() % 100 + 1;	
-		seedAngle[i] = rand() % 300 + 1;
+		seedSpeed[i] = 50 + rand() % 50 + 1;	
+		seedAngle[i] = 180 + rand() % 180 + 1;
 
-		propagationObj->speed = { seedSpeed[i] * cos(seedAngle[i]), seedSpeed[i] * sin(seedAngle[i]) };
-		propagationObj->pos = {0,0};
+		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
+
+		propagationObj->speed = { seedSpeed[i] * cos(seedAngleaux), seedSpeed[i] * sin(seedAngleaux) };
+		propagationObj->pos = auxPos;
 
 		for (int j = 0; j < PROPAGATION; j++)
 		{
