@@ -22,6 +22,8 @@ bool ModuleAimbot::Start() {
 	App->physics->AddObject(aimbot);
 	state = AimbotStates::AIMBOT_IDLE;
 
+	srand(time(NULL));
+
 	propagationObj = nullptr;
 
 	return true;
@@ -66,6 +68,7 @@ update_status ModuleAimbot::Update(float dt) {
 	case AimbotStates::AIMBOT_SHOOT:
 		
 		propagationObj->AddSpeed	(trajectory.speed, trajectory.angle);
+		trajectory.angle = 0; trajectory.speed = 0;
 
 		state = AimbotStates::AIMBOT_IDLE;
 		break;
@@ -82,6 +85,7 @@ void ModuleAimbot::HandleInput() {
 		if (propagationObj != nullptr) {
 		
 			App->physics->DeleteObject(propagationObj);
+
 			propagationObj = nullptr;
 		}
 		
@@ -103,8 +107,8 @@ bool ModuleAimbot::CleanUp() {
 // Trajectory with Montecarlo method
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
-	dPoint auxPos = propagationObj->pos;
-	dPoint auxSpeed = propagationObj->speed;
+	dPoint auxPos = aimbot->pos;
+	dPoint auxSpeed = {0,0};
 	
 
 	Trajectory result;
@@ -120,11 +124,9 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	float seedSpeed[MONTECARLO_ITERATION];
 	float seedAngle[MONTECARLO_ITERATION];
 
-	srand(time(NULL));
-
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		seedSpeed[i] = 50 + rand() % 50 + 1;	
+		seedSpeed[i] = 50 + rand() % 25 + 1;	
 		seedAngle[i] = 180 + rand() % 180 + 1;
 
 		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
