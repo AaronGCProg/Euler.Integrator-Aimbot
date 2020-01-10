@@ -47,6 +47,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 		if (App->scene->TargetExists()) {
 			trajectory = CalculateTrajectory();
+			LOG("Ready to shoot, baby");
 			propagationObj->pos.x = aimbot->pos.x;
 			propagationObj->pos.y = aimbot->pos.y;
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
@@ -56,6 +57,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
+		//Do not log here. It does it every frame
 		propagationObj->pos.x = aimbot->pos.x;
 		propagationObj->pos.y = aimbot->pos.y;
 
