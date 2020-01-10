@@ -9,7 +9,7 @@
 
 
 #define MONTECARLO_ITERATION 100
-#define PROPAGATION 1000
+#define PROPAGATION 100
 
 ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
 
@@ -98,6 +98,9 @@ bool ModuleAimbot::CleanUp() {
 // Trajectory with Montecarlo method
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
+	dPoint auxPos = propagationObj->pos;
+
+
 	Trajectory result;
 	result.angle = 0;
 	result.speed = 0;
@@ -115,7 +118,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
 	{
-		seedSpeed[i] = (rand() % 100 + 1) * 100;	
+		seedSpeed[i] = rand() % 100 + 1;	
 		seedAngle[i] = rand() % 300 + 1;
 
 		propagationObj->speed = { seedSpeed[i] * cos(seedAngle[i]), seedSpeed[i] * sin(seedAngle[i]) };
@@ -138,6 +141,8 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 			}
 		}
 	}
+
+	propagationObj->pos = auxPos;
 
 	return result;
 }
