@@ -41,13 +41,14 @@ update_status ModuleAimbot::Update(float dt) {
 		
 		if (propagationObj == nullptr) {
 			double propagationRadius = 0.1f;
-			propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "propagation");
+			propagationObj = new Object({ aimbot->pos.x, aimbot->pos.y }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, "propagation");
 			App->physics->AddObject(propagationObj);
 		}
 
 		if (App->scene->TargetExists()) {
 			trajectory = CalculateTrajectory();
-			LOG("Ready to shoot, baby");
+			propagationObj->pos.x = aimbot->pos.x;
+			propagationObj->pos.y = aimbot->pos.y;
 			state = AimbotStates::AIMBOT_CALCULATED_MONTECARLO;
 		}
 
@@ -55,7 +56,10 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
-		//Do not log here. It does it every frame
+		propagationObj->pos.x = aimbot->pos.x;
+		propagationObj->pos.y = aimbot->pos.y;
+
+		LOG("Ready to shoot, baby");
 
 		break;
 
