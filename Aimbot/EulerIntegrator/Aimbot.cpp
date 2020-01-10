@@ -126,7 +126,9 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 		seedSpeed[i] = rand() % 100 + 1;	
 		seedAngle[i] = rand() % 300 + 1;
 
-		propagationObj->speed = { seedSpeed[i] * cos(seedAngle[i]), seedSpeed[i] * sin(seedAngle[i]) };
+		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
+
+		propagationObj->speed = { seedSpeed[i] * cos(seedAngleaux), seedSpeed[i] * sin(seedAngleaux) };
 		propagationObj->pos = {0,0};
 
 		for (int j = 0; j < PROPAGATION; j++)
