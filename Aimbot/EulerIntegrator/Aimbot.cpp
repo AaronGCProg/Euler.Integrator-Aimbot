@@ -11,7 +11,7 @@
 #define MONTECARLO_ITERATION 300
 #define PROPAGATION 100
 
-ModuleAimbot::ModuleAimbot(Application* app, bool start_enabled) : Module(app, start_enabled) {}
+ModuleAimbot::ModuleAimbot(Application * app, bool start_enabled) : Module(app, start_enabled) {}
 
 ModuleAimbot::~ModuleAimbot() {}
 
@@ -42,7 +42,7 @@ update_status ModuleAimbot::Update(float dt) {
 		break;
 
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
-		
+
 		if (propagationObj == nullptr) {
 			double propagationRadius = 0.1f;
 			propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, COLLISION_FRONT, "propagation");
@@ -68,8 +68,8 @@ update_status ModuleAimbot::Update(float dt) {
 		break;
 
 	case AimbotStates::AIMBOT_SHOOT:
-		
-		propagationObj->AddSpeed	(trajectory.speed, trajectory.angle);
+
+		propagationObj->AddSpeed(trajectory.speed, trajectory.angle);
 		trajectory.angle = 0; trajectory.speed = 0;
 
 		state = AimbotStates::AIMBOT_IDLE;
@@ -88,12 +88,12 @@ void ModuleAimbot::HandleInput() {
 		TargetLogic();
 
 		if (propagationObj != nullptr) {
-		
+
 			App->physics->DeleteObject(propagationObj);
 
 			propagationObj = nullptr;
 		}
-		
+
 		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
 	}
 
@@ -104,7 +104,10 @@ void ModuleAimbot::HandleInput() {
 }
 
 
-bool ModuleAimbot::CleanUp() {
+bool ModuleAimbot::CleanUp()
+{
+	aimbot = nullptr;
+	propagationObj = nullptr;
 
 	return true;
 }
@@ -113,8 +116,8 @@ bool ModuleAimbot::CleanUp() {
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	dPoint auxPos = aimbot->pos;
-	dPoint auxSpeed = {0,0};
-	
+	dPoint auxSpeed = { 0,0 };
+
 
 	Trajectory result;
 	result.angle = 0;
@@ -129,9 +132,9 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	float seedSpeed[MONTECARLO_ITERATION];
 	float seedAngle[MONTECARLO_ITERATION];
 
-	for (int i = 0; i < MONTECARLO_ITERATION; i++) 
+	for (int i = 0; i < MONTECARLO_ITERATION; i++)
 	{
-		seedSpeed[i] = 50 + rand() % 25 + 1;	
+		seedSpeed[i] = 50 + rand() % 25 + 1;
 		seedAngle[i] = 180 + rand() % 180 + 1;
 
 		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
@@ -143,7 +146,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 		{
 			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
 
-			if (propagationObj->AccurateCheckCollision(target)) 
+			if (propagationObj->AccurateCheckCollision(target))
 			{
 				AuxResult.angle = seedAngle[i];
 				AuxResult.speed = seedSpeed[i];
@@ -176,7 +179,8 @@ void ModuleAimbot::TargetLogic()
 }
 
 
-bool ModuleAimbot::TargetExists() {
+bool ModuleAimbot::TargetExists()
+{
 	if (target != nullptr) { return true; }
 	return false;
 }
@@ -187,7 +191,8 @@ Object* ModuleAimbot::GetTarget()
 }
 
 
-void ModuleAimbot::CreateTarget() {
+void ModuleAimbot::CreateTarget()
+{
 
 	dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
 	target = new Object(position, 0.5f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, COLLISION_FRONT, "target");
