@@ -22,7 +22,7 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Start() {
 	LOG("Module Scene succesful Start()");
 
-	body_index = -1;
+	bodyIndex = -1;
 	mouseJoint = false;
 	
 	
@@ -81,12 +81,15 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::MouseJointLogic() 
 {
-	dPoint mouse_pos(App->input->GetMouseX(), App->input->GetMouseY());
+	dPoint mousePos(App->input->GetMouseX(), App->input->GetMouseY());
 
 	// Creates the mouse joint
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
-		body_index = App->physics->IsInsideObject(mouse_pos);
-		if (body_index != -1 && App->physics->world->objects_array[body_index]->noPhys == false) {
+
+		bodyIndex = App->physics->IsInsideObject(mousePos);
+
+		if (bodyIndex != -1 && App->physics->world->objects_array[bodyIndex]->noPhys == false) {
+			
 			mouseJoint = true;
 		}
 	}
@@ -94,10 +97,10 @@ void ModuleScene::MouseJointLogic()
 	// Moves the object towards the mouse
 	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
 		dPoint speed;
-		speed.x = (PIXEL_TO_METERS(mouse_pos.x) - App->physics->world->objects_array[body_index]->pos.x) / 20;
-		speed.y = (PIXEL_TO_METERS(mouse_pos.y) - App->physics->world->objects_array[body_index]->pos.y) / 20;
-		App->physics->world->objects_array[body_index]->speed += speed;
-		App->renderer->DrawLine(mouse_pos.x, mouse_pos.y, METERS_TO_PIXELS(App->physics->world->objects_array[body_index]->pos.x), METERS_TO_PIXELS(App->physics->world->objects_array[body_index]->pos.y), 70, 70, 70);
+		speed.x = (PIXEL_TO_METERS(mousePos.x) - App->physics->world->objects_array[bodyIndex]->pos.x) / 20;
+		speed.y = (PIXEL_TO_METERS(mousePos.y) - App->physics->world->objects_array[bodyIndex]->pos.y) / 20;
+		App->physics->world->objects_array[bodyIndex]->speed += speed;
+		App->renderer->DrawLine(mousePos.x, mousePos.y, METERS_TO_PIXELS(App->physics->world->objects_array[bodyIndex]->pos.x), METERS_TO_PIXELS(App->physics->world->objects_array[bodyIndex]->pos.y), 70, 70, 70);
 	}
 
 	// Restores previous conditions when mouse stops being pressed

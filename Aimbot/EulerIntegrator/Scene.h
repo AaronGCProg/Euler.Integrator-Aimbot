@@ -21,5 +21,5 @@ public:
 private:
 	bool mouseJoint;
 	
-	int body_index;
+	int bodyIndex;
 };

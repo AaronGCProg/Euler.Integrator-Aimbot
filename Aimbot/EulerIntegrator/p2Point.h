@@ -14,7 +14,9 @@ public:
 
 	TYPE x, y;
 
-	p2Point()
+	p2Point() :
+		x(0),
+		y(0)
 	{}
 
 	p2Point(const p2Point<TYPE>& v)

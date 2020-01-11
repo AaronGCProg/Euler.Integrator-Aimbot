@@ -82,23 +82,17 @@ update_status ModuleAimbot::Update(float dt) {
 
 void ModuleAimbot::HandleInput() {
 
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 
 		TargetLogic();
 
-		if (propagationObj != nullptr) {
-		
-			App->physics->DeleteObject(propagationObj);
-
-			propagationObj = nullptr;
-		}
+		ResetProjectile();
 		
 		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && state == AimbotStates::AIMBOT_CALCULATED_MONTECARLO)
-	{
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && state == AimbotStates::AIMBOT_CALCULATED_MONTECARLO) {
+
 		state = AimbotStates::AIMBOT_SHOOT;
 	}
 }
@@ -113,15 +107,10 @@ bool ModuleAimbot::CleanUp() {
 Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	dPoint auxPos = aimbot->pos;
-	dPoint auxSpeed = {0,0};
-	
+	dPoint auxSpeed(0, 0);
 
 	Trajectory result;
-	result.angle = 0;
-	result.speed = 0;
 	Trajectory AuxResult;
-	AuxResult.angle = 0;
-	AuxResult.speed = 0;
 
 	int TimeCompare = 100;
 	int AuxTimeCompare = 100;
@@ -166,7 +155,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 void ModuleAimbot::TargetLogic()
 {
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->scene->GetMouseJointActive() == false) {
+	if (App->scene->GetMouseJointActive() == false) {
 
 		if (TargetExists())
 			DeleteTarget();
@@ -177,12 +166,13 @@ void ModuleAimbot::TargetLogic()
 
 
 bool ModuleAimbot::TargetExists() {
+
 	if (target != nullptr) { return true; }
 	return false;
 }
 
-Object* ModuleAimbot::GetTarget()
-{
+Object* ModuleAimbot::GetTarget() {
+
 	return target;
 }
 
@@ -196,6 +186,17 @@ void ModuleAimbot::CreateTarget() {
 
 
 void ModuleAimbot::DeleteTarget() {
+
 	App->physics->DeleteObject(target);
 	target = nullptr;
+}
+
+
+void ModuleAimbot::ResetProjectile() {
+
+	if (propagationObj != nullptr) {
+
+		App->physics->DeleteObject(propagationObj);
+		propagationObj = nullptr;
+	}
 }

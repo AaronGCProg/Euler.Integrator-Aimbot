@@ -35,7 +35,8 @@ private:
 	bool TargetExists();
 	void DeleteTarget();
 	void CreateTarget();
-
+	
+	void ResetProjectile();
 
 private:
 	AimbotStates state;
