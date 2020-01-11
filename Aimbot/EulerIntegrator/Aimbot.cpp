@@ -133,7 +133,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	{
 		bool outOfFor = false;
 
-		seedSpeed[i] = 10 + rand() % 25 + 1;
+		seedSpeed[i] = 10 + rand() % 20 + 1;
 		seedAngle[i] = 180 + rand() % 180 + 1;
 
 		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
@@ -144,11 +144,10 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 		for (int j = 0; j < PROPAGATION; j++)
 		{
 			
-			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
-
-			AuxResult.trace[i].x = METERS_TO_PIXELS(propagationObj->pos.x);
-			AuxResult.trace[i].y = METERS_TO_PIXELS(propagationObj->pos.y);
-
+			App->physics->Integrate(*propagationObj, App->physics->world->gravity, App->dt);
+				
+			AuxResult.trace[j].x = METERS_TO_PIXELS(propagationObj->pos.x);
+			AuxResult.trace[j].y = METERS_TO_PIXELS(propagationObj->pos.y);
 
 			if (propagationObj->AccurateCheckCollision(target))
 			{

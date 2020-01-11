@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "p2Point.h"
 
+#define MAX_TRACE_POINTS 100
+
 class Trajectory
 {
 public:
@@ -12,6 +14,6 @@ public:
 public:
 	float speed;
 	float angle;
-	dPoint trace[100];
+	dPoint trace[MAX_TRACE_POINTS];
 };
 
