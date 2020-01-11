@@ -26,15 +26,24 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	Object* GetTarget();
+
 private:
 	void HandleInput();
 	Trajectory CalculateTrajectory();
+	void TargetLogic();
+	bool TargetExists();
+	void DeleteTarget();
+	void CreateTarget();
 
 
 private:
 	AimbotStates state;
 	Trajectory trajectory;
+
 	Object* aimbot;
 	Object* propagationObj;
+
+	Object* target;
 };
 

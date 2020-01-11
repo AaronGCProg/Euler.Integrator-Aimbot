@@ -23,8 +23,8 @@ bool ModuleScene::Start() {
 	LOG("Module Scene succesful Start()");
 
 	body_index = -1;
-	mouse_joint = false;
-	target = nullptr;
+	mouseJoint = false;
+	
 	
 	return true;
 }
@@ -38,7 +38,6 @@ update_status ModuleScene::Update(float dt) {
 	}
 
 	MouseJointLogic();
-	TargetLogic();
 	
 
 	// lets you modify the world gravity with WASD keys
@@ -88,12 +87,12 @@ void ModuleScene::MouseJointLogic()
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		body_index = App->physics->IsInsideObject(mouse_pos);
 		if (body_index != -1 && App->physics->world->objects_array[body_index]->noPhys == false) {
-			mouse_joint = true;
+			mouseJoint = true;
 		}
 	}
 
 	// Moves the object towards the mouse
-	else if (mouse_joint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
 		dPoint speed;
 		speed.x = (PIXEL_TO_METERS(mouse_pos.x) - App->physics->world->objects_array[body_index]->pos.x) / 20;
 		speed.y = (PIXEL_TO_METERS(mouse_pos.y) - App->physics->world->objects_array[body_index]->pos.y) / 20;
@@ -102,37 +101,13 @@ void ModuleScene::MouseJointLogic()
 	}
 
 	// Restores previous conditions when mouse stops being pressed
-	else if (mouse_joint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
+	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
 		mouse_joint = false;
 	}
 
 }
 
-void ModuleScene::TargetLogic() 
-{
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && mouse_joint == false) {
+bool ModuleScene::GetMouseJointActive() {
 
-		if (TargetExists())
-			ResetTarget();
-		
-		dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
-		target = new Object(position, 0.5f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, COLLISION_FRONT, "target");
-		App->physics->AddObject(target);
-		
-	}
-}
-
-bool ModuleScene::TargetExists() {
-	if (target != nullptr) { return true; }
-	return false;
-}
-
-Object* ModuleScene::Target() 
-{ 
-	return target;
-}
-
-void ModuleScene::ResetTarget() {
-	App->physics->DeleteObject(target);
-	target = nullptr;
+	return mouseJoint;
 }

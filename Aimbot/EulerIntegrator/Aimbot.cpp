@@ -24,6 +24,8 @@ bool ModuleAimbot::Start() {
 
 	srand(time(NULL));
 
+	target = nullptr;
+
 	propagationObj = nullptr;
 
 	return true;
@@ -47,7 +49,7 @@ update_status ModuleAimbot::Update(float dt) {
 			App->physics->AddObject(propagationObj);
 		}
 
-		if (App->scene->TargetExists()) {
+		if (TargetExists()) {
 			trajectory = CalculateTrajectory();
 			LOG("Ready to shoot, baby");
 			propagationObj->pos.x = aimbot->pos.x;
@@ -82,6 +84,9 @@ void ModuleAimbot::HandleInput() {
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
+
+		TargetLogic();
+
 		if (propagationObj != nullptr) {
 		
 			App->physics->DeleteObject(propagationObj);
@@ -138,7 +143,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 		{
 			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
 
-			if (propagationObj->AccurateCheckCollision(App->scene->Target())) 
+			if (propagationObj->AccurateCheckCollision(target)) 
 			{
 				AuxResult.angle = seedAngle[i];
 				AuxResult.speed = seedSpeed[i];
@@ -156,4 +161,41 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	propagationObj->speed = auxSpeed;
 
 	return result;
+}
+
+
+void ModuleAimbot::TargetLogic()
+{
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->scene->GetMouseJointActive() == false) {
+
+		if (TargetExists())
+			DeleteTarget();
+
+		CreateTarget();
+	}
+}
+
+
+bool ModuleAimbot::TargetExists() {
+	if (target != nullptr) { return true; }
+	return false;
+}
+
+Object* ModuleAimbot::GetTarget()
+{
+	return target;
+}
+
+
+void ModuleAimbot::CreateTarget() {
+
+	dPoint position = { PIXEL_TO_METERS((double)App->input->GetMouseX()), PIXEL_TO_METERS((double)App->input->GetMouseY()) };
+	target = new Object(position, 0.5f, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 10.0f, 0.1f, true, COLLISION_FRONT, "target");
+	App->physics->AddObject(target);
+}
+
+
+void ModuleAimbot::DeleteTarget() {
+	App->physics->DeleteObject(target);
+	target = nullptr;
 }
