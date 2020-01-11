@@ -124,7 +124,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++)
 	{
-		seedSpeed[i] = 50 + rand() % 25 + 1;
+		seedSpeed[i] = 10 + rand() % 25 + 1;
 		seedAngle[i] = 180 + rand() % 180 + 1;
 
 		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
