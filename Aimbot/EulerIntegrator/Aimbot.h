@@ -8,7 +8,8 @@ struct Object;
 
 
 
-enum class AimbotStates {
+enum class AimbotStates 
+{
 	AIMBOT_IDLE,
 	AIMBOT_CALCULATE_MONTECARLO,
 	AIMBOT_CALCULATED_MONTECARLO,
