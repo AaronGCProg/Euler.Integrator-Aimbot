@@ -102,7 +102,7 @@ void ModuleScene::MouseJointLogic()
 
 	// Restores previous conditions when mouse stops being pressed
 	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
-		mouse_joint = false;
+		mouseJoint = false;
 	}
 
 }
