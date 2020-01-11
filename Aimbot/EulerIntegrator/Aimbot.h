@@ -31,7 +31,7 @@ public:
 
 private:
 	void HandleInput();
-	Trajectory CalculateTrajectory();
+	Trajectory CalculateTrajectory(float dt);
 	void TargetLogic();
 	bool TargetExists();
 	void DeleteTarget();

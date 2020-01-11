@@ -51,7 +51,7 @@ update_status ModuleAimbot::Update(float dt) {
 		}
 
 		if (TargetExists()) {
-			trajectory = CalculateTrajectory();
+			trajectory = CalculateTrajectory(dt);
 			LOG("Ready to shoot, baby");
 			propagationObj->pos.x = aimbot->pos.x;
 			propagationObj->pos.y = aimbot->pos.y;
@@ -115,7 +115,7 @@ bool ModuleAimbot::CleanUp()
 }
 
 // Trajectory with Montecarlo method
-Trajectory ModuleAimbot::CalculateTrajectory() {
+Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 
 	dPoint auxPos = aimbot->pos;
 	dPoint auxSpeed(0, 0);
@@ -133,8 +133,8 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 	{
 		bool outOfFor = false;
 
-		seedSpeed[i] = 10 + rand() % 25 + 1;
-		seedAngle[i] = 180 + rand() % 180 + 1;
+		seedSpeed[i] = 13 + rand() % 5;
+		seedAngle[i] = 180 + rand() % 180;
 
 		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
 
@@ -144,7 +144,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 		for (int j = 0; j < PROPAGATION; j++)
 		{
 			
-			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
+			App->physics->Integrate(*propagationObj, App->physics->world->gravity, dt);
 
 			AuxResult.trace[i].x = METERS_TO_PIXELS(propagationObj->pos.x);
 			AuxResult.trace[i].y = METERS_TO_PIXELS(propagationObj->pos.y);
