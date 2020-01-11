@@ -4,11 +4,12 @@
 #include "Scene.h"
 #include "Collisions.h"
 #include "Input.h"
+#include "Render.h"
 
 #include <time.h>
 
 
-#define MONTECARLO_ITERATION 300
+#define MONTECARLO_ITERATION 100
 #define PROPAGATION 100
 
 ModuleAimbot::ModuleAimbot(Application * app, bool start_enabled) : Module(app, start_enabled) {}
@@ -60,6 +61,12 @@ update_status ModuleAimbot::Update(float dt) {
 		break;
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
+
+		for (int i = 0; i < MONTECARLO_ITERATION - 1; i++)
+		{
+			if (!(trajectory.trace[i + 1].x == -100 || trajectory.trace[i + 1].y == -100))
+				App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255);				
+		}
 
 		//Do not log here. It does it every frame
 		propagationObj->pos.x = aimbot->pos.x;
@@ -124,6 +131,8 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++)
 	{
+		bool outOfFor = false;
+
 		seedSpeed[i] = 10 + rand() % 25 + 1;
 		seedAngle[i] = 180 + rand() % 180 + 1;
 
@@ -134,7 +143,12 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 
 		for (int j = 0; j < PROPAGATION; j++)
 		{
+			
 			App->physics->Integrate(*propagationObj, GRAVITY, App->dt);
+
+			AuxResult.trace[i].x = METERS_TO_PIXELS(propagationObj->pos.x);
+			AuxResult.trace[i].y = METERS_TO_PIXELS(propagationObj->pos.y);
+
 
 			if (propagationObj->AccurateCheckCollision(target))
 			{
@@ -146,6 +160,7 @@ Trajectory ModuleAimbot::CalculateTrajectory() {
 					result = AuxResult;
 					TimeCompare = j;
 				}
+				outOfFor = true;
 			}
 		}
 	}

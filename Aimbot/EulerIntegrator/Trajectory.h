@@ -12,7 +12,6 @@ public:
 public:
 	float speed;
 	float angle;
-
-
+	dPoint trace[100];
 };
 
