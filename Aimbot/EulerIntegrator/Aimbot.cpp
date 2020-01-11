@@ -146,8 +146,8 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 			
 			App->physics->Integrate(*propagationObj, App->physics->world->gravity, dt);
 
-			AuxResult.trace[i].x = METERS_TO_PIXELS(propagationObj->pos.x);
-			AuxResult.trace[i].y = METERS_TO_PIXELS(propagationObj->pos.y);
+			AuxResult.trace[j].x = METERS_TO_PIXELS(propagationObj->pos.x);
+			AuxResult.trace[j].y = METERS_TO_PIXELS(propagationObj->pos.y);
 
 
 			if (propagationObj->AccurateCheckCollision(target))
