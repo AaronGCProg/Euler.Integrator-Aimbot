@@ -102,6 +102,7 @@ bool ModuleAimbot::CleanUp()
 {
 	aimbot = nullptr;
 	propagationObj = nullptr;
+	target = nullptr;
 
 	return true;
 }

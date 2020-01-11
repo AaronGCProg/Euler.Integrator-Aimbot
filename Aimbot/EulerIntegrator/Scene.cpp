@@ -25,7 +25,6 @@ bool ModuleScene::Start() {
 	bodyIndex = -1;
 	mouseJoint = false;
 	
-	
 	return true;
 }
 
