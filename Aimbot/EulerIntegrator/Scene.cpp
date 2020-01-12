@@ -99,7 +99,7 @@ void ModuleScene::MouseJointLogic()
 	dPoint mousePos(App->input->GetMouseX(), App->input->GetMouseY());
 
 	// Creates the mouse joint
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN) {
 
 		bodyIndex = App->physics->IsInsideObject(mousePos);
 
@@ -110,7 +110,7 @@ void ModuleScene::MouseJointLogic()
 	}
 
 	// Moves the object towards the mouse
-	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 		dPoint speed;
 		speed.x = (PIXEL_TO_METERS(mousePos.x) - App->physics->world->objects_array[bodyIndex]->pos.x) / 20;
 		speed.y = (PIXEL_TO_METERS(mousePos.y) - App->physics->world->objects_array[bodyIndex]->pos.y) / 20;
@@ -119,7 +119,7 @@ void ModuleScene::MouseJointLogic()
 	}
 
 	// Restores previous conditions when mouse stops being pressed
-	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
+	else if (mouseJoint == true && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_UP) {
 		mouseJoint = false;
 	}
 
