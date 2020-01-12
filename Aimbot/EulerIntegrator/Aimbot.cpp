@@ -12,7 +12,10 @@
 #define MONTECARLO_ITERATION 100
 #define PROPAGATION 100
 
-ModuleAimbot::ModuleAimbot(Application * app, bool start_enabled) : Module(app, start_enabled) {}
+ModuleAimbot::ModuleAimbot(Application * app, bool start_enabled) : Module(app, start_enabled) 
+{
+	realTimeMC = false;
+}
 
 ModuleAimbot::~ModuleAimbot() {}
 
@@ -141,6 +144,9 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 		{
 			App->physics->Integrate(propagationObj, App->physics->world->gravity, dt);
 
+			if (realTimeMC)
+				RealTimePropagation();
+
 			AuxResult.trace[j].x = METERS_TO_PIXELS(propagationObj->pos.x);
 			AuxResult.trace[j].y = METERS_TO_PIXELS(propagationObj->pos.y);
 
@@ -215,4 +221,16 @@ void ModuleAimbot::ResetProjectile() {
 		App->physics->DeleteObject(propagationObj);
 		propagationObj = nullptr;
 	}
+}
+
+void ModuleAimbot::RealTimePropagation()
+{
+	App->renderer->PreUpdate();
+	App->physics->PostUpdate();
+	App->renderer->PostUpdate();
+}
+
+void ModuleAimbot::SetRealTimeMC()
+{
+		realTimeMC = !realTimeMC;
 }

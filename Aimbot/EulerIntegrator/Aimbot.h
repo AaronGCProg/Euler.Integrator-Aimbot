@@ -29,6 +29,8 @@ public:
 
 	Object* GetTarget();
 
+	void SetRealTimeMC();
+
 private:
 	void HandleInput();
 	Trajectory CalculateTrajectory(float dt);
@@ -39,6 +41,8 @@ private:
 	
 	void ResetProjectile();
 
+	void RealTimePropagation();
+
 private:
 	AimbotStates state;
 	Trajectory trajectory;
@@ -47,5 +51,7 @@ private:
 	Object* propagationObj;
 
 	Object* target;
+
+	bool realTimeMC;
 };
 

@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "Render.h"
 #include "Collisions.h"
+#include "Aimbot.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -58,6 +59,11 @@ update_status ModuleScene::Update(float dt) {
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
 		App->collisions->ChangeCollBetweenObj();
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+		App->aimbot->SetRealTimeMC();
+	}
+	
 
 
 	//spawns new cube
