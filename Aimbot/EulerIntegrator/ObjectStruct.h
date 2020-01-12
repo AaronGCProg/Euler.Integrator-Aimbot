@@ -43,7 +43,6 @@ public:
 
 	//Funcions to set forces into objects
 	void AddForce(dPoint aForce);
-	void AddSpeed(float speed, float angle);
 	void SetSpeed(float speed, float angle);
 	void ResetForces();
 	void ResetSpeed();
