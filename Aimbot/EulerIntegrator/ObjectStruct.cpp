@@ -107,6 +107,17 @@ void Object::AddSpeed(float speed, float angle) {
 	this->speed.y += ySpeed;
 }
 
+void Object::SetSpeed(float speed, float angle) {
+
+	angle = DEG_TO_RAD(angle);
+
+	double xSpeed = speed * cos(angle);
+	double ySpeed = speed * sin(angle);
+
+	this->speed.x = xSpeed;
+	this->speed.y = ySpeed;
+}
+
 
 void Object::ResetForces()
 {

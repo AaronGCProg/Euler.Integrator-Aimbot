@@ -76,9 +76,7 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_SHOOT:
 
-		propagationObj->ResetForces();
-		propagationObj->ResetSpeed();
-		propagationObj->AddSpeed(trajectory.speed, trajectory.angle);
+		propagationObj->SetSpeed(trajectory.speed, trajectory.angle);
 		trajectory.angle = 0; trajectory.speed = 0;
 
 		state = AimbotStates::AIMBOT_IDLE;
