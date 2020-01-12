@@ -66,10 +66,12 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
-		if(nTrace > 0)
-		for (int i = 1; i < nTrace - 1; i++)
+		if (nTrace > 0) //Check if MonteCarlo has been found
 		{
-			App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255, false);
+			for (int i = 1; i < nTrace - 1; i++)
+			{
+				App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255, false);
+			}
 		}
 
 		//Do not log here. It does it every frame
@@ -224,9 +226,23 @@ void ModuleAimbot::ResetProjectile() {
 
 void ModuleAimbot::RealTimePropagation()
 {
+	//Check Inputs inside MonteCarlo
+	App->input->PreUpdate();
+
+	//Clean the screen
 	App->renderer->PreUpdate();
+
+	//Draw the Objects
 	App->physics->PostUpdate();
+
+	//Change the screen
 	App->renderer->PostUpdate();
+
+	//Skip watching Monte
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_REPEAT) 
+	{
+		App->aimbot->SetRealTimeMC();
+	}
 }
 
 void ModuleAimbot::SetRealTimeMC()

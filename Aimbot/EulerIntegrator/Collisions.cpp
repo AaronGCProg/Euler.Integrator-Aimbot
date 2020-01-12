@@ -84,17 +84,18 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 
 		if (!c1->noPhys)
 		{
-			dPoint p = (p2 - p1).Negate();
-			p.Normalize();
+			dPoint p = centersDirection.GetInverse();
 
-			c1->pos = c2->pos+(p*(c1->radius + c2->radius));
-			c1->speed = centersDirection.GetInverse() * mVel1 * c1->frictionCoefficient;
+			c1->pos = c2->pos + (p * (c1->radius + c2->radius));
+			c1->speed = p * mVel1 * c1->frictionCoefficient;
 		}
 
 		if (!c2->noPhys)
 		{
-			//c2->pos +=  (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5f * centersDirection);
-			c2->speed = centersDirection * mVel2 * c2->frictionCoefficient;
+			dPoint p = centersDirection;
+
+			c2->pos = c1->pos + (p * (c1->radius + c2->radius));
+			c2->speed = p * mVel2 * c2->frictionCoefficient;
 		}
 	}
 }

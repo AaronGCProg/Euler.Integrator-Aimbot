@@ -66,11 +66,21 @@ update_status ModuleScene::Update(float dt) {
 	
 
 
-	//spawns new cube
-	if (App->input->GetMouseButton(3) == KEY_DOWN) 
+	//spawns new static sphere
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) 
 	{
 		Object* newObj = nullptr;
-		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5f, { 0,0 }, { 0,0 }, 150, 0.75f, false, COLLISION_FRONT, "Ball");
+		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5f, { 0,0 }, { 0,0 }, 150, 0.75f, false, COLLISION_FRONT, "StaticBall");
+		App->physics->AddObject(newObj);
+		App->collisions->OnCollision(newObj);
+		newObj->noPhys = true;
+	}
+
+	//spawns new dynamic sphere
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		Object* newObj = nullptr;
+		newObj = new Object({ PIXEL_TO_METERS(App->input->GetMouseX()),PIXEL_TO_METERS(App->input->GetMouseY()) }, 0.5f, { 0,0 }, { 0,0 }, 150, 0.75f, false, COLLISION_FRONT, "DynBall");
 		App->physics->AddObject(newObj);
 	}
 

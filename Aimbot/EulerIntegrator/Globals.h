@@ -63,7 +63,7 @@ enum collision_flag : uint16
 #define VSYNC true
 #define TITLE "EULER_INTEGRATOR: AIMBOT "
 #define ORGANIZATION " UPC - PHYSICS 2"
-#define MAX_OBJECTS 50
+#define MAX_OBJECTS 150
 
 // Fisics defines
 #define AERODINAMIC_COEFICIENT 1.05
