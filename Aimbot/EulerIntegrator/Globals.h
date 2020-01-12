@@ -61,8 +61,8 @@ enum collision_flag : uint16
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-#define TITLE "EULER_INTEGRATOR"
-#define ORGANIZATION "UPC - PHYSICS 2"
+#define TITLE "EULER_INTEGRATOR: AIMBOT "
+#define ORGANIZATION " UPC - PHYSICS 2"
 #define MAX_OBJECTS 50
 
 // Fisics defines
