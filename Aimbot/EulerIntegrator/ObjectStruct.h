@@ -45,6 +45,7 @@ public:
 	void AddForce(dPoint aForce);
 	void AddSpeed(float speed, float angle);
 	void ResetForces();
+	void ResetSpeed();
 
 	~Object();
 

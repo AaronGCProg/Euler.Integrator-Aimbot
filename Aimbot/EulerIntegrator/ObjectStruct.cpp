@@ -113,6 +113,11 @@ void Object::ResetForces()
 	force = { 0,0 };
 }
 
+void Object::ResetSpeed()
+{
+	speed = { 0,0 };
+}
+
 
 Object::~Object() {
 

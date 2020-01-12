@@ -76,6 +76,8 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_SHOOT:
 
+		propagationObj->ResetForces();
+		propagationObj->ResetSpeed();
 		propagationObj->AddSpeed(trajectory.speed, trajectory.angle);
 		trajectory.angle = 0; trajectory.speed = 0;
 
@@ -126,7 +128,6 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 	int TimeCompare = 100;
 	int AuxTimeCompare = 100;
 
-	
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++)
 	{
