@@ -126,19 +126,18 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 	int TimeCompare = 100;
 	int AuxTimeCompare = 100;
 
-	float seedSpeed[MONTECARLO_ITERATION];
-	float seedAngle[MONTECARLO_ITERATION];
+	
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++)
 	{
 		bool outOfFor = false;
 
-		seedSpeed[i] = 13 + rand() % 5;
-		seedAngle[i] = 180 + rand() % 180;
+		float seedSpeed = 13 + rand() % 5;
+		float seedAngle = 180 + rand() % 180;
 
-		float seedAngleaux = DEG_TO_RAD(seedAngle[i]);
+		float seedAngleaux = DEG_TO_RAD(seedAngle);
 
-		propagationObj->speed = { seedSpeed[i] * cos(seedAngleaux), seedSpeed[i] * sin(seedAngleaux) };
+		propagationObj->speed = { seedSpeed * cos(seedAngleaux), seedSpeed * sin(seedAngleaux) };
 		propagationObj->pos = auxPos;
 
 		for (int j = 0; j < PROPAGATION; j++)
@@ -152,8 +151,8 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 
 			if (propagationObj->AccurateCheckCollision(target))
 			{
-				AuxResult.angle = seedAngle[i];
-				AuxResult.speed = seedSpeed[i];
+				AuxResult.angle = seedAngle;
+				AuxResult.speed = seedSpeed;
 				AuxTimeCompare = j;
 
 				if (AuxTimeCompare < TimeCompare) {
