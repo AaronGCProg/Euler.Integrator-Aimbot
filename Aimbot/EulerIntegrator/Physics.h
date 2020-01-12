@@ -20,7 +20,7 @@ public:
 	update_status Update(float dt);
 	update_status PostUpdate();
 	bool CleanUp();
-	void Integrate(Object &object, dPoint gravity,float dt); //Integrates objects
+	void Integrate(Object* object, dPoint gravity,float dt); //Integrates objects
 	void AddObject(Object* obj); //Adds object to the world list
 	bool DeleteObject(Object* obj);
 	int IsInsideObject(dPoint& position);	// returns the object array's position or -1

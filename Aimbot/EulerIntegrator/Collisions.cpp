@@ -35,7 +35,7 @@ void ModuleCollisions::OnCollision(Object* c1)
 			if (c1->QuickCheckCollision(c2) && c1->AccurateCheckCollision(c2))
 			{
 				if (c1->collFlag == c2->collFlag)
-				ResolveCollision(c1, c2);
+ 				ResolveCollision(c1, c2);
 			}
 		}
 
@@ -83,12 +83,16 @@ void ModuleCollisions::ResolveCollision(Object* c1, Object* c2)
 		centersDirection.Normalize();
 
 		if (!c1->noPhys)
-			c1->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection.GetInverse());
-		c1->speed = centersDirection.GetInverse() * mVel1 * c1->frictionCoefficient;
+		{
+			//c1->pos = c1->pos + (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5f * centersDirection.GetInverse());
+			c1->speed = centersDirection.GetInverse() * mVel1 * c1->frictionCoefficient;
+		}
 
 		if (!c2->noPhys)
-			c2->pos += (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5 * centersDirection);
-		c2->speed = centersDirection * mVel2 * c2->frictionCoefficient;
+		{
+			//c2->pos = c2->pos +  (((p2 - p1).Abs().Negate() + (c1->radius + c2->radius)) * 0.5f * centersDirection);
+			c2->speed = centersDirection * mVel2 * c2->frictionCoefficient;
+		}
 	}
 }
 
@@ -97,28 +101,28 @@ void ModuleCollisions::ChangeCollBetweenObj()
 	collBewtweenObjectsActive = !collBewtweenObjectsActive;
 }
 
-void ModuleCollisions::CheckBorderCollision(Object& object)
+void ModuleCollisions::CheckBorderCollision(Object* object)
 {
-	if ((object.pos.x + object.radius) > PIXEL_TO_METERS(SCREEN_WIDTH) || (object.pos.x - object.radius) < 0)
+	if ((object->pos.x + object->radius) > PIXEL_TO_METERS(SCREEN_WIDTH) || (object->pos.x - object->radius) < 0)
 	{
-		object.speed.x = -object.speed.x * object.frictionCoefficient;
+		object->speed.x = -object->speed.x * object->frictionCoefficient;
 
-		if ((object.pos.x + object.radius) > PIXEL_TO_METERS(SCREEN_WIDTH))
-			object.pos.x = PIXEL_TO_METERS(SCREEN_WIDTH) - object.radius;
+		if ((object->pos.x + object->radius) > PIXEL_TO_METERS(SCREEN_WIDTH))
+			object->pos.x = PIXEL_TO_METERS(SCREEN_WIDTH) - object->radius;
 
-		else if ((object.pos.x - object.radius) < 0)
-			object.pos.x = object.radius;
+		else if ((object->pos.x - object->radius) < 0)
+			object->pos.x = object->radius;
 
 	}
 
-	if ((object.pos.y + object.radius) > PIXEL_TO_METERS(SCREEN_HEIGHT) || (object.pos.y - object.radius) < 0)
+	if ((object->pos.y + object->radius) > PIXEL_TO_METERS(SCREEN_HEIGHT) || (object->pos.y - object->radius) < 0)
 	{
-		object.speed.y = -object.speed.y * object.frictionCoefficient;
+		object->speed.y = -object->speed.y * object->frictionCoefficient;
 
-		if ((object.pos.y + object.radius) > PIXEL_TO_METERS(SCREEN_HEIGHT))
-			object.pos.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - object.radius;
+		if ((object->pos.y + object->radius) > PIXEL_TO_METERS(SCREEN_HEIGHT))
+			object->pos.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - object->radius;
 
-		else if (object.pos.y - object.radius < 0)
-			object.pos.y = object.radius;
+		else if (object->pos.y - object->radius < 0)
+			object->pos.y = object->radius;
 	}
 }

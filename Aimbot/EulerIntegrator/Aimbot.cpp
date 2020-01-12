@@ -45,8 +45,8 @@ update_status ModuleAimbot::Update(float dt) {
 	case AimbotStates::AIMBOT_CALCULATE_MONTECARLO:
 
 		if (propagationObj == nullptr) {
-			double propagationRadius = 0.1f;
-			propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.1f, false, COLLISION_FRONT, "propagation");
+			double propagationRadius = 0.2f;
+			propagationObj = new Object({ 5.0f, SCREEN_HEIGHT - propagationRadius }, propagationRadius, { 0.0f, 0.0f }, { 0.0f, 0.0f }, 5.0f, 0.5f, false, COLLISION_FRONT, "propagation");
 			App->physics->AddObject(propagationObj);
 		}
 
@@ -62,10 +62,10 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
-		for (int i = 0; i < MONTECARLO_ITERATION - 1; i++)
+		for (int i = 1; i < MONTECARLO_ITERATION - 1; i++)
 		{
 			if (!(trajectory.trace[i + 1].x == -100 || trajectory.trace[i + 1].y == -100))
-				App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255);				
+				App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255, false);				
 		}
 
 		//Do not log here. It does it every frame
@@ -134,15 +134,12 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 		float seedSpeed = 13 + rand() % 5;
 		float seedAngle = 180 + rand() % 180;
 
-		float seedAngleaux = DEG_TO_RAD(seedAngle);
-
-		propagationObj->speed = { seedSpeed * cos(seedAngleaux), seedSpeed * sin(seedAngleaux) };
+		propagationObj->SetSpeed(seedSpeed, seedAngle);
 		propagationObj->pos = auxPos;
 
 		for (int j = 0; j < PROPAGATION; j++)
 		{
-			
-			App->physics->Integrate(*propagationObj, App->physics->world->gravity, dt);
+			App->physics->Integrate(propagationObj, App->physics->world->gravity, dt);
 
 			AuxResult.trace[j].x = METERS_TO_PIXELS(propagationObj->pos.x);
 			AuxResult.trace[j].y = METERS_TO_PIXELS(propagationObj->pos.y);
@@ -154,7 +151,8 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 				AuxResult.speed = seedSpeed;
 				AuxTimeCompare = j;
 
-				if (AuxTimeCompare < TimeCompare) {
+				if (AuxTimeCompare < TimeCompare) 
+				{
 					result = AuxResult;
 					TimeCompare = j;
 				}

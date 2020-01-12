@@ -19,7 +19,7 @@ public:
 
 	void ChangeCollBetweenObj();
 
-	void CheckBorderCollision(Object& object);
+	void CheckBorderCollision(Object* object);
 
 private:
 	void ResolveCollision(Object* c1, Object* c2);

@@ -20,7 +20,7 @@ update_status ModulePhysics::Update(float dt)
 	for (int i = 0; i < MAX_OBJECTS && world->objects_array[i] != NULL; i++)
 	{
 		if (world->objects_array[i] == nullptr) continue;
-		Integrate(*world->objects_array[i], world->gravity, dt);
+		Integrate(world->objects_array[i], world->gravity, dt);
 	}
 	return UPDATE_CONTINUE;
 }
@@ -67,9 +67,9 @@ bool ModulePhysics::CleanUp() {
 }
 
 
-void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
+void ModulePhysics::Integrate(Object* object, dPoint gravity, float dt)
 {
-	if (object.noPhys)
+	if (object->noPhys)
 	{
 		App->collisions->CheckBorderCollision(object);
 		return;
@@ -78,29 +78,28 @@ void ModulePhysics::Integrate(Object& object, dPoint gravity, float dt)
 	dPoint acc = { 0,0 };
 
 	//if the mass of the object is zero, forces and gravity have no affect in it so we do not calculate them
-	if (object.mass >= 0.001) 
+	if (object->mass >= 0.001) 
 	{ 
-
 		dPoint aerodinamic_drag;
-		aerodinamic_drag.x = object.CalculateAerodinamicCoeficientX();
-		aerodinamic_drag.y = object.CalculateAerodinamicCoeficientY();
-		object.AddForce(aerodinamic_drag);
-		acc.x = (object.force.x * (1 / object.mass)) * dt;
-		acc.y = (object.force.y * (1 / object.mass)) * dt;
+		aerodinamic_drag.x = object->CalculateAerodinamicCoeficientX();
+		aerodinamic_drag.y = object->CalculateAerodinamicCoeficientY();
+		object->AddForce(aerodinamic_drag);
+		acc.x = (object->force.x * (1 / object->mass)) * dt;
+		acc.y = (object->force.y * (1 / object->mass)) * dt;
 		acc.x += gravity.x * dt;
 		acc.y += gravity.y * dt;
 	}
 
-	object.force = { 0,0 }; //we reset all the forces of the object after converting them to acceleration, to start a new frame without forces
+	object->force = { 0,0 }; //we reset all the forces of the object after converting them to acceleration, to start a new frame without forces
 
-	object.speed.x += acc.x * dt;
-	object.speed.y += acc.y * dt; //60 fps, one iteration
+	object->speed.x += acc.x * dt;
+	object->speed.y += acc.y * dt; //60 fps, one iteration
 
-	object.pos.x += object.speed.x * dt;
-	object.pos.y += object.speed.y * dt;
+	object->pos.x += object->speed.x * dt;
+	object->pos.y += object->speed.y * dt;
 
 	App->collisions->CheckBorderCollision(object);
-	App->collisions->OnCollision(&object);
+	App->collisions->OnCollision(object);
 }
 
 void ModulePhysics::AddObject(Object* obj) {
