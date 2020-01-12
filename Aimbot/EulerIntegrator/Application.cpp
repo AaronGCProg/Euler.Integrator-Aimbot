@@ -128,6 +128,9 @@ void Application::PrepareUpdate()
 	//Controls pause of the game
 	dt = lastFrameTimer.ReadSec();
 
+	if (dt > 0.16f)
+		dt = 0.16f;
+
 	lastFrameTimer.Start();
 
 }
