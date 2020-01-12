@@ -28,8 +28,8 @@ typedef double float64;
 #define METERS_TO_PIXELS(m) ((double) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((double) METER_PER_PIXEL * p)
 
-#define DEG_TO_RAD(deg) (deg * 3.1416 / 180)
-#define RAD_TO_DEG(rad) (rad * 180 / 3.1416)
+#define DEG_TO_RAD(deg) (deg * 0.0174532925199432957f)
+#define RAD_TO_DEG(rad) (rad * 57.295779513082320876f)
 
 
 #define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
