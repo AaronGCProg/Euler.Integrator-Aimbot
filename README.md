@@ -4,46 +4,47 @@ A repository for our Euler Integrator; this is a student project made for the CI
 
 ## Team Members:
 
-José Tello:
- - https://github.com/jose-tello
- 
-Adrià Serrano López:
- - https://github.com/adriaserrano97
-
 David Carrasquet Iniesta:
  - https://github.com/davidcarrasquet
-
-Juan Hernández Almagro:
-- https://github.com/juanha2
+ 
+Aaron Guerrero Cruz:
+ - https://github.com/AaronGCProg
 
 Oscar Pérez Martín:
 - https://github.com/oscarpm5
 
-Aaron Guerrero Cruz:
- - https://github.com/AaronGCProg
+Jose Luís Redondo Tello:
+- https://github.com/jose-tello
+
+ Juan Hernández Almagro:
+- https://github.com/juanha2
+
+Adrià Serrano López:
+ - https://github.com/adriaserrano97
+ 
+Àlex Melenchón Maza:
+ - https://github.com/AlexMelenchon
 
 Ferran-Roger Basar i Bosch:
 - https://github.com/ferba93
-
-Àlex Melenchón Maza:
- - https://github.com/AlexMelenchon
 
 ## Github Project link:
 https://github.com/AaronGCProg/Euler.Integrator
 
 ## Team roles:
-Jose Luís Redondo Tello:
+
+ David Carrasquet Iniesta:
  - Programming
  
  Aaron Guerrero Cruz:
  - Coordinator & Programming
 
-David Carrasquet Iniesta:
- - Programming
-
 Oscar Pérez Martín:
  - Physics Programmer Lead
- 
+
+Jose Luís Redondo Tello:
+ - Programming
+
  Juan Hernández Almagro:
  - Report Lead
  
