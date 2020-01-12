@@ -14,6 +14,6 @@ public:
 public:
 	float speed;
 	float angle;
-	dPoint trace[MAX_TRACE_POINTS];
+	iPoint trace[MAX_TRACE_POINTS];
 };
 

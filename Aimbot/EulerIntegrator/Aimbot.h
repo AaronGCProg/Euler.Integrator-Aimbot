@@ -43,6 +43,8 @@ private:
 
 	void RealTimePropagation();
 
+	void ClearTrace();
+
 private:
 	AimbotStates state;
 	Trajectory trajectory;
@@ -53,5 +55,6 @@ private:
 	Object* target;
 
 	bool realTimeMC;
+	uint nTrace;
 };
 

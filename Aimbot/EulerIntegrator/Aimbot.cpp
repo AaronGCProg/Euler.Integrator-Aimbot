@@ -12,9 +12,10 @@
 #define MONTECARLO_ITERATION 100
 #define PROPAGATION 100
 
-ModuleAimbot::ModuleAimbot(Application * app, bool start_enabled) : Module(app, start_enabled) 
+ModuleAimbot::ModuleAimbot(Application * app, bool start_enabled) : Module(app, start_enabled)
 {
 	realTimeMC = false;
+	nTrace = 0u;
 }
 
 ModuleAimbot::~ModuleAimbot() {}
@@ -65,10 +66,10 @@ update_status ModuleAimbot::Update(float dt) {
 
 	case AimbotStates::AIMBOT_CALCULATED_MONTECARLO:
 
-		for (int i = 1; i < MONTECARLO_ITERATION - 1; i++)
+		if(nTrace > 0)
+		for (int i = 1; i < nTrace - 1; i++)
 		{
-			if (!(trajectory.trace[i + 1].x == -100 || trajectory.trace[i + 1].y == -100))
-				App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255, false);				
+			App->renderer->DrawLine(trajectory.trace[i].x, trajectory.trace[i].y, trajectory.trace[i + 1].x, trajectory.trace[i + 1].y, 255, 0, 0, 255, false);
 		}
 
 		//Do not log here. It does it every frame
@@ -97,7 +98,7 @@ void ModuleAimbot::HandleInput() {
 		TargetLogic();
 
 		ResetProjectile();
-		
+
 		state = AimbotStates::AIMBOT_CALCULATE_MONTECARLO;
 	}
 
@@ -129,10 +130,10 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 	int TimeCompare = 100;
 	int AuxTimeCompare = 100;
 
+	ClearTrace();
 
 	for (int i = 0; i < MONTECARLO_ITERATION; i++)
 	{
-		bool outOfFor = false;
 
 		float seedSpeed = 13 + rand() % 5;
 		float seedAngle = 180 + rand() % 180;
@@ -150,19 +151,17 @@ Trajectory ModuleAimbot::CalculateTrajectory(float dt) {
 			AuxResult.trace[j].x = METERS_TO_PIXELS(propagationObj->pos.x);
 			AuxResult.trace[j].y = METERS_TO_PIXELS(propagationObj->pos.y);
 
-
 			if (propagationObj->AccurateCheckCollision(target))
 			{
 				AuxResult.angle = seedAngle;
 				AuxResult.speed = seedSpeed;
 				AuxTimeCompare = j;
 
-				if (AuxTimeCompare < TimeCompare) 
+				if (AuxTimeCompare < TimeCompare)
 				{
 					result = AuxResult;
-					TimeCompare = j;
+					TimeCompare = nTrace = j;
 				}
-				outOfFor = true;
 			}
 		}
 	}
@@ -232,5 +231,15 @@ void ModuleAimbot::RealTimePropagation()
 
 void ModuleAimbot::SetRealTimeMC()
 {
-		realTimeMC = !realTimeMC;
+	realTimeMC = !realTimeMC;
+}
+
+void ModuleAimbot::ClearTrace()
+{
+	for (uint i = 0; i < MAX_TRACE_POINTS; i++)
+	{
+		trajectory.trace[i] = { 0,0 };
+	}
+
+	nTrace = 0u;
 }
