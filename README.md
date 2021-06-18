@@ -26,7 +26,7 @@ Adrià Serrano López:
  - https://github.com/AlexMelenchon
 
 Ferran-Roger Basar i Bosch:
-- https://github.com/ferba93
+- https://github.com/hodure
 
 ## Github Project link:
 https://github.com/AaronGCProg/Euler.Integrator
